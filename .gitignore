@@ -1,0 +1,30 @@
+# Archivos de compilación
+bin/
+obj/
+
+# Configuración de usuario
+*.user
+*.suo
+
+# Archivos temporales y de sistema
+*.log
+*.tmp
+*.cache
+*.DS_Store
+Thumbs.db
+
+# Configuración de IDE
+.vscode/
+.idea/
+
+# Archivos de publicación
+wwwroot/
+node_modules/
+
+# Archivos sensibles
+.env
+appsettings*.json
+
+# Archivos generados por Blazor
+*.g.cs
+*.g.i.cs
