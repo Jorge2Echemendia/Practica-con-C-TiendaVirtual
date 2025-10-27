@@ -1,0 +1,65 @@
+@page "/register"
+@using MudBlazor.Components;
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Authorization
+@using TiendaVirtual.Service;
+@inject AuthService authService
+@inject ISnackbar Snackbar
+@inject ButtonViewService ButtonView
+<MudPaper Class="pa-4 mx-auto" Style="max-width: 400px;">
+    <MudText Typo="Typo.h5">Registro de Usuario</MudText>
+    <MudTextField T="string" Label="Usuario" @bind-Value="username" Required="true" />
+    <MudTextField T="string" Label="Email" @bind-Value="email" Required="true"
+        Validation="@(new EmailAddressAttribute() { ErrorMessage = "The email address is invalid" })" />
+    <MudTextField T="string" Label="Password" @bind-Value="password" InputType="@ButtonView.InputType"
+        Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+        Adornment="Adornment.End" AdornmentIcon="@ButtonView.Icon" OnAdornmentClick="ButtonView.Toggle"
+        AdornmentAriaLabel="Show Password" />
+    <MudTextField T="string" Label="Repeat Password" @bind-Value="repeatPassword"  InputType="@ButtonView.InputType"
+        Validation="PasswordMatch" Required="true" Adornment="Adornment.End" AdornmentIcon="@ButtonView.Icon"
+       OnAdornmentClick="ButtonView.Toggle" AdornmentAriaLabel="Show Password" />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleRegister" Class=" mt-4 max-width:50%">
+        Registrar</MudButton>
+</MudPaper>
+@code {
+    private string username = string.Empty;
+    private string email = string.Empty;
+    private string password = string.Empty;
+    private string repeatPassword = string.Empty;
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    private IEnumerable<string> PasswordStrength(string pw)
+    {
+        if (string.IsNullOrWhiteSpace(pw)) yield return "Password is required!";
+        if (pw.Length < 8) yield return "Debe tener al menos 8 caracteres";
+        if (!Regex.IsMatch(pw, @"[A-Z]")) yield return "Debe tener una letra mayúscula";
+        if (!Regex.IsMatch(pw, @"[a-z]")) yield return "Debe tener una letra minúscula";
+        if (!Regex.IsMatch(pw, @"[0-9]")) yield return "Debe tener un número";
+    }
+
+    private string PasswordMatch(string arg)
+    {
+        if (string.IsNullOrWhiteSpace(arg)) return "Repite la contraseña";
+        if (password != arg) return "Las contraseñas no coinciden";
+        return null;
+    }
+
+    private async Task HandleRegister()
+    {
+        try
+        {
+            var success = await authService.RegisterAsync(username, email, password);
+            if (success)
+                Snackbar.Add("Registro exitoso", Severity.Success);
+            else
+                Snackbar.Add("Usuario o correo ya existe", Severity.Error);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error al registrar: {ex.Message}", Severity.Error);
+        }
+    }
+}

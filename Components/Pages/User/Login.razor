@@ -1,0 +1,60 @@
+@page "/login"
+@using TiendaVirtual.Service;
+@using TiendaVirtual.Provider;
+@using Blazored.LocalStorage;
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthService authService
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject ILocalStorageService localStorage
+@inject UserContextService UserContext
+@inject ButtonViewService ButtonView
+@inject AuthenticationStateProvider AuthProvider
+
+<MudPaper Class="pa-4 ma-4 mx-auto" Style="max-width: 400px;">
+    <MudText Typo="Typo.h5">Iniciar Sesión</MudText>
+    <MudTextField T="string" Label="Usuario o Correo" @bind-Value="userInput" Required="true" />
+    <MudTextField T="string" Label="Contraseña" @bind-Value="passwordInput" InputType="@ButtonView.InputType" Required="true"
+        Adornment="Adornment.End" AdornmentIcon="@ButtonView.Icon" OnAdornmentClick="ButtonView.Toggle"
+        AdornmentAriaLabel="Show Password" />
+
+    <MudStack Spacing="8">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleLogin" Class=" mt-4 max-width:50%">
+            Entrar</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Secondary" OnClick="IrARecuperarPassword" Class="ml-auto">
+            ¿Olvidaste tu
+            contraseña?
+        </MudButton>
+    </MudStack>
+</MudPaper>
+
+@code {
+    private string userInput = string.Empty;
+    private string passwordInput = string.Empty;
+
+private async Task HandleLogin()
+{
+    var token = await authService.LoginAsync(userInput, passwordInput);
+    if (!string.IsNullOrEmpty(token))
+    {
+        await localStorage.SetItemAsync("authToken", token);
+
+        if (AuthProvider is CustomAuthStateProvider customProvider)
+        {
+            customProvider.NotifyUserAuthentication();
+        }
+
+        UserContext.NotifyStateChanged();
+        Navigation.NavigateTo("/productos");
+    }
+    else
+    {
+        Snackbar.Add("Credenciales incorrectas", Severity.Error);
+    }
+}
+
+    private void IrARecuperarPassword()
+    {
+        Navigation.NavigateTo("/recuperar-password");
+    }
+}

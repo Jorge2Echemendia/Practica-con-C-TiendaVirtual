@@ -1,0 +1,35 @@
+﻿@using TiendaVirtual.Service
+@inject UserContextService UserContext
+
+<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+
+    <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Storage">Productos
+    </MudNavLink>
+    @if (isAuthenticatedAdmin)
+    {  
+        <MudNavLink Href="/agregar-producto" Icon="@Icons.Material.Filled.AddBox">Agregar Producto</MudNavLink>
+         <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.StackedBarChart">Estadistica</MudNavLink>
+    }else{
+     <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ShoppingCart">Carrito</MudNavLink>
+    }
+
+</MudNavMenu>
+
+@code {
+    private bool isAuthenticatedAdmin;
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticatedAdmin = await UserContext.IsAdminAsync();
+        Console.WriteLine($"Inicializado como admin: {isAuthenticatedAdmin}");
+
+        UserContext.OnUserStateChanged += async () =>
+        {
+            isAuthenticatedAdmin = await UserContext.IsAdminAsync();
+            Console.WriteLine($"Actualizado como admin: {isAuthenticatedAdmin}");
+            StateHasChanged();
+        };
+
+        StateHasChanged();
+    }
+}

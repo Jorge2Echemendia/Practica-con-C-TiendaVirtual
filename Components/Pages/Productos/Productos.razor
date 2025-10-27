@@ -1,0 +1,316 @@
+﻿@page "/productos"
+@using TiendaVirtual.Service
+@using MudBlazor.Components
+@using TiendaVirtual.Model
+@inject CarritoService carritoService
+@inject ProductoService productoService
+@inject AuthStateService authState
+@inject UserContextService UserContext
+@inject ISnackbar Snackbar
+@inject IJSRuntime JSRuntime
+@inject NavigationManager navigationManager
+
+<PageTitle>Productos</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6">Explora los Productos por Categoría</MudText>
+
+    <!-- Resumen del carrito -->
+    <MudAlert Severity="Severity.Info" Variant="Variant.Filled" Class="mb-4">
+        Tienes <strong>@itemsCarrito.Count</strong> producto diferente en tu carrito.
+    </MudAlert>
+
+    <!-- Barra de navegación de categorías -->
+    <MudPaper Class="d-flex justify-center pa-4 mb-4" Elevation="1">
+        @foreach (var categoria in _states)
+        {
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mx-2"
+                OnClick="@(() => MostrarProductosPorCategoria(categoria))">
+                @categoria
+            </MudButton>
+        }
+    </MudPaper>
+
+    <!-- Carrusel de categorías -->
+    <MudPaper Elevation="3" Class="pa-8 mb-8" Style="background-color:#958BDF2A;">
+        <MudCarousel TData="object" Style="height:300px;" AutoCycle="true">
+            @foreach (var categoria in _states)
+            {
+                <MudCarouselItem>
+                    <MudCard Class="mx-auto" Style="width:500px;">
+                        <MudCardMedia Image="@ObtenerImagenCategoria(categoria)" Style="height:180px;ma-8" />
+                        <MudCardContent Class="d-flex justify-center">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                OnClick="@(() => MostrarProductosPorCategoria(categoria))">
+                                @categoria
+                            </MudButton>
+                        </MudCardContent>
+                    </MudCard>
+                </MudCarouselItem>
+            }
+        </MudCarousel>
+    </MudPaper>
+
+    <!-- Productos destacados -->
+    <MudText Typo="Typo.h5" Class="mb-6 ;py-8">Productos Destacados</MudText>
+    <MudGrid>
+        @foreach (var producto in productos.Take(4))
+        {
+            <MudGridItem Xs="12" Sm="6" Md="3">
+                <MudCard Class="ma-4 card-hover">
+                    <MudCardMedia Image="@producto.ImagenUrl" Class="card-image" Style="height:150px;" />
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">@producto.Nombre</MudText>
+                        @if (producto.PrecioPromocional != null && producto.PrecioPromocional < producto.Precio)
+                        {
+                            <MudText Typo="Typo.body2" Style="text-decoration: line-through; color: gray;">
+                                $@producto.Precio
+                            </MudText>
+                            <MudText Typo="Typo.h6" Color="Color.Error">
+                                Precio Promoción: $@producto.PrecioPromocional
+                            </MudText>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.h6">
+                                $@producto.Precio
+                            </MudText>
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudGridItem>
+        }
+    </MudGrid>
+
+    <!-- Diálogo de productos por categoría -->
+    <MudDialog @bind-Visible="mostrarDialogo" Options="dialogOptions">
+        <DialogContent>
+            <MudText Typo="Typo.h5" Class="py-8">Productos de @categoriaSeleccionada</MudText>
+
+            <!-- Buscador -->
+            <MudTextField @bind-Value="busqueda" Placeholder="Buscar producto..." Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search" Class="mb-14 ;py-8" />
+
+            @if (FiltrarPorBusqueda().Any())
+            {
+                <MudGrid>
+                    @foreach (var producto in FiltrarPorBusqueda())
+                    {
+                        var cantidad = ObtenerCantidadEnCarrito(producto);
+                        <MudGridItem Xs="12" Sm="12" Md="4">
+                            <MudCard Class="ma-2 card-hover justify-center" Style="width:250px">
+                                <MudCardMedia Image="@producto.ImagenUrl" Class="card-image pa-12"
+                                    Style="height:150px; width:100%; object-fit: contain; text-align: center;" />
+                                <MudCardContent Class="mb-18">
+                                    <MudText Typo="Typo.h5" Style="font-weight: bold;">@producto.Nombre</MudText>
+                                    @if (producto.PrecioPromocional != null && producto.PrecioPromocional < producto.Precio)
+                                    {
+                                        <MudText Typo="Typo.body2" Style="text-decoration: line-through; color: gray;">
+                                            $@producto.Precio
+                                        </MudText>
+                                        <MudText Typo="Typo.h6" Color="Color.Error">
+                                            Precio Promoción: $@producto.PrecioPromocional
+                                        </MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText Typo="Typo.h6">
+                                            $@producto.Precio
+                                        </MudText>
+                                    }
+                                    <MudText Typo="Typo.body1" Class="card-description">@producto.Descripcion</MudText>
+                                </MudCardContent>
+
+                                <MudCardActions Class="d-flex mud-width-full align-center mr-2">
+                                    @if (isAuthenticatedAdmin)
+                                    {
+                                        <MudButton Class="animated-button1 ml-4" Color="Color.Primary"
+                                            OnClick="@(() => navigationManager.NavigateTo($"/editar-producto/{producto.Id}"))">
+                                            Editar
+                                        </MudButton>
+                                    }
+                                    else
+                                    {
+                                        @if (producto.CantidadProducto > 0)
+                                    {
+                                        <MudButton OnClick="@(() => AgregarProductoAlCarrito(producto))"
+                                            Class="animated-button ml-4" Color="@(cantidad > 0 ? Color.Error : Color.Primary)">
+                                            <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" />
+                                            @(cantidad > 0 ? $"En Carrito({cantidad})" : "Agregar")
+                                        </MudButton>
+                                        <MudButton OnClick="@(() => EliminarProductoAlCarrito(producto))"
+                                            Class="animated-button ml-4" Color="@(cantidad >= 1 ? Color.Error : Color.Primary)">
+                                            <MudIcon Icon="@Icons.Material.Filled.RemoveShoppingCart" />
+                                            Quitar
+                                        </MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudText Typo="Typo.caption" Color="Color.Warning" Style="text-align: center;">
+                                            Este producto no posee más artículos disponibles ahora mismo.
+                                        </MudText>
+
+                                    }
+
+                                        <MudSpacer />
+                                    }
+                                </MudCardActions>
+                            </MudCard>
+                        </MudGridItem>
+                    }
+                </MudGrid>
+            }
+            else
+            {
+                <MudText Typo="Typo.body1" Color="Color.Warning">
+                    No hay productos disponibles en esta categoría ahora mismo.
+                </MudText>
+            }
+            <MudDialogActions Class="d-flex justify-end">
+                <MudButton Color="Color.Secondary" Size="Size.Large" OnClick="@CerrarDialogo">Cerrar </MudButton>
+            </MudDialogActions>
+        </DialogContent>
+    </MudDialog>
+</MudContainer>
+
+@code {
+    private readonly string[] _states = ["Frutas", "Vegetales", "Carne", "Electrodomesticos", "Aseo", "Consolas"];
+    private List<Producto> productos = new();
+    private List<Producto> productosFiltrados = new();
+    private List<ItemCarrito> itemsCarrito = new();
+    private string categoriaSeleccionada = "";
+    private bool mostrarDialogo = false;
+    private int productoAnimadoId = -1;
+    private string busqueda = "";
+
+    private int clienteId;
+    private DialogOptions dialogOptions = new()
+    {
+        BackdropClick = false,
+        FullWidth = true,
+        MaxWidth = MaxWidth.Medium
+    };
+    private IJSObjectReference? signalRModule;
+
+    private bool _datosCargados = false;
+    private bool isAuthenticatedAdmin = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await productoService.EliminarPromocionesExpiradasAsync();
+        if (firstRender && !_datosCargados)
+        {
+            _datosCargados = true;
+
+            // Obtener productos
+            productos = await productoService.ObtenerProductosDisponiblesAsync();
+
+            isAuthenticatedAdmin = await UserContext.IsAdminAsync();
+            if (!isAuthenticatedAdmin && await authState.IsAuthenticatedAsync())
+            {
+                int? idNullable = await UserContext.GetClienteIdAsync();
+                if (idNullable == null)
+                {
+                    Snackbar.Add("No se pudo obtener el ID del cliente", Severity.Error);
+                    return;
+                }
+
+                clienteId = idNullable.Value;
+                itemsCarrito = carritoService.GetItemsCarrito(clienteId)
+                .Where(i => i.ClientId == clienteId).ToList();
+            }
+
+
+            itemsCarrito = carritoService.GetItemsCarritoAdmin();
+
+            // Inicializar SignalR
+            signalRModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/signalrStock.js");
+            await JSRuntime.InvokeVoidAsync("iniciarConexionStock", DotNetObjectReference.Create(this));
+
+            StateHasChanged(); // Forzar renderizado con datos cargados
+        }
+    }
+
+
+    [JSInvokable]
+    public void ActualizarStock(int productoId, int nuevaCantidad)
+    {
+        var producto = productos.FirstOrDefault(p => p.Id == productoId);
+        if (producto != null)
+        {
+            producto.CantidadProducto = nuevaCantidad;
+            StateHasChanged();
+        }
+    }
+
+    private void MostrarProductosPorCategoria(string categoria)
+    {
+        categoriaSeleccionada = categoria;
+        productosFiltrados = productos.Where(p => p.Categoria == categoria).ToList();
+        mostrarDialogo = true;
+    }
+
+    private async Task AgregarProductoAlCarrito(Producto producto)
+    {
+        if (!await authState.IsAuthenticatedAsync())
+        {
+            Snackbar.Add("Debes iniciar sesión para agregar productos al carrito", Severity.Warning);
+            return;
+        }
+        carritoService.AgregarAlCarrito(producto, clienteId);
+        productoAnimadoId = producto.Id;
+        StateHasChanged();
+
+        await Task.Delay(400);
+        productoAnimadoId = -1;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task EliminarProductoAlCarrito(Producto producto)
+    {
+        if (!await authState.IsAuthenticatedAsync())
+        {
+            Snackbar.Add("Debes iniciar sesión para eliminar productos del carrito", Severity.Warning);
+            return;
+        }
+        carritoService.EliminarDelCarrito(producto, clienteId);
+        productoAnimadoId = producto.Id;
+        StateHasChanged();
+
+        await Task.Delay(400);
+        productoAnimadoId = -1;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private int ObtenerCantidadEnCarrito(Producto producto)
+    {
+        return carritoService.GetItemsCarrito(clienteId)
+        .FirstOrDefault(i => i.Producto?.Id == producto.Id)?.Cantidad ?? 0;
+    }
+
+    private string ObtenerImagenCategoria(string categoria)
+    {
+        return categoria switch
+        {
+            "Frutas" => "/img/categorias/fruta.jpg",
+            "Vegetales" => "/img/categorias/vegetal.jpg",
+            "Carne" => "/img/categorias/carne.png",
+            "Electrodomesticos" => "/img/categorias/electrodomesticos.jpg",
+            "Aseo" => "/img/categorias/aseo.jpg",
+            "Consolas" => "/img/categorias/consolas.jpg",
+            _ => "/img/categorias/default.jpg"
+        };
+    }
+    private void CerrarDialogo()
+    {
+        mostrarDialogo = false;
+        busqueda = "";
+        productosFiltrados.Clear();
+    }
+
+
+    private IEnumerable<Producto> FiltrarPorBusqueda() =>
+    string.IsNullOrWhiteSpace(busqueda)
+    ? productosFiltrados
+    : productosFiltrados.Where(p => p.Nombre.Contains(busqueda, StringComparison.OrdinalIgnoreCase));
+}

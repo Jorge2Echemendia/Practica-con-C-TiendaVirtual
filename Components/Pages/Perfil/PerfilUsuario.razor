@@ -1,0 +1,154 @@
+@page "/perfil"
+@using Microsoft.EntityFrameworkCore
+@using TiendaVirtual.Context
+@using TiendaVirtual.Model
+@using TiendaVirtual.Service
+@inject UserContextService UserContext
+@inject TarjetaService TarjetaService
+@inject IDbContextFactory<AppDbContext> DbFactory
+@inject ImagenService ImagenService
+
+<MudPaper Class="pa-4" Elevation="4">
+    <MudText Typo="Typo.h4">Perfil de Usuario</MudText>
+
+    @if (usuario != null)
+    {
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField @bind-Value="usuario.Username" Label="Nombre de usuario" />
+                <MudTextField @bind-Value="usuario.Email" Label="Correo electrónico" />
+                <MudFileUpload T="IBrowserFile" Class="py-2" OnFilesChanged="HandleUserImageUpload">
+                    <ActivatorContent>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                            Subir Imagen
+                        </MudButton>
+                    </ActivatorContent>
+                    <SelectedTemplate>
+                        @if (imagenUsuario != null)
+                        {
+                            <MudText>@imagenUsuario.Name</MudText>
+                        }
+                        else
+                        {
+                            <MudText>No se ha seleccionado imagen</MudText>
+                        }
+                    </SelectedTemplate>
+                </MudFileUpload>
+                <MudButton OnClick="GuardarUsuario" Color="Color.Primary">Guardar cambios</MudButton>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="6" Class="d-flex flex-column align-center">
+                <MudAvatar Size="Size.Large" Image="@usuario.Image" Class="mb-2" />
+                <MudText Typo="Typo.subtitle1">Rol: @usuario.Rol</MudText>
+                <MudText Typo="Typo.subtitle2">Registrado: @usuario.FechaRegistro.ToShortDateString()</MudText>
+            </MudItem>
+        </MudGrid>
+    }
+
+    <MudDivider Class="my-4" />
+
+    <MudText Typo="Typo.h5">Tarjeta Virtual</MudText>
+    @if (tarjeta != null)
+    {
+        <MudText>Numero: @tarjeta.Numero</MudText>
+        <MudText>Saldo: $@tarjeta.Saldo</MudText>
+    }
+    else
+    {
+        <MudTextField @bind-Value="nuevoNumero" Label="Número de tarjeta" />
+        <MudTextField @bind-Value="nuevaPassword" Label="Contraseña" />
+        <MudButton OnClick="CrearTarjeta" Color="Color.Secondary">Crear tarjeta</MudButton>
+    }
+
+    <MudDivider Class="my-4" />
+
+    <MudText Typo="Typo.h5">Historial de Compras</MudText>
+    @if (compras.Any())
+    {
+        @foreach (var compra in compras)
+        {
+            <MudPaper Class="pa-2 my-2" Elevation="2">
+                <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
+                <MudText>Total: $@compra.Total</MudText>
+                <MudTextField @bind-Value="compra.Adreess" Label="Dirección" />
+                <MudButton OnClick="@(() => GuardarDireccion(compra))" Color="Color.Primary" Size="Size.Small">Guardar dirección
+                </MudButton>
+            </MudPaper>
+        }
+    }
+    else
+    {
+        <MudText>No hay compras registradas.</MudText>
+    }
+</MudPaper>
+
+@code {
+    private User? usuario;
+    private Cliente? cliente;
+    private List<Compra> compras = new();
+    private TarjetaFicticia? tarjeta;
+    private IBrowserFile? imagenUsuario;
+
+    private int nuevoNumero;
+    private string nuevaPassword = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var username = await UserContext.GetUsernameAsync();
+        using var db = DbFactory.CreateDbContext();
+        usuario = await db.Users.Include(u => u.Cliente).ThenInclude(c => c.Tarjeta).FirstOrDefaultAsync(u => u.Username ==
+        username);
+        cliente = usuario?.Cliente;
+        if (cliente != null)
+        {
+            compras = await db.Compra.Where(c => c.ClienteId == cliente.Id).ToListAsync();
+            tarjeta = cliente.Tarjeta;
+        }
+    }
+
+    private async Task GuardarUsuario()
+    {
+        using var db = DbFactory.CreateDbContext();
+        db.Users.Update(usuario!);
+        await db.SaveChangesAsync();
+    }
+
+    private async Task CrearTarjeta()
+    {
+        if (cliente != null)
+        {
+            tarjeta = await TarjetaService.CrearTarjetaVirtualAsync(cliente.Id, nuevoNumero, nuevaPassword);
+        }
+    }
+
+    private async Task GuardarDireccion(Compra compra)
+    {
+        using var db = DbFactory.CreateDbContext();
+        db.Compra.Update(compra);
+        await db.SaveChangesAsync();
+    }
+
+    private async Task HandleUserImageUpload(InputFileChangeEventArgs e)
+    {
+        Console.WriteLine("Evento HandleUserImageUpload disparado");
+        imagenUsuario = e.File;
+        Console.WriteLine($"Archivo seleccionado: {imagenUsuario?.Name}");
+
+        try
+        {
+            if (imagenUsuario != null)
+            {
+                using var stream = imagenUsuario.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB
+                var url = await ImagenService.SubirImagenAsync(stream, imagenUsuario.Name);
+                usuario!.Image = url;
+                Console.WriteLine($"URL de imagen subida: {usuario.Image}");
+            }
+
+            Console.WriteLine("✅ Operación de carga de imagen completada.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error durante la carga de imagen: {ex.Message}");
+        }
+    }
+}

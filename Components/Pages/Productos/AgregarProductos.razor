@@ -1,0 +1,101 @@
+@page "/agregar-producto"
+@inject ProductoService productoService
+@inject ImagenService imagenService
+@using TiendaVirtual.Model
+@using TiendaVirtual.Service
+@using MudBlazor
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Agregar Producto</PageTitle>
+
+<MudPaper Class="pa-4 mx-auto" Style="max-width: 400px" Elevation="4">
+    <MudText Typo="Typo.h4" Class="mb-4">Nuevo Producto</MudText>
+
+    <MudForm @ref="form">
+        <MudTextField @bind-Value="nuevoProducto.Nombre" Label="Nombre" Required="true" />
+        <MudTextField @bind-Value="nuevoProducto.Descripcion" Label="Descripción" />
+
+        <MudFileUpload T="IBrowserFile" Class="py-4" OnFilesChanged="HandleFileSelected">
+            <ActivatorContent>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                    Single File
+                </MudButton>
+            </ActivatorContent>
+            <SelectedTemplate>
+                @if (context != null)
+                {
+                    <MudText>@context.Name</MudText>
+                }
+                else
+                {
+                    <MudText>No File</MudText>
+                }
+            </SelectedTemplate>
+        </MudFileUpload>
+        <MudTextField @bind-Value="nuevoProducto.Precio" Label="Precio" />
+        <MudTextField @bind-Value="nuevoProducto.CantidadProducto" Label="Cantidad" />
+
+        <MudSelect T="string" @bind-Value="nuevoProducto.Categoria" Label="Categoria" Required="true">
+            @foreach (var state in _states)
+            {
+                <MudSelectItem T="string" Value="@state">@state</MudSelectItem>
+            }
+        </MudSelect>
+        <MudSelect T="string" @bind-Value="nuevoProducto.EnPromocion" Label="Promocion" Placeholder="No">
+            @foreach (var esta in _estas)
+            {
+                <MudSelectItem T="string" Value="@esta">@esta</MudSelectItem>
+            }
+        </MudSelect>
+        @if (nuevoProducto.EnPromocion == "Yes")
+        {
+            <MudTextField @bind-Value="nuevoProducto.PrecioPromocional" Label="Precio Promoción" />
+            <MudTextField @bind-Value="nuevoProducto.TiempoPromocion" T="DateTime ?" Format="s"
+                Label="Tiempo de la Promocion" InputType="InputType.DateTimeLocal" Variant="Variant.Outlined"
+                Margin="Margin.Dense" />
+        }
+        <MudButton OnClick="GuardarProducto" Color="Color.Primary" Variant="Variant.Filled" Class="mt-4">
+            Guardar
+        </MudButton>
+    </MudForm>
+</MudPaper>
+
+@code {
+    private Producto nuevoProducto = new();
+    private MudForm form;
+    private readonly string[] _states =
+    [
+    "Frutas", "Vegetales", "Carne", "Electrodomesticos",
+"Aseo","Consolas"
+    ];
+
+    private readonly string[] _estas =
+    [
+    "Yes","No"
+    ];
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var archivo = e.File;
+            var stream = archivo.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB
+            var url = await imagenService.SubirImagenAsync(stream, archivo.Name);
+            nuevoProducto.ImagenUrl = url;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error durante la carga de imagen: {ex.Message}");
+        }
+    }
+
+    private async Task GuardarProducto()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            await productoService.AgregarProductoAsync(nuevoProducto);
+            nuevoProducto = new(); // limpiar el formulario
+        }
+    }
+}

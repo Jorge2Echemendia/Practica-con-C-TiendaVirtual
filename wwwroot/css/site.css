@@ -1,0 +1,61 @@
+.card-hover {
+    transition: transform 0.3s ease;
+}
+.card-hover:hover {
+    transform: scale(1.03);
+}
+
+.card-image {
+    transition: transform 0.6s ease;
+}
+.card-hover:hover .card-image {
+    transform: rotate(5deg) scale(1.05);
+}
+
+.card-description {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+.card-hover:hover .card-description {
+    max-height: 200px;
+}
+
+.animated-button {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.animated-button1 {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.animated-button2 {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.card-hover:hover .animated-button {
+    transform: scale(1.1);
+    background-color: #1976d2;
+}
+
+.card-hover:hover .animated-button1 {
+    transform: scale(1.1);
+    background-color: #dfa506;
+}
+
+.card-hover:hover .animated-button2 {
+    transform: scale(1.1);
+    background-color:  #1976d2;
+}
+
+.chart-animada {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

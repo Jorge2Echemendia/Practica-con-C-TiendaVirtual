@@ -1,0 +1,46 @@
+@page "/crear-tarjeta"
+@using TiendaVirtual.Service
+@inject TarjetaService tarjetaService
+@inject ISnackbar Snackbar
+@inject UserContextService UserContext
+
+<MudPaper Class="pa-4 mx-auto" Style="max-width: 400px;">
+    <MudText Typo="Typo.h5" Class="mb-2">Crear Tarjeta Virtual</MudText>
+
+    <MudTextField T="int" Label="Número de tarjeta" @bind-Value="numeroTarjeta" Required="true" />
+    <MudTextField T="string" Label="Contraseña" @bind-Value="passwordTarjeta" InputType="InputType.Password"
+        Required="true" />
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CrearTarjeta" Class="mt-4">
+        Crear Tarjeta
+    </MudButton>
+</MudPaper>
+
+@code {
+    private int numeroTarjeta;
+    private string passwordTarjeta = string.Empty;
+
+    private async Task CrearTarjeta()
+    {
+        try
+        {
+            int? clienteIdNullable = await UserContext.GetClienteIdAsync();
+
+            if (clienteIdNullable == null)
+            {
+                // Manejo del error: el clienteId no está disponible
+                Snackbar.Add("No se pudo obtener el ID del cliente", Severity.Error);
+                return;
+            }
+
+            // Accedemos al valor seguro
+            int clienteId = clienteIdNullable.Value;
+            var tarjeta = await tarjetaService.CrearTarjetaVirtualAsync(clienteId, numeroTarjeta, passwordTarjeta);
+            Snackbar.Add($"Tarjeta creada con saldo: {tarjeta.Saldo:C}", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+}

@@ -1,0 +1,167 @@
+﻿@using TiendaVirtual.Service
+@using MudBlazor.Components
+@using TiendaVirtual.Provider;
+@using System.Text.RegularExpressions
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.ComponentModel.DataAnnotations
+@using TiendaVirtual.Provider
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@inject UserContextService UserContext
+@inject AuthStateService authState
+@inject AuthenticationStateProvider AuthProvider
+@inherits LayoutComponentBase;
+
+<MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+            OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">Menu</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
+        <MudMenu>
+            <ActivatorContent>
+             <MudChip T="string"Icon="@Icons.Material.Filled.Person" Color="Color.Inherit">@username</MudChip>
+            </ActivatorContent>
+             <ChildContent>
+            @if (isAuthenticated)
+            {
+                <MudMenuItem OnClick="@NavigateToProfile" Icon="@Icons.Material.Filled.AccountCircle">Perfil</MudMenuItem>
+                <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp">Cerrar sesión</MudMenuItem>
+            }
+            else
+            {
+                <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
+                <MudNavLink Href="/register" Icon="@Icons.Material.Filled.PersonAdd">Registro</MudNavLink>
+            }
+            </ChildContent>
+        </MudMenu>
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent Class="pt-16 pa-4">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private bool _drawerOpen = true;
+    private bool _isDarkMode = true;
+    private MudTheme? _theme = null;
+    private bool isAuthenticated;
+    private string? username;
+    private bool _hasRendered = false;
+
+    private void NavigateToLogin() => Navigation.NavigateTo("/login");
+    private void NavigateToProfile() => Navigation.NavigateTo("/perfil");
+    private async Task Logout()
+    {
+        await JS.InvokeVoidAsync("localStorage.removeItem", "authToken");
+        if (AuthProvider is CustomAuthStateProvider customProvider)
+        {
+            customProvider.NotifyUserLogout();
+        }
+        UserContext.NotifyStateChanged();
+        Navigation.NavigateTo("/login", true);
+    }
+
+    [Inject] IJSRuntime JS { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _theme = new()
+        {
+            PaletteLight = _lightPalette,
+            PaletteDark = _darkPalette,
+            LayoutProperties = new LayoutProperties()
+        };
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_hasRendered)
+        {
+            _hasRendered = true;
+            isAuthenticated = await authState.IsAuthenticatedAsync();
+            username = await UserContext.GetUsernameAsync();
+            UserContext.OnUserStateChanged += async () =>
+            {
+                 isAuthenticated = await authState.IsAuthenticatedAsync();
+                username = await UserContext.GetUsernameAsync();
+                Console.WriteLine($"isAuthenticated:{isAuthenticated}");
+                Console.WriteLine($"username:{username}");
+                StateHasChanged();
+            };
+            StateHasChanged();
+
+        }
+    }
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private void DarkModeToggle()
+    {
+        _isDarkMode = !_isDarkMode;
+    }
+
+    private readonly PaletteLight _lightPalette = new()
+    {
+        Black = "#110e2d",
+        AppbarText = "#424242",
+        AppbarBackground = "rgba(255,255,255,0.8)",
+        DrawerBackground = "#ffffff",
+        GrayLight = "#e8e8e8",
+        GrayLighter = "#f9f9f9",
+    };
+
+    private readonly PaletteDark _darkPalette = new()
+    {
+        Primary = "#7e6fff",
+        Surface = "#1e1e2d",
+        Background = "#1a1a27",
+        BackgroundGray = "#151521",
+        AppbarText = "#92929f",
+        AppbarBackground = "rgba(26,26,39,0.8)",
+        DrawerBackground = "#1a1a27",
+        ActionDefault = "#74718e",
+        ActionDisabled = "#9999994d",
+        ActionDisabledBackground = "#605f6d4d",
+        TextPrimary = "#b2b0bf",
+        TextSecondary = "#92929f",
+        TextDisabled = "#ffffff33",
+        DrawerIcon = "#92929f",
+        DrawerText = "#92929f",
+        GrayLight = "#2a2833",
+        GrayLighter = "#1e1e2d",
+        Info = "#4a86ff",
+        Success = "#3dcb6c",
+        Warning = "#ffb545",
+        Error = "#ff3f5f",
+        LinesDefault = "#33323e",
+        TableLines = "#33323e",
+        Divider = "#292838",
+        OverlayLight = "#1e1e2d80",
+    };
+
+    public string DarkLightModeButtonIcon => _isDarkMode switch
+    {
+        true => @Icons.Material.Filled.BrightnessHigh,
+        false => Icons.Material.Outlined.DarkMode,
+    };
+}

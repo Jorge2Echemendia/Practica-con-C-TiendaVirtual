@@ -1,0 +1,162 @@
+﻿@page "/"
+@using TiendaVirtual.Model
+@using TiendaVirtual.Service
+@inject NavigationManager NavigationManager
+
+@inject AuthStateService authState
+@inject ProductoService productoService
+<PageTitle>Tienda Virtual</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+
+    <!-- Productos en promoción -->
+    <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4 mt-6">🔥 Promociones Especiales</MudText>
+
+    @if (productosPromo.Any())
+    {
+        <MudCarousel TData="Producto" ItemsSource="@productosPromo" ShowArrows="true" ShowBullets="true" AutoCycle="true"
+            Style="height:300px;">
+
+            <ItemTemplate>
+                <MudCard Style="height:100%; max-width:400px; margin:auto;">
+                    <MudCardMedia Image="@context.ImagenUrl" Style="width:100%; height:200px; object-fit:cover;" />
+                    <MudCardContent>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <MudText Typo="Typo.h6">@context.Nombre</MudText>
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled"
+                                OnClick="@(() => NavigationManager.NavigateTo("/productos"))">
+                                Ver producto
+                            </MudButton>
+                        </div>
+
+                        <MudText Color="Color.Error" Class="mt-2">
+                            <strong>Precio especial: $@context.PrecioPromocional</strong>
+                        </MudText>
+                    </MudCardContent>
+
+                </MudCard>
+            </ItemTemplate>
+        </MudCarousel>
+    }
+    else
+    {
+        <MudText Align="Align.Center" Color="Color.Info">No hay promociones activas en este momento.</MudText>
+    }
+
+
+    <!-- Bienvenida -->
+    <MudPaper Elevation="4" Class="p-6">
+        <MudText Typo="Typo.h3" Align="Align.Center" Color="Color.Primary">
+            Bienvenido a TiendaVirtual 🛒
+        </MudText>
+
+        <MudText Typo="Typo.subtitle1" Align="Align.Center" Class="mb-4">
+            ¡Explora nuestros productos y encuentra lo que necesitas!
+        </MudText>
+
+        <MudDivider Class="mb-4" />
+
+        <!-- Carrusel de productos disponibles -->
+        <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4 mt-6">🛍️ Productos Disponibles</MudText>
+
+        @if (productos.Any())
+        {
+            <MudCarousel TData="Producto" ItemsSource="@productos" ShowArrows="true" ShowBullets="true" AutoCycle="true"
+                Style="height:300px;">
+                <ItemTemplate>
+                    <MudCard Style="height:100%; max-width:400px; margin:auto;">
+                        <MudCardMedia Image="@context.ImagenUrl" Style="width:100%; height:200px; object-fit:cover;" />
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Align="Align.Center">@context.Nombre</MudText>
+                            <MudText Typo="Typo.body2" Align="Align.Center">Precio: $@context.Precio</MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </ItemTemplate>
+            </MudCarousel>
+
+            <div style="text-align:center;" class="mt-4">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" Href="/productos">
+                    Ver productos
+                </MudButton>
+            </div>
+        }
+        else
+        {
+            <MudText Align="Align.Center" Color="Color.Info">No hay productos disponibles en este momento.</MudText>
+        }
+
+
+        <!-- Beneficios -->
+        <MudDivider Class="mt-6 mb-4" />
+        <MudGrid Justify="Justify.Center" Spacing="3">
+            <MudItem xs="12" sm="4">
+                <MudPaper Class="p-4" Elevation="2">
+                    <MudIcon Icon="@Icons.Material.Filled.LocalShipping" Color="Color.Primary" Size="Size.Large" />
+                    <MudText Typo="Typo.h6">Envío rápido</MudText>
+                    <MudText>Recibe tus productos en tiempo récord.</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="4">
+                <MudPaper Class="p-4" Elevation="2">
+                    <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Primary" Size="Size.Large" />
+                    <MudText Typo="Typo.h6">Pago seguro</MudText>
+                    <MudText>Protegemos tus datos y transacciones.</MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+
+        <!-- Botón de registro -->
+        @if (!login)
+        {
+            <MudDivider Class="mt-6 mb-4" />
+            <MudText Align="Align.Center">
+                <MudButton Color="Color.Tertiary" Variant="Variant.Filled" Href="/register">
+                    ¡Regístrate ahora!
+                </MudButton>
+            </MudText>
+        }
+
+
+        <!-- Testimonios -->
+        <MudDivider Class="mt-6 mb-4" />
+        <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-2">Opiniones de nuestros clientes</MudText>
+        <MudExpansionPanels>
+            <MudExpansionPanel Text="Juan P.">
+                Excelente servicio y productos de calidad. ¡Recomendado!
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Camila R.">
+                Me encantó la rapidez del envío y la atención al cliente.
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudPaper>
+
+    <!-- Pie de página -->
+    <MudPaper Class="mt-6 p-4" Elevation="0" Style="text-align:center;">
+        <MudText Typo="Typo.body2">© 2025 TiendaVirtual. Todos los derechos reservados.</MudText>
+        <MudLink Href="https://facebook.com" Target="_blank">Facebook</MudLink> |
+        <MudLink Href="https://instagram.com" Target="_blank">Instagram</MudLink>
+    </MudPaper>
+
+</MudContainer>
+
+@code {
+    private bool login = false;
+    private bool _hasRendered = false;
+    private List<Producto> productosPromo = new();
+    private List<Producto> productos = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_hasRendered)
+        {
+            _hasRendered = true;
+
+            login = await authState.IsAuthenticatedAsync();
+            await productoService.EliminarPromocionesExpiradasAsync();
+            productosPromo = await productoService.ObtenerProductosEnPromocionAsync();
+            productos = await productoService.ObtenerProductosDisponiblesAsync();
+            StateHasChanged(); // fuerza actualización visual
+        }
+    }
+
+}

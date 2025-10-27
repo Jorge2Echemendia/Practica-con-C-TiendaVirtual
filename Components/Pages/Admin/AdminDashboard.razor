@@ -1,0 +1,168 @@
+@page "/admin/dashboard"
+@using TiendaVirtual.Model
+@using TiendaVirtual.Service
+
+@inject ProductoService productoService
+@inject AdminDashboardService DashboardService
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h4">📊 Panel de Administración</MudText>
+
+        <MudPaper Class="pa-4 mt-4">
+            <MudText Typo="Typo.h6">📦 Inventario de Productos</MudText>
+            <MudChart ChartType="ChartType.Bar" ChartSeries="@animInventario" XAxisLabels="@labelsEjeX"
+                ChartOptions="@options" Width="100%" Height="350px" />
+        </MudPaper>
+    <MudPaper Class="pa-4 mt-4">
+        <MudText Typo="Typo.h6">🛒 Top Compradores</MudText>
+        <MudChart ChartType="ChartType.Bar" ChartSeries="@animCompradores" XAxisLabels="@labelsEjeX"
+            ChartOptions="@options" Width="100%" Height="350px" />
+    </MudPaper>
+
+    <MudPaper Class="pa-4 mt-4">
+        <MudText Typo="Typo.h6">📊 Ventas por Categoría</MudText>
+        <MudChart ChartType="ChartType.Bar" ChartSeries="@animCategorias" XAxisLabels="@labelsEjeX"
+            ChartOptions="@options" Width="100%" Height="350px" />
+    </MudPaper>
+    <MudPaper Class="pa-4 mt-4">
+        <MudText Typo="Typo.h6">👥 Nuevos Usuarios Registrados</MudText>
+        <MudTable Items="@usuariosRecientes">
+            <HeaderContent>
+                <MudTh>Usuario</MudTh>
+                <MudTh>Email</MudTh>
+                <MudTh>Fecha de Registro</MudTh>
+                <MudTh>Rol</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.Username</MudTd>
+                <MudTd>@context.Email</MudTd>
+                <MudTd>@context.FechaRegistro.ToShortDateString()</MudTd>
+                <MudTd>@context.Rol</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudPaper>
+
+    <MudPaper Class="pa-4 mt-4">
+        <MudText Typo="Typo.h6">💳 Compras Recientes</MudText>
+        <MudTable Items="@comprasRecientes">
+            <HeaderContent>
+                <MudTh>Cliente</MudTh>
+                <MudTh>Total</MudTh>
+                <MudTh>Fecha</MudTh>
+                <MudTh>Dirección</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.Cliente.User.Username</MudTd>
+                <MudTd>@context.Total.ToString("C")</MudTd>
+                <MudTd>@context.Fecha.ToShortDateString()</MudTd>
+                <MudTd>@context.Adreess</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudPaper>
+
+@if (productosPromo.Any())
+{
+        <MudPaper Class="pa-4 mt-4">
+            <MudText Typo="Typo.h6">🔥 Productos en Promoción</MudText>
+            <MudTable Items="@productosPromo">
+                <HeaderContent>
+                    <MudTh>Nombre</MudTh>
+                    <MudTh>Precio</MudTh>
+                    <MudTh>Promoción</MudTh>
+                    <MudTh>Válido hasta</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Nombre</MudTd>
+                    <MudTd>@context.Precio?.ToString("C")</MudTd>
+                    <MudTd>@context.PrecioPromocional?.ToString("C")</MudTd>
+                    <MudTd>@context.TiempoPromocion?.ToShortDateString()</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+    
+}else{
+<MudText Align="Align.Center" Color="Color.Info">No hay promociones activas en este momento.</MudText>
+}
+</MudContainer>
+
+@code {
+    private string[] labelsEjeX = new[] { "Total" };
+
+    private ChartOptions options = new()
+    {
+        ChartPalette = new[] { "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FFD133", "#33FFF6" }
+    };
+
+    private List<ChartSeries> seriesInventario = new();
+    private List<ChartSeries> seriesCompradores = new();
+    private List<ChartSeries> seriesCategorias = new();
+
+    private List<ChartSeries> animInventario = new();
+    private List<ChartSeries> animCompradores = new();
+    private List<ChartSeries> animCategorias = new();
+
+    private List<Producto> productosPromo = new();
+    private List<User> usuariosRecientes = new();
+    private List<Compra> comprasRecientes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        usuariosRecientes = await DashboardService.ObtenerUsuariosRecientesAsync();
+        comprasRecientes = await DashboardService.ObtenerComprasRecientesAsync();
+        var inventario = await DashboardService.ObtenerInventarioAsync();
+        seriesInventario = inventario.Select(i => new ChartSeries
+        {
+            Name = i.Nombre,
+            Data = new[] { (double)i.Stock }
+        }).ToList();
+
+        var compradores = await DashboardService.ObtenerTopCompradoresAsync();
+        seriesCompradores = compradores.OrderByDescending(c => c.Total)
+        .Take(10).Select(c => new ChartSeries
+        {
+            Name = c.Cliente,
+            Data = new[] { (double)c.Total }
+        }).ToList();
+
+        var categorias = await DashboardService.ObtenerVentasPorCategoriaAsync();
+        seriesCategorias = categorias.Select(c => new ChartSeries
+        {
+            Name = c.Categoria,
+            Data = new[] { (double)c.Vendidos }
+        }).ToList();
+
+        productosPromo = await DashboardService.ObtenerPromocionesVigentesAsync();
+
+        await AnimarGrafica(seriesInventario, animInventario);
+        await AnimarGrafica(seriesCompradores, animCompradores);
+        await AnimarGrafica(seriesCategorias, animCategorias);
+        await productoService.EliminarPromocionesExpiradasAsync();
+    }
+
+    private async Task AnimarGrafica(List<ChartSeries> origen, List<ChartSeries> destino)
+    {
+        destino.Clear();
+
+        foreach (var serie in origen)
+        {
+            destino.Add(new ChartSeries
+            {
+                Name = serie.Name,
+                Data = new double[serie.Data.Length]
+            });
+        }
+
+        int pasos = 15;
+        for (int paso = 1; paso <= pasos; paso++)
+        {
+            for (int i = 0; i < origen.Count; i++)
+            {
+                var valorFinal = origen[i].Data[0];
+                destino[i].Data[0] = valorFinal * paso / pasos;
+            }
+
+            StateHasChanged();
+            await Task.Delay(50);
+        }
+    }
+}

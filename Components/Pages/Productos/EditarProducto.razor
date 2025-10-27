@@ -1,0 +1,81 @@
+@page "/editar-producto/{id:int}"
+
+@using TiendaVirtual.Model
+@inject ProductoService productoService
+@inject NavigationManager navigationManager
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
+    <MudText Typo="Typo.h4" Class="mb-4">Editar Producto</MudText>
+
+    <MudForm @ref="form">
+        <MudTextField @bind-Value="producto.Nombre" Label="Nombre" Required="true" />
+        <MudTextField @bind-Value="producto.Descripcion" Label="Descripción" />
+        <MudTextField @bind-Value="producto.Precio" Label="Precio" Required="true" />
+        <MudTextField @bind-Value="producto.CantidadProducto" Label="Cantidad" Required="true" />
+
+        <MudSelect T="string" @bind-Value="producto.Categoria" Label="Categoría" Required="true">
+            @foreach (var cat in categorias)
+            {
+                <MudSelectItem T="string" Value="@cat">@cat</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect T="string" @bind-Value="producto.EnPromocion" Label="Promoción" Placeholder="No">
+            @foreach (var estado in estadosPromocion)
+            {
+                <MudSelectItem T="string" Value="@estado">@estado</MudSelectItem>
+            }
+        </MudSelect>
+        @if (producto.EnPromocion == "Yes")
+        {
+            <MudTextField @bind-Value="producto.PrecioPromocional" Label="Precio Promoción" />
+            <MudTextField @bind-Value="producto.TiempoPromocion" T="DateTime ?" Format="s" Label="Tiempo de la Promocion"
+                InputType="InputType.DateTimeLocal" Variant="Variant.Outlined" Margin="Margin.Dense" />
+        }
+        <MudButton OnClick="ActualizarProducto" Color="Color.Primary" Variant="Variant.Filled" Class="mt-4">
+            Actualizar
+        </MudButton>
+    </MudForm>
+</MudContainer>
+
+@code {
+    [Parameter] public int id { get; set; }
+    private Producto producto = new();
+    private MudForm form;
+    private string[] categorias = ["Frutas", "Vegetales", "Carne", "Electrodomesticos",
+"Aseo","Consolas"];
+    private string[] estadosPromocion = ["No", "Yes"];
+
+    protected override async Task OnInitializedAsync()
+    {
+        producto = await productoService.ObtenerProductoPorIdAsync(id);
+        if (producto == null)
+        {
+            Snackbar.Add("Producto no encontrado", Severity.Error);
+            navigationManager.NavigateTo("/productos");
+        }
+    }
+
+    private async Task ActualizarProducto()
+    {
+        if (producto.EnPromocion == "Yes")
+        {
+            if (producto.PrecioPromocional == null || producto.TiempoPromocion == null)
+            {
+                Snackbar.Add("Debes completar el precio promocional y la fecha de promoción", Severity.Warning);
+                return;
+            }
+
+            if (producto.PrecioPromocional >= producto.Precio)
+            {
+                Snackbar.Add("El precio promocional debe ser menor que el precio normal", Severity.Warning);
+                return;
+            }
+        }
+
+        await productoService.ActualizarProductoAsync(producto);
+        Snackbar.Add("Producto actualizado con éxito", Severity.Success);
+        navigationManager.NavigateTo("/productos");
+    }
+}

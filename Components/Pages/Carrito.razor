@@ -1,0 +1,297 @@
+﻿@page "/carrito"
+@using TiendaVirtual.Service;
+@using TiendaVirtual.Model;
+@inject NavigationManager navigationManager
+@inject CarritoService carritoService
+@inject IJSRuntime JSRuntime
+@inject ISnackbar Snackbar
+@inject UserContextService UserContext
+@inject ProductoService productoService
+
+
+<PageTitle>Carrito</PageTitle>
+
+<MudLayout>
+    <MudMainContent>
+        <MudContainer Class="py-4 px-4 max-width-md mx-auto">
+            <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Tu Carrito</MudText>
+
+            @if (itemsCarrito.Any())
+            {
+                <MudText>Items en carrito: @itemsCarrito.Count</MudText>
+                <MudChart ChartType="ChartType.Bar" ChartSeries="@seriesAnimada" XAxisLabels="@labelsPie"
+                    ChartOptions="@options" Width="100%" Height="350px" />
+
+
+                <MudTable T="ItemCarrito" Items="@itemsCarrito" Hover="true">
+                    <HeaderContent>
+                        <MudTh>Producto</MudTh>
+                        <MudTh>Precio Unitario</MudTh>
+                        <MudTh>Cantidad</MudTh>
+                        <MudTh>Total</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Producto">@context.Producto.Nombre</MudTd>
+                        <MudTd DataLabel="Precio Unitario">
+                            @if (context.Producto.PrecioPromocional != null &&
+                                                    context.Producto.PrecioPromocional < context.Producto.Precio)
+                            {
+                                <MudText Typo="Typo.body2" Style="text-decoration: line-through; color: gray;">
+                                    $@context.Producto.Precio
+                                </MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Error">
+                                    $@context.Producto.PrecioPromocional
+                                </MudText>
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.body2">
+                                    $@context.Producto.Precio
+                                </MudText>
+                            }
+                        </MudTd>
+                        <MudTd DataLabel="Cantidad">@context.Cantidad</MudTd>
+                        <MudTd DataLabel="Total">$ @((context.Producto.Precio ?? 0) * context.Cantidad)</MudTd>
+                    </RowTemplate>
+                    <FooterContent>
+                        <MudTd ColSpan="3"><strong>Total General:</strong></MudTd>
+                        <MudTd><strong>$ @total</strong></MudTd>
+                    </FooterContent>
+                </MudTable>
+                <MudTextField Label="Dirección de entrega" @bind-Value="compra.Adreess"
+                    Placeholder="Ingresa tu dirección completa" Required="true" Class="my-4" />
+                <MudButton OnClick="ConfirmarCompra" Color="Color.Success">Confirmar Compra</MudButton>
+                @if (recibo != null)
+                {
+                    <MudPaper Class="mt-4 p-4">
+                        <MudText Typo="Typo.h6">Recibo de Compra</MudText>
+                        <MudText>Fecha: @recibo.Fecha.ToString("g")</MudText>
+                        <MudText>Total: $@recibo.Total</MudText>
+                        <MudText>Código: @recibo.CodigoAutenticacion</MudText>
+                        <MudTextField @bind-Value="pinTarjeta" Label="PIN de la tarjeta" InputType="InputType.Password" />
+                        <MudDivider Class="my-2" />
+                        <MudList T="ItemCarrito">
+                            @foreach (var item in recibo.Items)
+                            {
+                                <MudListItem>
+                                    @item.Producto.Nombre - @item.Cantidad x $
+                                    @((item.Producto.PrecioPromocional != null && item.Producto.PrecioPromocional <
+                                                            item.Producto.Precio)
+                                                            ? item.Producto.PrecioPromocional
+                                                            : item.Producto.Precio)
+                                </MudListItem>
+                            }
+                        </MudList>
+
+                        <MudButton OnClick="DescargarPdf" Color="Color.Primary" Class="mt-2">
+                            Descargar PDF
+                        </MudButton>
+                    </MudPaper>
+                }
+
+            }
+            else
+            {
+                <MudText>Items en carrito: @itemsCarrito.Count</MudText>
+                <MudAlert Severity="Severity.Info">
+                    <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" />
+                    Tu carrito está vacío
+                </MudAlert>
+            }
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+
+@code {
+    private List<ItemCarrito> itemsCarrito = new();
+
+    private ReciboCompra recibo = new();
+    private Compra compra = new();
+    private List<ChartSeries> seriesPie = new();
+    private string[] labelsPie;
+    private ChartOptions options = new()
+    {
+        ChartPalette = new[] { "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FFD133", "#33FFF6" } // colores únicos
+    };
+    public decimal total;
+    private int clienteId;
+
+    private bool istarjeta;
+    private bool _datosCargados = false;
+
+    private bool isAuthenticatedAdmin = false;
+    private bool _chekBuy = false;
+    private List<ChartSeries> seriesAnimada = new(); // Se usará para mostrar la animación
+    private List<ChartSeries> seriesCompleta = new(); // Datos completos
+    private string pinTarjeta = "";
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await productoService.EliminarPromocionesExpiradasAsync();
+        if (firstRender && !_datosCargados)
+        {
+            _datosCargados = true;
+
+            isAuthenticatedAdmin = await UserContext.IsAdminAsync();
+            if (!isAuthenticatedAdmin)
+            {
+                int? idNullable = await UserContext.GetClienteIdAsync();
+                if (idNullable == null)
+                {
+                    Snackbar.Add("No se pudo obtener el ID del cliente", Severity.Error);
+                    return;
+                }
+
+                clienteId = idNullable.Value;
+            }
+
+            itemsCarrito = carritoService.GetItemsCarrito(clienteId)
+            .Where(i => i.ClientId == clienteId).ToList();
+
+            CalcularTotalYGraficos();
+            await AnimarGrafica();
+
+            StateHasChanged(); // Forzar renderizado con datos cargados
+        }
+    }
+    private void CalcularTotalYGraficos()
+    {
+        total = 0;
+        seriesPie = new List<ChartSeries>();
+        var etiquetas = new List<string>();
+
+        foreach (var item in itemsCarrito)
+        {
+            if (item.Producto != null)
+            {
+                var nombre = item.Producto.Nombre;
+                var precioFinal = item.Producto.PrecioPromocional != null &&
+                item.Producto.PrecioPromocional < item.Producto.Precio
+                ? item.Producto.PrecioPromocional
+                : item.Producto.Precio;
+
+                var totalItem = (precioFinal ?? 0) * item.Cantidad;
+                total += totalItem;
+
+                etiquetas.Add(nombre);
+
+                seriesPie.Add(new ChartSeries
+                {
+                    Name = nombre,
+                    Data = new double[] { (double)totalItem }
+                });
+            }
+        }
+
+        labelsPie = new[] { "Total por producto" }; // eje X común para todas las barras
+    }
+
+    private async Task AnimarGrafica()
+    {
+        seriesAnimada.Clear();
+
+        var seriesFinal = seriesPie;
+        if (seriesFinal == null || seriesFinal.Count == 0)
+            return;
+
+        // Inicializar las series animadas con valores en cero
+        foreach (var serie in seriesFinal)
+        {
+            seriesAnimada.Add(new ChartSeries
+            {
+                Name = serie.Name,
+                Data = new double[serie.Data.Length] // Inicialmente en cero
+            });
+        }
+
+        int pasos = 15;
+        for (int paso = 1; paso <= pasos; paso++)
+        {
+            for (int i = 0; i < seriesFinal.Count; i++)
+            {
+                var destino = seriesFinal[i].Data[0];
+                var valorActual = destino * paso / pasos;
+                seriesAnimada[i].Data[0] = valorActual;
+            }
+
+            StateHasChanged();
+            await Task.Delay(100); // Velocidad de animación
+        }
+    }
+
+
+
+
+    private async Task ConfirmarCompra()
+    {
+        if (string.IsNullOrWhiteSpace(compra.Adreess))
+        {
+            Snackbar.Add("Por favor, ingresa una dirección de entrega antes de confirmar la compra.", Severity.Warning);
+            return;
+        }
+        istarjeta = await carritoService.GetItemsTarjeta(clienteId);
+
+        try
+        {
+            if (!istarjeta)
+            {
+                Snackbar.Add("No posee tarjeta asociada", Severity.Error, config =>
+                {
+                    config.RequireInteraction = true;
+                    config.Action = "Ir a crear tarjeta";
+                    config.ActionColor = Color.Primary;
+                    config.OnClick = snackbar =>
+    {
+                    navigationManager.NavigateTo("/crear-tarjeta");
+                    return Task.CompletedTask;
+                };
+                });
+                return;
+            }
+            foreach (var item in itemsCarrito)
+            {
+                bool exito = await productoService.ValidarStockAsync(item.Producto.Id, item.Cantidad);
+                Console.WriteLine($"{exito}");
+                if (!exito)
+                {
+                    Snackbar.Add($"No hay suficiente stock para el producto {item.Producto.Nombre}", Severity.Error);
+                    return;
+                }
+            }
+
+            // Reducir stock ahora que se confirmó
+            foreach (var item in itemsCarrito)
+            {
+                await productoService.ReducirStockAsync(item.Producto.Id, item.Cantidad);
+            }
+
+            recibo = await carritoService.ProcesarCompraAsync(clienteId, total, compra.Adreess,pinTarjeta);
+
+            _chekBuy = true;
+
+            Snackbar.Add("Compra realizada con éxito", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+    private async Task DescargarPdf()
+    {
+        if (!_chekBuy)
+        {
+            Snackbar.Add($"Para descargar el recibo primero debe realizar la compra", Severity.Error);
+
+            return;
+        }
+        if (recibo == null) return;
+
+        var pdfBytes = carritoService.GenerarReciboPdf(recibo);
+        Console.WriteLine($"PDF generado: {pdfBytes?.Length} bytes");
+        var base64 = Convert.ToBase64String(pdfBytes);
+        await JSRuntime.InvokeVoidAsync("descargarArchivoPdf", base64, "recibo.pdf");
+
+    }
+}
