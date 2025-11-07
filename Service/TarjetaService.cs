@@ -68,12 +68,9 @@ public class TarjetaService
         bool esValida = BCrypt.Net.BCrypt.Verify("12345", tarjetaDb.TarjPassword);
         Console.WriteLine($"Verificación: {esValida}");
 
-        // Asignar propiedades manualmente
+       
         tarjetaDb.Numero = tarjeta.Numero;
-        if (!BCrypt.Net.BCrypt.Verify(tarjeta.TarjPassword, tarjetaDb.TarjPassword))
-        {
-            tarjetaDb.TarjPassword = BCrypt.Net.BCrypt.HashPassword(tarjeta.TarjPassword);
-        }
+        tarjetaDb.TarjPassword = BCrypt.Net.BCrypt.HashPassword(tarjeta.TarjPassword);
         tarjetaDb.Saldo = tarjeta.Saldo;
         Console.WriteLine($"Guardando: {tarjetaDb.Numero} - {tarjetaDb.TarjPassword}");
 

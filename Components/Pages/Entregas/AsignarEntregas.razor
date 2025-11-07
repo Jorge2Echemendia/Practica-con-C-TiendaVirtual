@@ -84,6 +84,13 @@
         using var db = DbFactory.CreateDbContext();
        
         db.Compra.Update(compra);
+        var mensaje = $"Tu compra del {compra.Fecha.ToShortDateString()} ha sido asignada al repartidor {deliveryPerson.User.Username}.";
+    var notificacion = new Notificacion
+    {
+        UserId = compra.Cliente.User.Id,
+        Mensaje = mensaje
+    };
+    db.Add(notificacion);
         await db.SaveChangesAsync();
 
         comprasLibres.Remove(compra);

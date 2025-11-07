@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oracle.EntityFrameworkCore.Metadata;
 using TiendaVirtual.Context;
@@ -11,9 +12,11 @@ using TiendaVirtual.Context;
 namespace TiendaVirtual.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251107175039_AddNotification")]
+    partial class AddNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,33 +148,6 @@ namespace TiendaVirtual.Migrations
                     b.HasIndex("ReciboCompraId");
 
                     b.ToTable("ItemsCarrito");
-                });
-
-            modelBuilder.Entity("TiendaVirtual.Model.Notificacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
-
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("TIMESTAMP(7)");
-
-                    b.Property<string>("Leido")
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.Property<string>("Mensaje")
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notificacion");
                 });
 
             modelBuilder.Entity("TiendaVirtual.Model.Producto", b =>
@@ -383,17 +359,6 @@ namespace TiendaVirtual.Migrations
                     b.Navigation("Producto");
                 });
 
-            modelBuilder.Entity("TiendaVirtual.Model.Notificacion", b =>
-                {
-                    b.HasOne("TiendaVirtual.Model.User", "User")
-                        .WithMany("Notificaciones")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TiendaVirtual.Model.ReciboCompra", b =>
                 {
                     b.HasOne("TiendaVirtual.Model.Cliente", "Cliente")
@@ -437,8 +402,6 @@ namespace TiendaVirtual.Migrations
             modelBuilder.Entity("TiendaVirtual.Model.User", b =>
                 {
                     b.Navigation("Cliente");
-
-                    b.Navigation("Notificaciones");
                 });
 #pragma warning restore 612, 618
         }

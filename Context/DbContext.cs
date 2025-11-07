@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     public DbSet<DeliveryPerson> DeliveryPersons { get; set; }
 
+    public DbSet<Notificacion> Notificacion { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -52,6 +53,11 @@ public class AppDbContext : DbContext
       .HasForeignKey(i => i.ClientId)
       .OnDelete(DeleteBehavior.Cascade);
 
+     modelBuilder.Entity<Notificacion>()
+    .HasOne(n => n.User)
+    .WithMany(u => u.Notificaciones)
+    .HasForeignKey(n => n.UserId)
+    .OnDelete(DeleteBehavior.SetNull);
 
         //  Relación 1:N entre Cliente y ReciboCompra
         modelBuilder.Entity<ReciboCompra>()

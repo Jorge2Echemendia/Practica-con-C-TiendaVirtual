@@ -10,7 +10,9 @@ public class User
     public string Rol { get; set; } = string.Empty;
 
     public Cliente? Cliente { get; set; }
-    public string ? Image{ get; set; }
+    public string? Image { get; set; }
+    public ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
+
 }
 
 
