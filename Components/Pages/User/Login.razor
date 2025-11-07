@@ -31,6 +31,7 @@
 @code {
     private string userInput = string.Empty;
     private string passwordInput = string.Empty;
+    private bool isRepart =false;
 
 private async Task HandleLogin()
 {
@@ -45,7 +46,12 @@ private async Task HandleLogin()
         }
 
         UserContext.NotifyStateChanged();
-        Navigation.NavigateTo("/productos");
+        isRepart=await UserContext.IsReparAsync();
+        if(isRepart){
+            Navigation.NavigateTo("/entregas"); 
+        }else{
+             Navigation.NavigateTo("/productos");
+        }
     }
     else
     {

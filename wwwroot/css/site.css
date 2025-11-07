@@ -58,4 +58,8 @@
         transform: translateY(0);
     }
 }
-
+.full-screen {
+    width: 100%;
+    height: 100vh; /* altura completa de la ventana */
+    overflow-y: auto; /* permite desplazamiento si hay mucho contenido */
+}

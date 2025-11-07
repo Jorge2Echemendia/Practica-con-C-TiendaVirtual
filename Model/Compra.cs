@@ -11,5 +11,10 @@ public class Compra
     public decimal Total { get; set; }
 
     public string? Adreess { get; set; }
+
+    public string? Check { get; set; }
     public List<ItemCarrito> Items { get; set; } = new();
+
+    public int? DeliveryPersonId { get; set; }
+    public DeliveryPerson? DeliveryPerson { get; set; }
 }

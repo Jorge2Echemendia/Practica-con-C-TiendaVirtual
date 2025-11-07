@@ -41,8 +41,15 @@ public class UserContextService
 
         var role = user.FindFirst(ClaimTypes.Role)?.Value ?? user.FindFirst("role")?.Value
         ?? user.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
-        Console.WriteLine($"role:{role}");
         return user.Identity?.IsAuthenticated == true && role == "Administrador";
+    }
+    public async Task<bool> IsReparAsync()
+    {
+        var user = await GetUserAsync();
+
+        var role = user.FindFirst(ClaimTypes.Role)?.Value ?? user.FindFirst("role")?.Value
+        ?? user.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
+        return user.Identity?.IsAuthenticated == true && role == "Repartidor";
     }
 
     public async Task<bool> IsAuthenticatedAsync()

@@ -15,6 +15,8 @@ public class AppDbContext : DbContext
     public DbSet<Compra> Compra { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public DbSet<DeliveryPerson> DeliveryPersons { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,6 +66,18 @@ public class AppDbContext : DbContext
             .WithMany(p => p.ItemsCarrito)
             .HasForeignKey(i => i.ProductoId)
             .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<DeliveryPerson>()
+    .HasOne(dp => dp.User)
+    .WithOne()
+    .HasForeignKey<DeliveryPerson>(dp => dp.UserId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Compra>()
+            .HasOne(c => c.DeliveryPerson)
+            .WithMany(dp => dp.Entregas)
+            .HasForeignKey(c => c.DeliveryPersonId)
+            .OnDelete(DeleteBehavior.SetNull);
+
 
         modelBuilder.Entity<Producto>()
             .Property(p => p.Precio)

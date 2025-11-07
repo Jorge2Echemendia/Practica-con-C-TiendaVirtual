@@ -109,8 +109,11 @@ public class CarritoService
         var tarjeta = await _tarjetaService.ObtenerTarjetaVirtualAsync(clienteId);
         if (tarjeta == null)
             throw new Exception("Tarjeta no encontrada");
+         Console.WriteLine($"pin:{pin}");
+        bool esPinValido = BCrypt.Net.BCrypt.Verify(pin,tarjeta.TarjPassword);
+        Console.WriteLine($"tarjeta.TarjPassword:{esPinValido}");
 
-        if (!BCrypt.Net.BCrypt.Verify(pin, tarjeta.TarjPassword))
+        if (!esPinValido)
             throw new Exception("PIN incorrecto");
 
         if (tarjeta.Saldo < total)

@@ -16,8 +16,8 @@
         <MudContainer Class="py-4 px-4 max-width-md mx-auto">
             <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Tu Carrito</MudText>
 
-            @if (itemsCarrito.Any())
-            {
+@if (itemsCarrito.Any())
+{
                 <MudText>Items en carrito: @itemsCarrito.Count</MudText>
                 <MudChart ChartType="ChartType.Bar" ChartSeries="@seriesAnimada" XAxisLabels="@labelsPie"
                     ChartOptions="@options" Width="100%" Height="350px" />
@@ -58,48 +58,73 @@
                         <MudTd><strong>$ @total</strong></MudTd>
                     </FooterContent>
                 </MudTable>
-                <MudTextField Label="Dirección de entrega" @bind-Value="compra.Adreess"
-                    Placeholder="Ingresa tu dirección completa" Required="true" Class="my-4" />
-                <MudButton OnClick="ConfirmarCompra" Color="Color.Success">Confirmar Compra</MudButton>
-                @if (recibo != null)
-                {
-                    <MudPaper Class="mt-4 p-4">
-                        <MudText Typo="Typo.h6">Recibo de Compra</MudText>
-                        <MudText>Fecha: @recibo.Fecha.ToString("g")</MudText>
-                        <MudText>Total: $@recibo.Total</MudText>
-                        <MudText>Código: @recibo.CodigoAutenticacion</MudText>
-                        <MudTextField @bind-Value="pinTarjeta" Label="PIN de la tarjeta" InputType="InputType.Password" />
-                        <MudDivider Class="my-2" />
-                        <MudList T="ItemCarrito">
-                            @foreach (var item in recibo.Items)
-                            {
-                                <MudListItem>
-                                    @item.Producto.Nombre - @item.Cantidad x $
-                                    @((item.Producto.PrecioPromocional != null && item.Producto.PrecioPromocional <
-                                                            item.Producto.Precio)
-                                                            ? item.Producto.PrecioPromocional
-                                                            : item.Producto.Precio)
-                                </MudListItem>
-                            }
-                        </MudList>
+                <MudTextField Label="Calle y número" @bind-Value="direccionCalle"
+                    Placeholder="Ej: Calle1 # e/ Calle2 y Calle3" Required="true" Class="my-2" />
 
-                        <MudButton OnClick="DescargarPdf" Color="Color.Primary" Class="mt-2">
-                            Descargar PDF
-                        </MudButton>
-                    </MudPaper>
+                <MudSelect T="string" Label="Provincia" @bind-Value="provincia" Required="true" Class="my-2">
+                    <MudSelectItem Value="@("La Habana")">La Habana</MudSelectItem>
+                </MudSelect>
+
+                <MudSelect T="string" Label="Municipio" @bind-Value="municipio" Required="true" Class="my-2">
+                    <MudSelectItem Value="@("Arroyo Naranjo")">Arroyo Naranjo</MudSelectItem>
+                    <MudSelectItem Value="@("Boyeros")">Boyeros</MudSelectItem>
+                    <MudSelectItem Value="@("Centro Habana")">Centro Habana</MudSelectItem>
+                    <MudSelectItem Value="@("Cerro")">Cerro</MudSelectItem>
+                    <MudSelectItem Value="@("Cotorro")">Cotorro</MudSelectItem>
+                    <MudSelectItem Value="@("Diez de Octubre")">Diez de Octubre</MudSelectItem>
+                    <MudSelectItem Value="@("Guanabacoa")">Guanabacoa</MudSelectItem>
+                    <MudSelectItem Value="@("Habana del Este")">Habana del Este</MudSelectItem>
+                    <MudSelectItem Value="@("Habana Vieja")">Habana Vieja</MudSelectItem>
+                    <MudSelectItem Value="@("La Lisa")">La Lisa</MudSelectItem>
+                    <MudSelectItem Value="@("Marianao")">Marianao</MudSelectItem>
+                    <MudSelectItem Value="@("Playa")">Playa</MudSelectItem>
+                    <MudSelectItem Value="@("Plaza de la Revolución")">Plaza de la Revolución</MudSelectItem>
+                    <MudSelectItem Value="@("San Miguel del Padrón")">San Miguel del Padrón</MudSelectItem>
+                     </MudSelect>
+
+
+                    <MudTextField @bind-Value="pinTarjeta" Label="PIN de la tarjeta" InputType="InputType.Password"
+                        MaxLength="5" Pattern="^\d{4,5}$" Immediate="true" Required="true"
+                        HelperText="Debe tener entre 4 y 5 dígitos" />
+                    <MudButton OnClick="ConfirmarCompra" Color="Color.Success">Confirmar Compra</MudButton>
+    @if (recibo != null)
+    {
+                        <MudPaper Class="mt-4 p-4">
+                            <MudText Typo="Typo.h6">Recibo de Compra</MudText>
+                            <MudText>Fecha: @recibo.Fecha.ToString("g")</MudText>
+                            <MudText>Total: $@recibo.Total</MudText>
+                            <MudText>Código: @recibo.CodigoAutenticacion</MudText>
+                            <MudDivider Class="my-2" />
+                            <MudList T="ItemCarrito">
+                                @foreach (var item in recibo.Items)
+                                {
+                                    <MudListItem>
+                                        @item.Producto.Nombre - @item.Cantidad x $
+                                        @((item.Producto.PrecioPromocional != null && item.Producto.PrecioPromocional <
+                                                                    item.Producto.Precio)
+                                                                    ? item.Producto.PrecioPromocional
+                                                                    : item.Producto.Precio)
+                                    </MudListItem>
+                                }
+                            </MudList>
+
+                            <MudButton OnClick="DescargarPdf" Color="Color.Primary" Class="mt-2">
+                                Descargar PDF
+                            </MudButton>
+                        </MudPaper>
+    }
+
                 }
-
-            }
-            else
-            {
+                else
+                {
                 <MudText>Items en carrito: @itemsCarrito.Count</MudText>
                 <MudAlert Severity="Severity.Info">
                     <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" />
                     Tu carrito está vacío
                 </MudAlert>
-            }
-        </MudContainer>
-    </MudMainContent>
+                }
+</MudContainer>
+</MudMainContent>
 </MudLayout>
 
 
@@ -125,6 +150,9 @@
     private List<ChartSeries> seriesAnimada = new(); // Se usará para mostrar la animación
     private List<ChartSeries> seriesCompleta = new(); // Datos completos
     private string pinTarjeta = "";
+    private string direccionCalle = "";
+    private string provincia = "La Habana";
+    private string municipio = "";
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -226,9 +254,17 @@
 
     private async Task ConfirmarCompra()
     {
-        if (string.IsNullOrWhiteSpace(compra.Adreess))
+        
+        if (string.IsNullOrWhiteSpace(direccionCalle)||string.IsNullOrWhiteSpace(municipio)||string.IsNullOrWhiteSpace(provincia))
         {
-            Snackbar.Add("Por favor, ingresa una dirección de entrega antes de confirmar la compra.", Severity.Warning);
+            Snackbar.Add("Por favor, ingrese una dirección de entrega completo antes de confirmar la compra.", Severity.Warning);
+            return;
+        }
+        compra.Adreess = $"{direccionCalle}, {municipio}, {provincia}, Cuba";
+
+        if (string.IsNullOrWhiteSpace(pinTarjeta))
+        {
+            Snackbar.Add("Por favor, ingrese el pin de la tarjeta antes de confirmar la compra.", Severity.Warning);
             return;
         }
         istarjeta = await carritoService.GetItemsTarjeta(clienteId);
@@ -267,7 +303,7 @@
                 await productoService.ReducirStockAsync(item.Producto.Id, item.Cantidad);
             }
 
-            recibo = await carritoService.ProcesarCompraAsync(clienteId, total, compra.Adreess,pinTarjeta);
+            recibo = await carritoService.ProcesarCompraAsync(clienteId, total, compra.Adreess, pinTarjeta);
 
             _chekBuy = true;
 

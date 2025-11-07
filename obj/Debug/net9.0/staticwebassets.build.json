@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "loUH2KYSNnDPJ27VA1ISY63fumL8ZTZdRIMUpf5w71o=",
+  "Hash": "RLxzBjR9GERqemABzuGvFyTBzD94EyjyyXy+krqryOk=",
   "Source": "TiendaVirtual",
   "BasePath": "_content/TiendaVirtual",
   "Mode": "Default",
@@ -80,12 +80,12 @@
       "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.11.0\\staticwebassets\\MudBlazor.min.js"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-fubw8jizvs.gz",
+      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/TiendaVirtual",
-      "RelativePath": "css/site#[.{fingerprint=fubw8jizvs}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=hrngibr7bl}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -94,8 +94,8 @@
       "RelatedAsset": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "up5erwp2fe",
-      "Integrity": "jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM=",
+      "Fingerprint": "dj1fejumwv",
+      "Integrity": "d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css"
@@ -199,8 +199,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "fubw8jizvs",
-      "Integrity": "CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY=",
+      "Fingerprint": "hrngibr7bl",
+      "Integrity": "s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -762,12 +762,12 @@
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-fubw8jizvs.gz",
+      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.002857142857"
+          "Quality": "0.002247191011"
         }
       ],
       "ResponseHeaders": [
@@ -777,15 +777,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "349"
+          "Value": "444"
         },
         {
           "Name": "ETag",
-          "Value": "\"jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM=\""
+          "Value": "\"d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 15 Sep 2025 16:08:55 GMT"
+          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -805,13 +805,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY=\""
+          "Value": "W/\"s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY="
+          "Value": "sha256-s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4="
         }
       ]
     },
@@ -826,7 +826,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1228"
+          "Value": "1394"
         },
         {
           "Name": "Content-Type",
@@ -834,11 +834,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY=\""
+          "Value": "\"s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 15 Sep 2025 16:08:55 GMT"
+          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -848,13 +848,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY="
+          "Value": "sha256-s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-fubw8jizvs.gz",
+      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -863,7 +863,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "349"
+          "Value": "444"
         },
         {
           "Name": "Content-Type",
@@ -871,11 +871,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM=\""
+          "Value": "\"d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 15 Sep 2025 16:08:55 GMT"
+          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -893,18 +893,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM="
+          "Value": "sha256-d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM="
         }
       ]
     },
     {
-      "Route": "css/site.fubw8jizvs.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-fubw8jizvs.gz",
+      "Route": "css/site.hrngibr7bl.css",
+      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.002857142857"
+          "Quality": "0.002247191011"
         }
       ],
       "ResponseHeaders": [
@@ -914,15 +914,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "349"
+          "Value": "444"
         },
         {
           "Name": "ETag",
-          "Value": "\"jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM=\""
+          "Value": "\"d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 15 Sep 2025 16:08:55 GMT"
+          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -942,13 +942,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY=\""
+          "Value": "W/\"s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "fubw8jizvs"
+          "Value": "hrngibr7bl"
         },
         {
           "Name": "label",
@@ -956,12 +956,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY="
+          "Value": "sha256-s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4="
         }
       ]
     },
     {
-      "Route": "css/site.fubw8jizvs.css",
+      "Route": "css/site.hrngibr7bl.css",
       "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -971,7 +971,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1228"
+          "Value": "1394"
         },
         {
           "Name": "Content-Type",
@@ -979,11 +979,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY=\""
+          "Value": "\"s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 15 Sep 2025 16:08:55 GMT"
+          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -993,7 +993,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "fubw8jizvs"
+          "Value": "hrngibr7bl"
         },
         {
           "Name": "label",
@@ -1001,13 +1001,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-CeiwAgc5XQSNBd6LNtxP8K0MOs1SVkOK3oo885+VeWY="
+          "Value": "sha256-s1WoE+P3+lyCF76hkW9L8aWIKSGsuWbfucLXxctcFi4="
         }
       ]
     },
     {
-      "Route": "css/site.fubw8jizvs.css.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-fubw8jizvs.gz",
+      "Route": "css/site.hrngibr7bl.css.gz",
+      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1016,7 +1016,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "349"
+          "Value": "444"
         },
         {
           "Name": "Content-Type",
@@ -1024,11 +1024,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM=\""
+          "Value": "\"d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 15 Sep 2025 16:08:55 GMT"
+          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1046,7 +1046,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "fubw8jizvs"
+          "Value": "hrngibr7bl"
         },
         {
           "Name": "label",
@@ -1054,7 +1054,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-jmDhJa6yfIHtGTUYk7hyFFvzYSIgB3z1pfyvn92kqVM="
+          "Value": "sha256-d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM="
         }
       ]
     },

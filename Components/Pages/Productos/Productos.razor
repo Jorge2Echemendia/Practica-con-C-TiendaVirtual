@@ -129,6 +129,7 @@
                                             Editar
                                         </MudButton>
                                     }
+                                    @if (isAuthenticatedRepart){}
                                     else
                                     {
                                         @if (producto.CantidadProducto > 0)
@@ -194,6 +195,7 @@
 
     private bool _datosCargados = false;
     private bool isAuthenticatedAdmin = false;
+     private bool isAuthenticatedRepart = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -206,8 +208,10 @@
             productos = await productoService.ObtenerProductosDisponiblesAsync();
 
             isAuthenticatedAdmin = await UserContext.IsAdminAsync();
-            if (!isAuthenticatedAdmin && await authState.IsAuthenticatedAsync())
-            {
+            isAuthenticatedRepart = await UserContext.IsReparAsync();
+            if (await authState.IsAuthenticatedAsync() && !isAuthenticatedAdmin)
+            {if(!isAuthenticatedRepart){
+                Console.WriteLine("Aqui");
                 int? idNullable = await UserContext.GetClienteIdAsync();
                 if (idNullable == null)
                 {
@@ -218,6 +222,7 @@
                 clienteId = idNullable.Value;
                 itemsCarrito = carritoService.GetItemsCarrito(clienteId)
                 .Where(i => i.ClientId == clienteId).ToList();
+                }
             }
 
 

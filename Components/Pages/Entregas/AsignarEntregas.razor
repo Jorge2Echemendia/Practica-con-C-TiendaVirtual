@@ -1,0 +1,92 @@
+@page "/entregas"
+@using Microsoft.EntityFrameworkCore
+@using MudBlazor.Components
+@using TiendaVirtual.Context
+@using TiendaVirtual.Model
+@using TiendaVirtual.Service
+@inject UserContextService UserContext
+@inject TarjetaService TarjetaService
+@inject IDbContextFactory<AppDbContext> DbFactory
+@inject ImagenService ImagenService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+<MudPaper Class="pa-4 full-screen" Elevation="4">
+    <MudText Typo="Typo.h4">Asignación de Entregas</MudText>
+    <MudDivider Class="my-4" />
+
+@if (comprasLibres.Any())
+{
+        <MudGrid GutterSize="3">
+    @foreach (var compra in comprasLibres)
+    {
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-2 my-2" Elevation="2">
+                <MudText>Cliente: @compra.Cliente.User.Username</MudText>
+                <MudText>Dirección: @compra.Adreess</MudText>
+                <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
+                <MudText>Total: $@compra.Total</MudText>
+
+                        <MudButton OnClick="@(() => AsignarCompraARepartidor(compra))" Color="Color.Primary" Size="Size.Small">
+                            Asignar a mí
+                        </MudButton>
+                         </MudPaper>
+                     </MudItem>
+                    }
+                    </MudGrid>
+                    }
+                    
+                    else
+                    {
+                    <MudText>No hay entregas disponibles en este momento.</MudText>
+                    }
+        </MudPaper>
+
+@code {
+    private List<Compra> comprasLibres = new();
+    private DeliveryPerson? deliveryPerson;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var username = await UserContext.GetUsernameAsync();
+        
+
+    if (string.IsNullOrEmpty(username))
+    {
+        Snackbar.Add("No se pudo obtener el nombre de usuario", Severity.Error);
+        return;
+    }
+
+    using var db = DbFactory.CreateDbContext();
+    var usuario = await db.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+    if (usuario == null)
+    {
+        Snackbar.Add("Usuario no encontrado en la base de datos", Severity.Error);
+        return;
+    }
+        deliveryPerson = await db.DeliveryPersons.FirstOrDefaultAsync(dp => dp.UserId == usuario!.Id);
+
+        comprasLibres = await db.Compra
+        .Include(c => c.Cliente)
+        .ThenInclude(cl => cl.User)
+        .Where(c => c.DeliveryPersonId == null)
+        .ToListAsync();
+    }
+
+    private async Task AsignarCompraARepartidor(Compra compra)
+    {
+        if (deliveryPerson == null) return;
+
+        compra.DeliveryPersonId = deliveryPerson.Id;
+         compra.Check="Pendiente";
+         
+        using var db = DbFactory.CreateDbContext();
+       
+        db.Compra.Update(compra);
+        await db.SaveChangesAsync();
+
+        comprasLibres.Remove(compra);
+        Snackbar.Add("Entrega asignada con éxito", Severity.Success);
+    }
+}

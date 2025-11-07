@@ -11,7 +11,7 @@ namespace TiendaVirtual.Service;
 public class AuthService
 {
     private readonly IDbContextFactory<AppDbContext> _context;
-    private readonly string adminKeyword = "Admin123";
+    private enum AdminKeyword { Admin123, Trabajador123 };
     private readonly IConfiguration _config;
 
     public AuthService(IDbContextFactory<AppDbContext> context, IConfiguration config)
@@ -27,7 +27,8 @@ public class AuthService
         .CountAsync(u => u.Username == username || u.Email == email) > 0;
         if (exists)
             return false;
-        var rol = password.Contains(adminKeyword) ? "Administrador" : "Cliente";
+        var rol = password.Contains(nameof(AdminKeyword.Admin123)) ? "Administrador" : password.Contains(nameof(AdminKeyword.Trabajador123))
+        ? "Repartidor" : "Cliente";
 
         var user = new User
         {
@@ -50,13 +51,22 @@ public class AuthService
             context.Clientes.Add(cliente);
             await context.SaveChangesAsync();
         }
+        if (rol == "Repartidor")
+        {
+            var delivery = new DeliveryPerson
+            {
+                UserId = user.Id
+            };
+            context.DeliveryPersons.Add(delivery);
+            await context.SaveChangesAsync();
+        }
 
         return true;
     }
 
     public async Task<string?> LoginAsync(string userInput, string password)
     {
-          using var context = _context.CreateDbContext();
+        using var context = _context.CreateDbContext();
         var user = context.Users.FirstOrDefault(u => u.Username == userInput || u.Email == userInput);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             return null;
@@ -66,7 +76,7 @@ public class AuthService
 
     public async Task<bool> ResetPasswordAsync(string email, string newPassword)
     {
-          using var context = _context.CreateDbContext();
+        using var context = _context.CreateDbContext();
         var user = context.Users.FirstOrDefault(u => u.Email == email);
         if (user == null) return false;
 

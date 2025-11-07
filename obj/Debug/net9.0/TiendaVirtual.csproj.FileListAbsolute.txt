@@ -203,4 +203,5 @@ C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\System.Net.WebSockets.WebSocketProtocol.dll
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\pwv8dcm0fa-7gmikbxck1.gz
-C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\lxxzfw295k-fubw8jizvs.gz
+C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\TiendaVirtual.sourcelink.json
+C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\lxxzfw295k-hrngibr7bl.gz

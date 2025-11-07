@@ -1,5 +1,6 @@
 @page "/perfil"
 @using Microsoft.EntityFrameworkCore
+@using MudBlazor.Components
 @using TiendaVirtual.Context
 @using TiendaVirtual.Model
 @using TiendaVirtual.Service
@@ -7,6 +8,9 @@
 @inject TarjetaService TarjetaService
 @inject IDbContextFactory<AppDbContext> DbFactory
 @inject ImagenService ImagenService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
 
 <MudPaper Class="pa-4" Elevation="4">
     <MudText Typo="Typo.h4">Perfil de Usuario</MudText>
@@ -46,39 +50,115 @@
     }
 
     <MudDivider Class="my-4" />
-
-    <MudText Typo="Typo.h5">Tarjeta Virtual</MudText>
-    @if (tarjeta != null)
+    @if (usuario?.Rol == "Cliente")
     {
-        <MudText>Numero: @tarjeta.Numero</MudText>
-        <MudText>Saldo: $@tarjeta.Saldo</MudText>
-    }
-    else
-    {
-        <MudTextField @bind-Value="nuevoNumero" Label="Número de tarjeta" />
-        <MudTextField @bind-Value="nuevaPassword" Label="Contraseña" />
-        <MudButton OnClick="CrearTarjeta" Color="Color.Secondary">Crear tarjeta</MudButton>
-    }
-
-    <MudDivider Class="my-4" />
-
-    <MudText Typo="Typo.h5">Historial de Compras</MudText>
-    @if (compras.Any())
-    {
-        @foreach (var compra in compras)
+        <MudText Typo="Typo.h5">Tarjeta Virtual</MudText>
+        @if (tarjeta != null)
         {
-            <MudPaper Class="pa-2 my-2" Elevation="2">
-                <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
-                <MudText>Total: $@compra.Total</MudText>
-                <MudTextField @bind-Value="compra.Adreess" Label="Dirección" />
-                <MudButton OnClick="@(() => GuardarDireccion(compra))" Color="Color.Primary" Size="Size.Small">Guardar dirección
-                </MudButton>
-            </MudPaper>
+            <MudTextField @bind-Value="tarjeta.Numero" Label="Número de tarjeta" />
+            <MudTextField @bind-Value="nuevaPassword" Label="Nueva contraseña" InputType="InputType.Password" />
+            <MudText>Saldo: $@tarjeta.Saldo</MudText>
+
+            <MudButton OnClick="ActualizarTarjeta" Color="Color.Primary">Actualizar tarjeta</MudButton>
+        }
+        else
+        {
+            <MudTextField @bind-Value="nuevoNumero" Label="Número de tarjeta" />
+            <MudTextField @bind-Value="nuevaPassword" Label="Contraseña" />
+            <MudButton OnClick="CrearTarjeta" Color="Color.Secondary">Crear tarjeta</MudButton>
+        }
+
+        <MudDivider Class="my-4" />
+
+        <MudText Typo="Typo.h5">Historial de Compras</MudText>
+        @if (compras.Any())
+        {
+            @foreach (var compra in compras)
+            {
+                <MudPaper Class="pa-2 my-2" Elevation="2">
+                    <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
+                    <MudText>Total: $@compra.Total</MudText>
+                    <MudTextField @bind-Value="compra.Adreess" Label="Dirección" />
+                    <MudButton OnClick="@(() => GuardarDireccion(compra))" Color="Color.Primary" Size="Size.Small">Guardar dirección
+                    </MudButton>
+                </MudPaper>
+            }
+        }
+        else
+        {
+            <MudText>No hay compras registradas.</MudText>
         }
     }
     else
     {
-        <MudText>No hay compras registradas.</MudText>
+        <MudText Typo="Typo.h5">Panel de Repartidor</MudText>
+
+        @if (deliveryPerson != null)
+        {
+            <MudTextField @bind-Value="deliveryPerson.Vehiculo" Label="Vehículo asignado" />
+            <MudSelect T="string" Label="Estado actual" @bind-Value="deliveryPerson.Estado">
+                <MudSelectItem Value="@("Disponible")">Disponible</MudSelectItem>
+                <MudSelectItem Value="@("Ocupado")">Ocupado</MudSelectItem>
+                <MudSelectItem Value="@("Sinservicio")">Sinservicio</MudSelectItem>
+            </MudSelect>
+
+            <MudButton OnClick="GuardarDeliveryPerson" Color="Color.Primary">Guardar cambios</MudButton>
+
+            <MudDivider Class="my-4" />
+            <MudText Typo="Typo.h6">Entregas asignadas</MudText>
+
+            <MudSelect T="string" Label="Filtrar por estado" @bind-Value="estadoFiltro" Class="mb-4">
+                <MudSelectItem Value="@("Todos")">Todos</MudSelectItem>
+                <MudSelectItem Value="@("Pendiente")">Pendiente</MudSelectItem>
+                <MudSelectItem Value="@("Entregada")">Entregada</MudSelectItem>
+            </MudSelect>
+
+
+            @if (entregas.Any())
+            {
+                <MudText Typo="Typo.subtitle1" Class="mb-2">
+                    Total entregas: @entregas.Count
+                </MudText>
+                <MudText Typo="Typo.subtitle1" Class="mb-2">
+                    Entregas completadas:@entregas.Count(e => e.Check == "Entregada")
+                </MudText>
+                <MudText Typo="Typo.subtitle1" Class="mb-2">
+                    Entregas pendientes: @entregas.Count(e => e.Check != "Entregada")
+                </MudText>
+
+                @foreach (var entrega in entregas.Where(e =>
+                    (estadoFiltro == "Todos") ||
+                    (estadoFiltro != "Todos" && e.Check == estadoFiltro)||
+                    (estadoFiltro == "Pendiente" && e.Check is null)))
+                {
+                    <MudPaper Class="pa-2 my-2" Elevation="2">
+                        <MudText>Cliente: @entrega.Cliente.User.Username</MudText>
+                        <MudText>Dirección: @entrega.Adreess</MudText>
+                        <MudText>Fecha: @entrega.Fecha.ToShortDateString()</MudText>
+                        <MudText>Total: $@entrega.Total</MudText>
+                        <MudText>Estado: @entrega.Check</MudText>
+
+                        <MudStack Direction="Row" Spacing="2" Class="mt-2">
+                        @if(entrega.Check!="Entregada"){
+                            <MudButton OnClick="@(() => MarcarEntregaComoCompletada(entrega))" Color="Color.Success" Size="Size.Small">
+                                Marcar como entregada
+                            </MudButton>
+                            <MudButton OnClick="@(() => AbrirMapa(entrega.Adreess))" Color="Color.Info" Size="Size.Small">
+                                Ver ruta en mapa
+                            </MudButton>
+                            }else
+                            {
+                                 <MudText Color="Color.Success">Se completaron estas entregas.</MudText>
+                            }
+                        </MudStack>
+                    </MudPaper>
+                }
+            }
+            else
+            {
+                <MudText>No tienes entregas asignadas.</MudText>
+            }
+        }
     }
 </MudPaper>
 
@@ -88,9 +168,11 @@
     private List<Compra> compras = new();
     private TarjetaFicticia? tarjeta;
     private IBrowserFile? imagenUsuario;
-
+    private string estadoFiltro = "";
     private int nuevoNumero;
     private string nuevaPassword = "";
+    private DeliveryPerson? deliveryPerson;
+    private List<Compra> entregas = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,18 +183,37 @@
         cliente = usuario?.Cliente;
         if (cliente != null)
         {
+
             compras = await db.Compra.Where(c => c.ClienteId == cliente.Id).ToListAsync();
             tarjeta = cliente.Tarjeta;
         }
-    }
+        if (usuario?.Rol == "Repartidor")
+        {
+            deliveryPerson = await db.DeliveryPersons
+            .Include(dp => dp.Entregas)
+            .ThenInclude(c => c.Cliente)
+            .ThenInclude(cl => cl.User)
+            .FirstOrDefaultAsync(dp => dp.UserId == usuario.Id);
 
+            if (deliveryPerson != null)
+            {
+                entregas = deliveryPerson.Entregas.ToList();
+            }
+        }
+    }
     private async Task GuardarUsuario()
     {
         using var db = DbFactory.CreateDbContext();
         db.Users.Update(usuario!);
         await db.SaveChangesAsync();
     }
-
+    private async Task GuardarDeliveryPerson()
+    {
+        using var db = DbFactory.CreateDbContext();
+        db.DeliveryPersons.Update(deliveryPerson!);
+        await db.SaveChangesAsync();
+        Snackbar.Add("Datos del repartidor actualizados", Severity.Success);
+    }
     private async Task CrearTarjeta()
     {
         if (cliente != null)
@@ -120,12 +221,23 @@
             tarjeta = await TarjetaService.CrearTarjetaVirtualAsync(cliente.Id, nuevoNumero, nuevaPassword);
         }
     }
-
     private async Task GuardarDireccion(Compra compra)
     {
         using var db = DbFactory.CreateDbContext();
         db.Compra.Update(compra);
         await db.SaveChangesAsync();
+        Snackbar.Add("Direcion de la compra actualizada con exito", Severity.Success);
+    }
+
+    private async Task ActualizarTarjeta()
+    {
+        if (tarjeta == null)
+            return;
+
+        tarjeta.TarjPassword=nuevaPassword;
+        Console.WriteLine($"Tarjeta:{tarjeta.TarjPassword}");
+        await TarjetaService.ActualizarProductoAsync(tarjeta);
+        Snackbar.Add("Tarjeta actualizada con éxito", Severity.Success);
     }
 
     private async Task HandleUserImageUpload(InputFileChangeEventArgs e)
@@ -151,4 +263,22 @@
             Console.WriteLine($"❌ Error durante la carga de imagen: {ex.Message}");
         }
     }
+    private async Task MarcarEntregaComoCompletada(Compra entrega)
+    {
+        entrega.Check = "Entregada";
+        using var db = DbFactory.CreateDbContext();
+        db.Compra.Update(entrega);
+        await db.SaveChangesAsync();
+        Snackbar.Add("Entrega marcada como completada", Severity.Success);
+    }
+private void AbrirMapa(string? direccion)
+{
+    if (!string.IsNullOrWhiteSpace(direccion))
+    {
+        var direccionCompleta = $"{direccion}, La Habana, Cuba";
+        var url = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(direccionCompleta)}";
+        NavigationManager.NavigateTo(url, true);
+    }
+}
+
 }

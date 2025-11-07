@@ -10,17 +10,23 @@
     {  
         <MudNavLink Href="/agregar-producto" Icon="@Icons.Material.Filled.AddBox">Agregar Producto</MudNavLink>
          <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.StackedBarChart">Estadistica</MudNavLink>
-    }else{
+    }@if(isAuthenticatedRepart){
+        <MudNavLink Href="/entregas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FireTruck">Entregas</MudNavLink>
+    }
+    else{
      <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ShoppingCart">Carrito</MudNavLink>
     }
+    
 
 </MudNavMenu>
 
 @code {
     private bool isAuthenticatedAdmin;
+    private bool isAuthenticatedRepart;
     protected override async Task OnInitializedAsync()
     {
         isAuthenticatedAdmin = await UserContext.IsAdminAsync();
+        isAuthenticatedRepart = await UserContext.IsReparAsync();
         Console.WriteLine($"Inicializado como admin: {isAuthenticatedAdmin}");
 
         UserContext.OnUserStateChanged += async () =>
