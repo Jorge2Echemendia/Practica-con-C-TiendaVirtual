@@ -58,37 +58,21 @@
                         <MudTd><strong>$ @total</strong></MudTd>
                     </FooterContent>
                 </MudTable>
-                <MudTextField Label="Calle y número" @bind-Value="direccionCalle"
-                    Placeholder="Ej: Calle1 # e/ Calle2 y Calle3" Required="true" Class="my-2" />
-
-                <MudSelect T="string" Label="Provincia" @bind-Value="provincia" Required="true" Class="my-2">
-                    <MudSelectItem Value="@("La Habana")">La Habana</MudSelectItem>
-                </MudSelect>
-
-                <MudSelect T="string" Label="Municipio" @bind-Value="municipio" Required="true" Class="my-2">
-                    <MudSelectItem Value="@("Arroyo Naranjo")">Arroyo Naranjo</MudSelectItem>
-                    <MudSelectItem Value="@("Boyeros")">Boyeros</MudSelectItem>
-                    <MudSelectItem Value="@("Centro Habana")">Centro Habana</MudSelectItem>
-                    <MudSelectItem Value="@("Cerro")">Cerro</MudSelectItem>
-                    <MudSelectItem Value="@("Cotorro")">Cotorro</MudSelectItem>
-                    <MudSelectItem Value="@("Diez de Octubre")">Diez de Octubre</MudSelectItem>
-                    <MudSelectItem Value="@("Guanabacoa")">Guanabacoa</MudSelectItem>
-                    <MudSelectItem Value="@("Habana del Este")">Habana del Este</MudSelectItem>
-                    <MudSelectItem Value="@("Habana Vieja")">Habana Vieja</MudSelectItem>
-                    <MudSelectItem Value="@("La Lisa")">La Lisa</MudSelectItem>
-                    <MudSelectItem Value="@("Marianao")">Marianao</MudSelectItem>
-                    <MudSelectItem Value="@("Playa")">Playa</MudSelectItem>
-                    <MudSelectItem Value="@("Plaza de la Revolución")">Plaza de la Revolución</MudSelectItem>
-                    <MudSelectItem Value="@("San Miguel del Padrón")">San Miguel del Padrón</MudSelectItem>
-                     </MudSelect>
-
+                <MudButton OnClick="AbrirMapaCliente" Color="Color.Primary" Variant="Variant.Filled">
+                    Seleccionar ubicación en el mapa
+                </MudButton>
+                
+                <div id="map" style="height:400px; width:100%; display:none;"></div>
+                
+                <MudTextField Label="Latitud" @bind-Value="latitud" Disabled="true" Class="my-2" />
+                <MudTextField Label="Longitud" @bind-Value="longitud" Disabled="true" Class="my-2" />
 
                     <MudTextField @bind-Value="pinTarjeta" Label="PIN de la tarjeta" InputType="InputType.Password"
                         MaxLength="5" Pattern="^\d{4,5}$" Immediate="true" Required="true"
                         HelperText="Debe tener entre 4 y 5 dígitos" />
                     <MudButton OnClick="ConfirmarCompra" Color="Color.Success">Confirmar Compra</MudButton>
-    @if (recibo != null)
-    {
+            @if (recibo != null)
+            {
                         <MudPaper Class="mt-4 p-4">
                             <MudText Typo="Typo.h6">Recibo de Compra</MudText>
                             <MudText>Fecha: @recibo.Fecha.ToString("g")</MudText>
@@ -150,10 +134,25 @@
     private List<ChartSeries> seriesAnimada = new(); // Se usará para mostrar la animación
     private List<ChartSeries> seriesCompleta = new(); // Datos completos
     private string pinTarjeta = "";
-    private string direccionCalle = "";
-    private string provincia = "La Habana";
-    private string municipio = "";
 
+    private double? latitud;
+private double? longitud;
+
+[JSInvokable]
+public void SetCoordinates(double lat, double lng)
+{
+    try
+    {
+        Console.WriteLine($"SetCoordinates invocado: Lat={lat}, Lng={lng}");
+        latitud = lat;
+        longitud = lng;
+        InvokeAsync(StateHasChanged);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error en SetCoordinates: {ex.Message}");
+    }
+}
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -249,18 +248,16 @@
         }
     }
 
-
-
-
     private async Task ConfirmarCompra()
     {
         
-        if (string.IsNullOrWhiteSpace(direccionCalle)||string.IsNullOrWhiteSpace(municipio)||string.IsNullOrWhiteSpace(provincia))
-        {
-            Snackbar.Add("Por favor, ingrese una dirección de entrega completo antes de confirmar la compra.", Severity.Warning);
-            return;
-        }
-        compra.Adreess = $"{direccionCalle}, {municipio}, {provincia}, Cuba";
+        if (latitud is null || longitud is null)
+    {
+      Snackbar.Add("Seleccione la ubicación en el mapa para continuar.", Severity.Warning);
+      return;
+    }
+    compra.Lat=latitud;
+    compra.Lon=longitud;
 
         if (string.IsNullOrWhiteSpace(pinTarjeta))
         {
@@ -303,7 +300,7 @@
                 await productoService.ReducirStockAsync(item.Producto.Id, item.Cantidad);
             }
 
-            recibo = await carritoService.ProcesarCompraAsync(clienteId, total, compra.Adreess, pinTarjeta);
+            recibo = await carritoService.ProcesarCompraAsync(clienteId, total, compra.Lat,compra.Lon, pinTarjeta);
 
             _chekBuy = true;
 
@@ -314,6 +311,20 @@
             Snackbar.Add($"Error: {ex.Message}", Severity.Error);
         }
     }
+
+    private async Task AbrirMapaCliente()
+{
+    try
+    {
+        Console.WriteLine("AbrirMapaCliente invocado desde Blazor.");
+        var dotnetHelper = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("mostrarMapa", dotnetHelper);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al abrir mapa: {ex.Message}");
+    }
+}
     private async Task DescargarPdf()
     {
         if (!_chekBuy)

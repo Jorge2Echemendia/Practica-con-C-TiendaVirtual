@@ -96,7 +96,7 @@ public class CarritoService
     }
 
 
-    public async Task<ReciboCompra> ProcesarCompraAsync(int clienteId, decimal totalPagar, string adreess, string pin)
+    public async Task<ReciboCompra> ProcesarCompraAsync(int clienteId, decimal totalPagar, double? lat,double? lon, string pin)
     {
         using var context = _context.CreateDbContext();
         var items = GetItemsCarrito(clienteId);
@@ -128,7 +128,8 @@ public class CarritoService
             Fecha = DateTime.Now,
             Total = total,
             Items = new List<ItemCarrito>(),
-            Adreess = adreess
+            Lon = lon,
+            Lat=lat
         };
 
         // 🔹 Asociar los items a la compra

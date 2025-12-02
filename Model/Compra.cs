@@ -10,11 +10,14 @@ public class Compra
     public DateTime Fecha { get; set; }
     public decimal Total { get; set; }
 
-    public string? Adreess { get; set; }
+    public double? Lon { get; set; }
+
+    public double? Lat { get; set; }
 
     public string? Check { get; set; }
     public List<ItemCarrito> Items { get; set; } = new();
 
     public int? DeliveryPersonId { get; set; }
     public DeliveryPerson? DeliveryPerson { get; set; }
+    public string Coordenadas => $"{Lat}, {Lon}";
 }

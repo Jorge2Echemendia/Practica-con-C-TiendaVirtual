@@ -43,7 +43,9 @@
             </MudItem>
 
             <MudItem xs="12" sm="12" md="6" Class="d-flex flex-column align-center">
-                <MudAvatar Size="Size.Large" Image="@usuario.Image" Class="mb-2" />
+                <MudAvatar Class="mb-2" Style="height:100px; width:30%; object-fit: contain; text-align: center;">
+                    <MudImage Src="@usuario.Image"></MudImage>
+                </MudAvatar />
                 <MudText Typo="Typo.subtitle1">Rol: @usuario.Rol</MudText>
                 <MudText Typo="Typo.subtitle2">Registrado: @usuario.FechaRegistro.ToShortDateString()</MudText>
             </MudItem>
@@ -92,7 +94,7 @@
                 <MudPaper Class="pa-2 my-2" Elevation="2">
                     <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
                     <MudText>Total: $@compra.Total</MudText>
-                    <MudTextField @bind-Value="compra.Adreess" Label="Dirección" />
+                    <MudTextField Value="@compra.Coordenadas" Label="Coordenadas" Disabled="true" />
                     <MudButton OnClick="@(() => GuardarDireccion(compra))" Color="Color.Primary" Size="Size.Small">Guardar dirección
                     </MudButton>
                 </MudPaper>
@@ -148,7 +150,7 @@
                 {
                     <MudPaper Class="pa-2 my-2" Elevation="2">
                         <MudText>Cliente: @entrega.Cliente.User.Username</MudText>
-                        <MudText>Dirección: @entrega.Adreess</MudText>
+                        <MudText>Coorddenadas de la Direccion:@entrega.Lat,@entrega.Lat</MudText>
                         <MudText>Fecha: @entrega.Fecha.ToShortDateString()</MudText>
                         <MudText>Total: $@entrega.Total</MudText>
                         <MudText>Estado: @entrega.Check</MudText>
@@ -159,7 +161,7 @@
                                 <MudButton OnClick="@(() => MarcarEntregaComoCompletada(entrega))" Color="Color.Success" Size="Size.Small">
                                     Marcar como entregada
                                 </MudButton>
-                                <MudButton OnClick="@(() => AbrirMapa(entrega.Adreess))" Color="Color.Info" Size="Size.Small">
+                                <MudButton OnClick="@(() => AbrirMapa(entrega.Lat,entrega.Lon))" Color="Color.Info" Size="Size.Small">
                                     Ver ruta en mapa
                                 </MudButton>
                             }
@@ -198,6 +200,7 @@
         using var db = DbFactory.CreateDbContext();
         usuario = await db.Users.Include(u => u.Cliente).ThenInclude(c => c.Tarjeta).FirstOrDefaultAsync(u => u.Username ==
         username);
+        //Console.WriteLine($"IMAGEN:{usuario.Image}");
         if (usuario != null)
         {
             notificaciones = await db.Set<Notificacion>()
@@ -322,30 +325,64 @@
 
     public async Task<(double lat, double lon)> ObtenerCoordenadasDesdeOSM(string direccion)
     {
-        var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(direccion)}&format=json";
-        using var client = new HttpClient();
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("TuAppBlazor/1.0 (jorge2echemendia@gmail.com)");
+        try
+        {
+             direccion = await ObtenerDireccionDesdeOSM(23.131780, -82.358487);
+            Console.WriteLine(direccion);
+            direccion = "Corrales 303, Corrales Habana Vieja La Habana, Cuba";
 
-        var response = await client.GetStringAsync(url);
-        var json = JsonDocument.Parse(response);
+            var url =
+            $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(direccion)}&format=json&addressdetails=1&limit=1";
+            Console.WriteLine($"url:{url}");
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("TuAppBlazor/1.0 (jorge2echemendia@gmail.com)");
 
-        if (json.RootElement.GetArrayLength() == 0)
-            throw new Exception("No se encontraron coordenadas para la dirección.");
+            var response = await client.GetStringAsync(url);
+            var json = JsonDocument.Parse(response);
 
-        var resultado = json.RootElement[0];
-        var lat = double.Parse(resultado.GetProperty("lat").GetString()!);
-        var lon = double.Parse(resultado.GetProperty("lon").GetString()!);
+            if (json.RootElement.GetArrayLength() == 0)
+                throw new Exception("No se encontraron coordenadas para la dirección.");
 
-        return (lat, lon);
+            var resultado = json.RootElement[0];
+            var lat = double.Parse(resultado.GetProperty("lat").GetString()!);
+            var lon = double.Parse(resultado.GetProperty("lon").GetString()!);
+            Console.WriteLine($"lat:{lat} y lon:{lon}");
+
+            return (23.130816, -82.359945);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"No se pudo localizar la lat y lot: {ex.Message}", Severity.Error);
+            return (0, 0);
+        }
     }
 
-    private async void AbrirMapa(string? direccion)
+    public async Task<string> ObtenerDireccionDesdeOSM(double lat, double lon)
     {
-        if (!string.IsNullOrWhiteSpace(direccion))
+        try
+        {
+            var url = $"https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={lon}&format=json&addressdetails=1";
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("TuAppBlazor/1.0 (jorge2echemendia@gmail.com)");
+
+            var response = await client.GetStringAsync(url);
+            var json = JsonDocument.Parse(response);
+
+            var address = json.RootElement.GetProperty("display_name").GetString();
+            return address ?? "Dirección no encontrada";
+        }
+        catch (Exception ex)
+        {
+            return $"Error: {ex.Message}";
+        }
+    }
+
+    private async void AbrirMapa(double? lat,double? lon)
+    {
+        if (lat is null && lon is null)
         {
             try
             {
-                var (lat, lon) = await ObtenerCoordenadasDesdeOSM(direccion);
                 var url = $"https://www.google.com/maps/search/?api=1&query={lat},{lon}";
                 NavigationManager.NavigateTo(url, true);
             }

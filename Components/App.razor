@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />  
+    <base href="/" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href=@Assets["_content/MudBlazor/MudBlazor.min.css"] rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
@@ -16,10 +16,90 @@
 <script src="js/utils.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 <script src="js/signalrStock.js"></script>
+
 <body>
     <Routes @rendermode="InteractiveServer" />
     <script src="_framework/blazor.web.js"></script>
     <script src=@Assets["_content/MudBlazor/MudBlazor.min.js"]></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY"></script>
+    <script>
+        let map;
+        let marker;
+
+        async function mostrarMapa(dotnetHelper) {
+            try {
+                console.log("Botón presionado: mostrando mapa...");
+                document.getElementById("map").style.display = "block";
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        try {
+                            console.log("Ubicación obtenida:", position);
+
+                            const userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+
+                            map = new google.maps.Map(document.getElementById("map"), {
+                                center: userLocation,
+                                zoom: 15,
+                            });
+
+                            marker = new google.maps.Marker({
+                                position: userLocation,
+                                map: map,
+                                draggable: true
+                            });
+
+                            dotnetHelper.invokeMethodAsync("SetCoordinates", userLocation.lat, userLocation.lng)
+                                .then(() => console.log("Coordenadas iniciales enviadas a Blazor"))
+                                .catch(err => console.error("Error enviando coordenadas iniciales:", err));
+
+                            // CLIC DEL CLIENTE EN EL MAPA
+                            map.addListener("click", (event) => {
+                                try {
+                                    marker.setPosition(event.latLng);
+                                    console.log("Cliente hizo clic en el mapa:", event.latLng.toString());
+
+                                    dotnetHelper.invokeMethodAsync("SetCoordinates", event.latLng.lat(), event.latLng.lng())
+                                        .then(() => console.log("Coordenadas de clic enviadas a Blazor"))
+                                        .catch(err => console.error("Error enviando coordenadas de clic:", err));
+                                } catch (err) {
+                                    console.error("Error en evento clic:", err);
+                                }
+                            });
+
+                            // ARRASTRE DEL MARCADOR
+                            marker.addListener("dragend", () => {
+                                try {
+                                    const pos = marker.getPosition();
+                                    console.log("Marcador arrastrado a:", pos.toString());
+
+                                    dotnetHelper.invokeMethodAsync("SetCoordinates", pos.lat(), pos.lng())
+                                        .then(() => console.log("Coordenadas de arrastre enviadas a Blazor"))
+                                        .catch(err => console.error("Error enviando coordenadas de arrastre:", err));
+                                } catch (err) {
+                                    console.error("Error en evento dragend:", err);
+                                }
+                            });
+
+                        } catch (err) {
+                            console.error("Error inicializando mapa:", err);
+                        }
+                    }, (error) => {
+                        console.error("Error obteniendo ubicación del cliente:", error);
+                        alert("No se pudo obtener la ubicación actual. Permita el acceso a la ubicación.");
+                    });
+                } else {
+                    console.error("Geolocalización no soportada en este navegador.");
+                    alert("La geolocalización no está soportada en este navegador.");
+                }
+            } catch (err) {
+                console.error("Error general en mostrarMapa:", err);
+            }
+        }
+    </script>
 </body>
 
 </html>

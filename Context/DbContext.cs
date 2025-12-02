@@ -100,6 +100,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Compra>()
    .Property(c => c.Total)
    .HasColumnType("decimal(18,2)");
+           modelBuilder.Entity<Compra>()
+   .Property(c => c.Lat)
+   .HasColumnType("decimal(18,2)");
+           modelBuilder.Entity<Compra>()
+   .Property(c => c.Lon)
+   .HasColumnType("decimal(18,2)");
         modelBuilder.Entity<ReciboCompra>()
    .Property(r => r.Total)
    .HasColumnType("decimal(18,2)");
