@@ -14,6 +14,7 @@ using TiendaVirtual.Model;
 using QuestPDF.Infrastructure;
 using TiendaVirtual;
 using Microsoft.AspNetCore.SignalR;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtConfig = builder.Configuration.GetSection("Jwt");
@@ -65,6 +66,11 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
+
+Env.Load();
+
+var apiKey = Environment.GetEnvironmentVariable("GOOGLE_MAPS_API_KEY");
+builder.Configuration["GoogleMaps:ApiKey"] = apiKey;
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

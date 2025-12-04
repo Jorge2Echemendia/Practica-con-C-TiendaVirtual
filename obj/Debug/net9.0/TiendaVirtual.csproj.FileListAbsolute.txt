@@ -146,8 +146,6 @@ C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\tzxjg6is5z-n8rndlt7dy.gz
-C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\0wz98yz2xy-ofbdodmtsc.gz
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\Blazored.LocalStorage.dll
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\LatoFont\Lato-Black.ttf
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\LatoFont\Lato-BlackItalic.ttf
@@ -205,3 +203,7 @@ C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\pwv8dcm0fa-7gmikbxck1.gz
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\TiendaVirtual.sourcelink.json
 C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\lxxzfw295k-hrngibr7bl.gz
+C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\DotNetEnv.dll
+C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\bin\Debug\net9.0\Sprache.dll
+C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\tzxjg6is5z-7c7lhmh1j6.gz
+C:\Users\Administrador.KMILA\Desktop\TiendaVirtual2\TiendaVirtual\obj\Debug\net9.0\compressed\0wz98yz2xy-f96y5mhlyw.gz

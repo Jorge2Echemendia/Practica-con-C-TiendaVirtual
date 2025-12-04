@@ -312,6 +312,7 @@
     }
     private async Task MarcarNotificacionComoLeida(Notificacion notificacion)
     {
+        try{
         using var db = DbFactory.CreateDbContext();
         var n = await db.Set<Notificacion>().FindAsync(notificacion.Id);
         if (n != null)
@@ -320,6 +321,9 @@
             await db.SaveChangesAsync();
             notificaciones.Remove(notificacion);
             Snackbar.Add("Notificación marcada como leída", Severity.Success);
+        }
+        }catch(Exception ex){       
+            Snackbar.Add($"No se pudo marcar la notificatión:{ex.Message}", Severity.Error);
         }
     }
 
@@ -377,17 +381,18 @@
         }
     }
 
-    private async void AbrirMapa(double? lat,double? lon)
+    private void AbrirMapa(double? lat,double? lon)
     {
-        if (lat is null && lon is null)
+         if (lat != null && lon != null)
         {
             try
             {
+                 Console.WriteLine("hola1");
                 var url = $"https://www.google.com/maps/search/?api=1&query={lat},{lon}";
                 NavigationManager.NavigateTo(url, true);
             }
             catch (Exception ex)
-            {
+            { Console.WriteLine("hola2");
                 Snackbar.Add($"No se pudo localizar la dirección: {ex.Message}", Severity.Error);
             }
         }

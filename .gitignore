@@ -24,6 +24,7 @@ node_modules/
 # Archivos sensibles
 .env
 appsettings*.json
+appsettings.Development.json
 
 # Archivos generados por Blazor
 *.g.cs
