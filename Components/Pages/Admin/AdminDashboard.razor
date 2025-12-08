@@ -36,7 +36,7 @@
             <RowTemplate>
                 <MudTd>@context.Username</MudTd>
                 <MudTd>@context.Email</MudTd>
-                <MudTd>@context.FechaRegistro.ToShortDateString()</MudTd>
+                <MudTd>@context.FechaRegistro.Value.ToShortDateString()</MudTd>
                 <MudTd>@context.Rol</MudTd>
             </RowTemplate>
         </MudTable>
@@ -54,7 +54,7 @@
             <RowTemplate>
                 <MudTd>@context.Cliente.User.Username</MudTd>
                 <MudTd>@context.Total.ToString("C")</MudTd>
-                <MudTd>@context.Fecha.ToShortDateString()</MudTd>
+                <MudTd>@context.Fecha.Value.ToShortDateString()</MudTd>
             </RowTemplate>
         </MudTable>
     </MudPaper>

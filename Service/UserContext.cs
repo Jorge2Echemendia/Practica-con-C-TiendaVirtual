@@ -37,25 +37,29 @@ public class UserContextService
 
     public async Task<bool> IsAdminAsync()
     {
-        var user = await GetUserAsync();
-
-        var role = user.FindFirst(ClaimTypes.Role)?.Value ?? user.FindFirst("role")?.Value
-        ?? user.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
-        return user.Identity?.IsAuthenticated == true && role == "Administrador";
-    }
-    public async Task<bool> IsReparAsync()
-    {
-        var user = await GetUserAsync();
-
-        var role = user.FindFirst(ClaimTypes.Role)?.Value ?? user.FindFirst("role")?.Value
-        ?? user.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
-        return user.Identity?.IsAuthenticated == true && role == "Repartidor";
+        return await CheckUserRoleAsync("Administrador");
     }
 
     public async Task<bool> IsAuthenticatedAsync()
     {
+        return await CheckUserRoleAsync("Cliente");
+    }
+
+    public async Task<bool> IsReparAsync()
+    {
+        return await CheckUserRoleAsync("Repartidor");
+    }
+
+    private async Task<bool> CheckUserRoleAsync(string adminRole)
+    {
         var user = await GetUserAsync();
-        return user.Identity?.IsAuthenticated == true;
+        if (!user.Identity.IsAuthenticated) return false;
+
+        string role = user.FindFirst(ClaimTypes.Role)?.Value ??
+                      user.FindFirst("role")?.Value ??
+                      user.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
+
+        return adminRole != null && role == adminRole;
     }
     public async Task<string?> GetUsernameAsync()
     {

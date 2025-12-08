@@ -13,11 +13,11 @@ public class AppDbContext : DbContext
     public DbSet<TarjetaFicticia> TarjetasFicticias { get; set; }
     public DbSet<ReciboCompra> ReciboCompra { get; set; }
     public DbSet<Compra> Compra { get; set; }
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     public DbSet<DeliveryPerson> DeliveryPersons { get; set; }
 
     public DbSet<Notificacion> Notificacion { get; set; }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -53,11 +53,11 @@ public class AppDbContext : DbContext
       .HasForeignKey(i => i.ClientId)
       .OnDelete(DeleteBehavior.Cascade);
 
-     modelBuilder.Entity<Notificacion>()
-    .HasOne(n => n.User)
-    .WithMany(u => u.Notificaciones)
-    .HasForeignKey(n => n.UserId)
-    .OnDelete(DeleteBehavior.SetNull);
+        modelBuilder.Entity<Notificacion>()
+       .HasOne(n => n.User)
+       .WithMany(u => u.Notificaciones)
+       .HasForeignKey(n => n.UserId)
+       .OnDelete(DeleteBehavior.SetNull);
 
         //  Relación 1:N entre Cliente y ReciboCompra
         modelBuilder.Entity<ReciboCompra>()
@@ -100,12 +100,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Compra>()
    .Property(c => c.Total)
    .HasColumnType("decimal(18,2)");
-           modelBuilder.Entity<Compra>()
-   .Property(c => c.Lat)
-   .HasColumnType("decimal(18,2)");
-           modelBuilder.Entity<Compra>()
-   .Property(c => c.Lon)
-   .HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Compra>()
+.Property(c => c.Lat)
+.HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Compra>()
+.Property(c => c.Lon)
+.HasColumnType("decimal(18,2)");
         modelBuilder.Entity<ReciboCompra>()
    .Property(r => r.Total)
    .HasColumnType("decimal(18,2)");
@@ -131,6 +131,12 @@ public class AppDbContext : DbContext
             .Property(r => r.Id)
             .ValueGeneratedOnAdd();
 
-
+        foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetProperties()))
+        {
+            if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+            {
+                property.SetColumnType("timestamp with time zone");
+            }
+        }
     }
 }

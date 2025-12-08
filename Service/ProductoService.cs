@@ -92,12 +92,13 @@ public class ProductoService
     public async Task EliminarPromocionesExpiradasAsync()
     {
         using var context = _context.CreateDbContext();
-        var cubaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Cuba Standard Time");
-        var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cubaTimeZone);
-        Console.WriteLine($"Hoy:{hoy}");
-
+        var ahora = DateTimeOffset.Now;
+        var utcAhora = ahora.ToUniversalTime();
+        
+        utcAhora = utcAhora.AddHours(ahora.Offset.TotalHours);
+        
         var productosExpirados = await context.Productos
-            .Where(p => p.EnPromocion == "Yes" && p.TiempoPromocion != null && p.TiempoPromocion < hoy)
+            .Where(p => p.EnPromocion == "Yes" && p.TiempoPromocion != null && p.TiempoPromocion < utcAhora)
             .ToListAsync();
 
         foreach (var producto in productosExpirados)

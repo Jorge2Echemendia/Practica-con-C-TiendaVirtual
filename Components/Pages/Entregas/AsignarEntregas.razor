@@ -23,7 +23,7 @@
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="pa-2 my-2" Elevation="2">
                 <MudText>Cliente: @compra.Cliente.User.Username</MudText>
-                <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
+                <MudText>Fecha: @compra.Fecha.Value.ToShortDateString()</MudText>
                 <MudText>Total: $@compra.Total</MudText>
 
                         <MudButton OnClick="@(() => AsignarCompraARepartidor(compra))" Color="Color.Primary" Size="Size.Small">
@@ -83,7 +83,7 @@
         using var db = DbFactory.CreateDbContext();
        
         db.Compra.Update(compra);
-        var mensaje = $"Tu compra del {compra.Fecha.ToShortDateString()} ha sido asignada al repartidor {deliveryPerson.User.Username}.";
+        var mensaje = $"Tu compra del {compra.Fecha.Value.ToShortDateString()} ha sido asignada al repartidor {deliveryPerson.User.Username}.";
     var notificacion = new Notificacion
     {
         UserId = compra.Cliente.User.Id,

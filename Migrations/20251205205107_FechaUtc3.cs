@@ -5,7 +5,7 @@
 namespace TiendaVirtual.Migrations
 {
     /// <inheritdoc />
-    public partial class AddActualizacion1 : Migration
+    public partial class FechaUtc3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

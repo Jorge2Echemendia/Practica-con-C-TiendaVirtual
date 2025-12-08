@@ -57,7 +57,7 @@ builder.Services.AddScoped<AdminDashboardService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddDbContextFactory<AppDbContext>(options =>
-    options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostSQL")
       ));
 
 

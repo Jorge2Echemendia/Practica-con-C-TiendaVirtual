@@ -11,6 +11,7 @@
 @inject ImagenService ImagenService
 @inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
+@using System
 
 
 <MudPaper Class="pa-4" Elevation="4">
@@ -47,7 +48,7 @@
                     <MudImage Src="@usuario.Image"></MudImage>
                 </MudAvatar />
                 <MudText Typo="Typo.subtitle1">Rol: @usuario.Rol</MudText>
-                <MudText Typo="Typo.subtitle2">Registrado: @usuario.FechaRegistro.ToShortDateString()</MudText>
+                <MudText Typo="Typo.subtitle2">Registrado: @usuario.FechaRegistro.Value.ToShortDateString()</MudText>
             </MudItem>
         </MudGrid>
     }
@@ -79,7 +80,7 @@
             @foreach (var n in notificaciones)
             {
                 <MudAlert Severity="Severity.Info" Elevation="1" Class="mb-2">
-                    @n.Mensaje (@n.Fecha.ToShortDateString())
+                    @n.Mensaje (@n.Fecha.Value.ToShortDateString())
                     <MudButton OnClick="@(() => MarcarNotificacionComoLeida(n))" Color="Color.Secondary" Size="Size.Small"
                         Class="ml-2">
                         Marcar como leída
@@ -92,7 +93,7 @@
             @foreach (var compra in compras)
             {
                 <MudPaper Class="pa-2 my-2" Elevation="2">
-                    <MudText>Fecha: @compra.Fecha.ToShortDateString()</MudText>
+                    <MudText>Fecha: @compra.Fecha.Value.ToShortDateString()</MudText>
                     <MudText>Total: $@compra.Total</MudText>
                     <MudTextField Value="@compra.Coordenadas" Label="Coordenadas" Disabled="true" />
                     <MudButton OnClick="@(() => GuardarDireccion(compra))" Color="Color.Primary" Size="Size.Small">Guardar dirección
@@ -151,7 +152,7 @@
                     <MudPaper Class="pa-2 my-2" Elevation="2">
                         <MudText>Cliente: @entrega.Cliente.User.Username</MudText>
                         <MudText>Coorddenadas de la Direccion:@entrega.Lat,@entrega.Lat</MudText>
-                        <MudText>Fecha: @entrega.Fecha.ToShortDateString()</MudText>
+                        <MudText>Fecha: @entrega.Fecha.Value.ToShortDateString()</MudText>
                         <MudText>Total: $@entrega.Total</MudText>
                         <MudText>Estado: @entrega.Check</MudText>
 
@@ -210,7 +211,7 @@
 
             foreach (var n in notificaciones)
             {
-                Snackbar.Add($"{n.Mensaje} ({n.Fecha.ToShortDateString()})", Severity.Info);
+                Snackbar.Add($"{n.Mensaje} ({n.Fecha.Value.ToShortDateString()})", Severity.Info);
             }
         }
 
@@ -307,7 +308,7 @@
         Snackbar.Add("Entrega marcada como completada", Severity.Success);
 
         // Notificar al cliente (solo si está en sesión actual)
-        var mensaje = $"Tu entrega del {entrega.Fecha.ToShortDateString()} ha sido completada.";
+        var mensaje = $"Tu entrega del {entrega.Fecha.Value.ToShortDateString()} ha sido completada.";
         Snackbar.Add(mensaje, Severity.Info);
     }
     private async Task MarcarNotificacionComoLeida(Notificacion notificacion)

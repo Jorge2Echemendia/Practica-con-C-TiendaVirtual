@@ -1,43 +1,43 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\favicon.ico",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
       "PackagePath": "staticwebassets\\img\\categorias\\aseo.jpg"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
       "PackagePath": "staticwebassets\\img\\categorias\\carne.png"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
       "PackagePath": "staticwebassets\\img\\categorias\\consolas.jpg"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
       "PackagePath": "staticwebassets\\img\\categorias\\electrodomesticos.jpg"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
       "PackagePath": "staticwebassets\\img\\categorias\\fruta.jpg"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
       "PackagePath": "staticwebassets\\img\\categorias\\vegetal.jpg"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\signalrStock.js",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\signalrStock.js",
       "PackagePath": "staticwebassets\\js\\signalrStock.js"
     },
     {
-      "Id": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\utils.js",
+      "Id": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\utils.js",
       "PackagePath": "staticwebassets\\js\\utils.js"
     },
     {

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+pKNrkDEyHeN7tUI+RK1pvGv9M2pgOwew1mmH0P1i4s=",
+  "Hash": "leosXc9iwD+yQxtevGb+S2t40kEFwPAkEOJ3DrykqWk=",
   "Source": "TiendaVirtual",
   "BasePath": "_content/TiendaVirtual",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "TiendaVirtual\\wwwroot",
       "Source": "TiendaVirtual",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
+      "Identity": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\",
+      "ContentRoot": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.css",
       "AssetKind": "All",
@@ -35,13 +35,13 @@
       "Integrity": "ZzHmYioOIMEX9F8thiw1Sc+cGGFHLtMWI4q4uvO13CQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css"
+      "OriginalItemSpec": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
+      "Identity": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\",
+      "ContentRoot": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.js",
       "AssetKind": "All",
@@ -56,13 +56,13 @@
       "Integrity": "zR6goaoMpR/YVMMSTfCmVNo3kuPgOkjF/ovhkUhAkbk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js"
+      "OriginalItemSpec": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\0wz98yz2xy-f96y5mhlyw.gz",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\0wz98yz2xy-f96y5mhlyw.gz",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.js.gz",
       "AssetKind": "All",
@@ -70,20 +70,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
+      "RelatedAsset": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "l40jzb1m5z",
       "Integrity": "m9nSNX0D4xTv+iEQj4IvVfEHG+66HB5Pq5xrg0RuAdw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js"
+      "OriginalItemSpec": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "css/site#[.{fingerprint=hrngibr7bl}]?.css.gz",
       "AssetKind": "All",
@@ -91,20 +91,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
+      "RelatedAsset": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "dj1fejumwv",
       "Integrity": "d/Aa/3DmSZ6Yo++gP6Rcm8QgEJ0VItbTqUg06HNnwgM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css"
+      "OriginalItemSpec": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "favicon#[.{fingerprint=2jeq8efc6q}]?.ico.gz",
       "AssetKind": "All",
@@ -112,20 +112,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\favicon.ico",
+      "RelatedAsset": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\favicon.ico",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "pkzf8os278",
       "Integrity": "2QmB0roWK84FU9Ju+PK0EsKm/9obifm2L/+HWs2VtiA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\favicon.ico"
+      "OriginalItemSpec": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "js/signalrStock#[.{fingerprint=7gmikbxck1}]?.js.gz",
       "AssetKind": "All",
@@ -133,20 +133,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\signalrStock.js",
+      "RelatedAsset": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\signalrStock.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "r36ers8d7k",
       "Integrity": "Z8EwQcnZgvYVr30GNFBneb6bTvPIPhyTqjbrOgvT5DQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\signalrStock.js"
+      "OriginalItemSpec": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\signalrStock.js"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "js/utils#[.{fingerprint=2z45ozov0r}]?.js.gz",
       "AssetKind": "All",
@@ -154,20 +154,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\utils.js",
+      "RelatedAsset": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\utils.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "lxqa09cphf",
       "Integrity": "2WrNFTj4XUQSiOVpoATkn2n12V+dOHvOc14+PXZzIQ4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\utils.js"
+      "OriginalItemSpec": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\utils.js"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\tzxjg6is5z-7c7lhmh1j6.gz",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\tzxjg6is5z-7c7lhmh1j6.gz",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.css.gz",
       "AssetKind": "All",
@@ -175,20 +175,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
+      "RelatedAsset": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "t448ycr2mi",
       "Integrity": "E/dBooiRyBeRUuBpMpZIjAS47x9v/lnLs9Jbq6E8adM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css"
+      "OriginalItemSpec": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\css\\site.css",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "css/site#[.{fingerprint}]?.css",
       "AssetKind": "All",
@@ -206,10 +206,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\favicon.ico",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\favicon.ico",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "favicon#[.{fingerprint}]?.ico",
       "AssetKind": "All",
@@ -227,10 +227,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "img/categorias/aseo#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -248,10 +248,10 @@
       "OriginalItemSpec": "wwwroot\\img\\categorias\\aseo.jpg"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "img/categorias/carne#[.{fingerprint}]?.png",
       "AssetKind": "All",
@@ -269,10 +269,10 @@
       "OriginalItemSpec": "wwwroot\\img\\categorias\\carne.png"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "img/categorias/consolas#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -290,10 +290,10 @@
       "OriginalItemSpec": "wwwroot\\img\\categorias\\consolas.jpg"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "img/categorias/electrodomesticos#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -311,10 +311,10 @@
       "OriginalItemSpec": "wwwroot\\img\\categorias\\electrodomesticos.jpg"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "img/categorias/fruta#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -332,10 +332,10 @@
       "OriginalItemSpec": "wwwroot\\img\\categorias\\fruta.jpg"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "img/categorias/vegetal#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -353,10 +353,10 @@
       "OriginalItemSpec": "wwwroot\\img\\categorias\\vegetal.jpg"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\signalrStock.js",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\signalrStock.js",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "js/signalrStock#[.{fingerprint}]?.js",
       "AssetKind": "All",
@@ -374,10 +374,10 @@
       "OriginalItemSpec": "wwwroot\\js\\signalrStock.js"
     },
     {
-      "Identity": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\utils.js",
+      "Identity": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\utils.js",
       "SourceId": "TiendaVirtual",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\",
       "BasePath": "_content/TiendaVirtual",
       "RelativePath": "js/utils#[.{fingerprint}]?.js",
       "AssetKind": "All",
@@ -398,7 +398,7 @@
   "Endpoints": [
     {
       "Route": "_content/MudBlazor/MudBlazor.min.7c7lhmh1j6.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
+      "AssetFile": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -439,7 +439,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
+      "AssetFile": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -472,7 +472,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\tzxjg6is5z-7c7lhmh1j6.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\tzxjg6is5z-7c7lhmh1j6.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -527,7 +527,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\tzxjg6is5z-7c7lhmh1j6.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\tzxjg6is5z-7c7lhmh1j6.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -572,7 +572,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.f96y5mhlyw.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
+      "AssetFile": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -613,7 +613,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
+      "AssetFile": "C:\\Users\\jorge\\.nuget\\packages\\mudblazor\\8.15.0\\staticwebassets\\MudBlazor.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -646,7 +646,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\0wz98yz2xy-f96y5mhlyw.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\0wz98yz2xy-f96y5mhlyw.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -701,7 +701,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\0wz98yz2xy-f96y5mhlyw.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\0wz98yz2xy-f96y5mhlyw.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -746,7 +746,7 @@
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -769,7 +769,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -801,7 +801,7 @@
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -822,7 +822,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -838,7 +838,7 @@
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -859,7 +859,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -883,7 +883,7 @@
     },
     {
       "Route": "css/site.hrngibr7bl.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -906,7 +906,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -946,7 +946,7 @@
     },
     {
       "Route": "css/site.hrngibr7bl.css",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\css\\site.css",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -967,7 +967,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -991,7 +991,7 @@
     },
     {
       "Route": "css/site.hrngibr7bl.css.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\lxxzfw295k-hrngibr7bl.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1012,7 +1012,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 03 Nov 2025 18:26:05 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1044,7 +1044,7 @@
     },
     {
       "Route": "favicon.2jeq8efc6q.ico",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -1067,7 +1067,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 01 Aug 2025 15:37:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1107,7 +1107,7 @@
     },
     {
       "Route": "favicon.2jeq8efc6q.ico",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\favicon.ico",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\favicon.ico",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1128,7 +1128,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 01 Aug 2025 15:37:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1152,7 +1152,7 @@
     },
     {
       "Route": "favicon.2jeq8efc6q.ico.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1173,7 +1173,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 01 Aug 2025 15:37:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1205,7 +1205,7 @@
     },
     {
       "Route": "favicon.ico",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -1228,7 +1228,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 01 Aug 2025 15:37:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1260,7 +1260,7 @@
     },
     {
       "Route": "favicon.ico",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\favicon.ico",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\favicon.ico",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1281,7 +1281,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 01 Aug 2025 15:37:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1297,7 +1297,7 @@
     },
     {
       "Route": "favicon.ico.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\njx5ojmo3w-2jeq8efc6q.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1318,7 +1318,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 01 Aug 2025 15:37:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1342,7 +1342,7 @@
     },
     {
       "Route": "img/categorias/aseo.a1fyqbzh8z.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1363,7 +1363,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:59:30 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1387,7 +1387,7 @@
     },
     {
       "Route": "img/categorias/aseo.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\aseo.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1408,7 +1408,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:59:30 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1424,7 +1424,7 @@
     },
     {
       "Route": "img/categorias/carne.png",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1445,7 +1445,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:55:26 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1461,7 +1461,7 @@
     },
     {
       "Route": "img/categorias/carne.zbmrg5gvmg.png",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\carne.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1482,7 +1482,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:55:26 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1506,7 +1506,7 @@
     },
     {
       "Route": "img/categorias/consolas.deze4c4yvg.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1527,7 +1527,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 18:18:39 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1551,7 +1551,7 @@
     },
     {
       "Route": "img/categorias/consolas.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\consolas.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1572,7 +1572,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 18:18:39 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1588,7 +1588,7 @@
     },
     {
       "Route": "img/categorias/electrodomesticos.5810use0qq.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1609,7 +1609,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:57:31 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1633,7 +1633,7 @@
     },
     {
       "Route": "img/categorias/electrodomesticos.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\electrodomesticos.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1654,7 +1654,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:57:31 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1670,7 +1670,7 @@
     },
     {
       "Route": "img/categorias/fruta.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1691,7 +1691,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:52:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1707,7 +1707,7 @@
     },
     {
       "Route": "img/categorias/fruta.u0wirluu4o.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\fruta.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1728,7 +1728,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:52:29 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1752,7 +1752,7 @@
     },
     {
       "Route": "img/categorias/vegetal.i2g20ycy6c.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1773,7 +1773,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:54:23 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1797,7 +1797,7 @@
     },
     {
       "Route": "img/categorias/vegetal.jpg",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\img\\categorias\\vegetal.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1818,7 +1818,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 05 Aug 2025 17:54:23 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1834,7 +1834,7 @@
     },
     {
       "Route": "js/signalrStock.7gmikbxck1.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -1857,7 +1857,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 17:13:54 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1897,7 +1897,7 @@
     },
     {
       "Route": "js/signalrStock.7gmikbxck1.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\signalrStock.js",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\signalrStock.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1918,7 +1918,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 17:13:54 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1942,7 +1942,7 @@
     },
     {
       "Route": "js/signalrStock.7gmikbxck1.js.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1963,7 +1963,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 17:13:54 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1995,7 +1995,7 @@
     },
     {
       "Route": "js/signalrStock.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -2018,7 +2018,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 17:13:54 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2050,7 +2050,7 @@
     },
     {
       "Route": "js/signalrStock.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\signalrStock.js",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\signalrStock.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2071,7 +2071,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 17:13:54 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2087,7 +2087,7 @@
     },
     {
       "Route": "js/signalrStock.js.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\pwv8dcm0fa-7gmikbxck1.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2108,7 +2108,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 17:13:54 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2132,7 +2132,7 @@
     },
     {
       "Route": "js/utils.2z45ozov0r.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -2155,7 +2155,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 14:57:12 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2195,7 +2195,7 @@
     },
     {
       "Route": "js/utils.2z45ozov0r.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\utils.js",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\utils.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2216,7 +2216,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 14:57:12 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2240,7 +2240,7 @@
     },
     {
       "Route": "js/utils.2z45ozov0r.js.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2261,7 +2261,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 14:57:12 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2293,7 +2293,7 @@
     },
     {
       "Route": "js/utils.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -2316,7 +2316,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 14:57:12 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2348,7 +2348,7 @@
     },
     {
       "Route": "js/utils.js",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\wwwroot\\js\\utils.js",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\wwwroot\\js\\utils.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2369,7 +2369,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 14:57:12 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2385,7 +2385,7 @@
     },
     {
       "Route": "js/utils.js.gz",
-      "AssetFile": "C:\\Users\\Administrador.KMILA\\Desktop\\TiendaVirtual2\\TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
+      "AssetFile": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\Debug\\net9.0\\compressed\\qjljbokb8d-2z45ozov0r.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2406,7 +2406,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Aug 2025 14:57:12 GMT"
+          "Value": "Fri, 05 Dec 2025 16:51:20 GMT"
         },
         {
           "Name": "Cache-Control",

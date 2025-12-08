@@ -75,7 +75,7 @@
             {
                         <MudPaper Class="mt-4 p-4">
                             <MudText Typo="Typo.h6">Recibo de Compra</MudText>
-                            <MudText>Fecha: @recibo.Fecha.ToString("g")</MudText>
+                            <MudText>Fecha: @recibo.Fecha.Value.ToShortDateString()</MudText>
                             <MudText>Total: $@recibo.Total</MudText>
                             <MudText>Código: @recibo.CodigoAutenticacion</MudText>
                             <MudDivider Class="my-2" />

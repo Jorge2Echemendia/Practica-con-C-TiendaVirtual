@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Oracle.EntityFrameworkCore.Metadata;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TiendaVirtual.Context;
 
 #nullable disable
@@ -12,38 +12,37 @@ using TiendaVirtual.Context;
 namespace TiendaVirtual.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251103155510_AddDelivery")]
-    partial class AddDelivery
+    [Migration("20251205194935_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("TiendaVirtual.Model.Cliente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("TarjetaFicticiaId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TarjetaFicticiaId")
-                        .IsUnique()
-                        .HasFilter("\"TarjetaFicticiaId\" IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -55,24 +54,27 @@ namespace TiendaVirtual.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Adreess")
-                        .HasColumnType("NVARCHAR2(2000)");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Check")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ClienteId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("DeliveryPersonId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double?>("Lat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double?>("Lon")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
@@ -90,18 +92,18 @@ namespace TiendaVirtual.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Estado")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Vehiculo")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -115,27 +117,27 @@ namespace TiendaVirtual.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Cantidad")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ClientId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<int>("CompraId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("PrecioUnitario")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductoId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("ReciboCompraId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -150,32 +152,59 @@ namespace TiendaVirtual.Migrations
                     b.ToTable("ItemsCarrito");
                 });
 
+            modelBuilder.Entity("TiendaVirtual.Model.Notificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Leido")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Mensaje")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notificacion");
+                });
+
             modelBuilder.Entity("TiendaVirtual.Model.Producto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CantidadProducto")
                         .HasPrecision(10, 2)
-                        .HasColumnType("NUMBER(10,2)");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Categoria")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("EnPromocion")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ImagenUrl")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<decimal?>("Precio")
                         .HasColumnType("decimal(18,2)");
@@ -184,7 +213,7 @@ namespace TiendaVirtual.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("TiempoPromocion")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -195,19 +224,19 @@ namespace TiendaVirtual.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClienteId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<string>("CodigoAutenticacion")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(450)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
@@ -226,20 +255,20 @@ namespace TiendaVirtual.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Numero")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Saldo")
                         .HasPrecision(10, 2)
-                        .HasColumnType("DECIMAL(10,2)");
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<string>("TarjPassword")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -250,31 +279,31 @@ namespace TiendaVirtual.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Image")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Rol")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -359,6 +388,17 @@ namespace TiendaVirtual.Migrations
                     b.Navigation("Producto");
                 });
 
+            modelBuilder.Entity("TiendaVirtual.Model.Notificacion", b =>
+                {
+                    b.HasOne("TiendaVirtual.Model.User", "User")
+                        .WithMany("Notificaciones")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TiendaVirtual.Model.ReciboCompra", b =>
                 {
                     b.HasOne("TiendaVirtual.Model.Cliente", "Cliente")
@@ -402,6 +442,8 @@ namespace TiendaVirtual.Migrations
             modelBuilder.Entity("TiendaVirtual.Model.User", b =>
                 {
                     b.Navigation("Cliente");
+
+                    b.Navigation("Notificaciones");
                 });
 #pragma warning restore 612, 618
         }
