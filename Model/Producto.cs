@@ -10,7 +10,8 @@ public class Producto
     public string? ImagenUrl { get; set; }
     public string? Descripcion { get; set; }
 
-    public string? Categoria { get; set; }
+    public int CategoriaId { get; set; }
+    public Categoria? Categoria { get; set; }
 
     public int? CantidadProducto { get; set; }
 

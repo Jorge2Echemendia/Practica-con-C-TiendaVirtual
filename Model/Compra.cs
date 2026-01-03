@@ -10,6 +10,8 @@ public class Compra
     public DateTime ? Fecha { get; set; }
     public decimal Total { get; set; }
 
+    public string ? Address { get; set; }
+
     public double? Lon { get; set; }
 
     public double? Lat { get; set; }

@@ -1,0 +1,352 @@
+@page "/categorias"
+@using TiendaVirtual.Model
+@using TiendaVirtual.Service
+@using MudBlazor
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
+@inject CategoriaService CategoriaService
+@inject ImagenService imagenService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<PageTitle>Gestionar Categorías</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h4" Class="mb-4">Gestión de Categorías</MudText>
+
+    <!-- Botón para crear nueva categoría -->
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4"
+               OnClick="AbrirDialogoNuevaCategoria">
+        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-2" />
+        Nueva Categoría
+    </MudButton>
+
+    <!-- Lista de categorías -->
+    @if (categorias.Any())
+    {
+        <MudTable Items="@categorias" Hover="true" Class="mt-4">
+            <HeaderContent>
+                <MudTh>Imagen</MudTh>
+                <MudTh>Nombre</MudTh>
+                <MudTh>Descripción</MudTh>
+                <MudTh>Productos</MudTh>
+                <MudTh>Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Imagen">
+                    @if (!string.IsNullOrEmpty(context.ImagenUrl))
+                    {
+                        <img src="@context.ImagenUrl"
+                             style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;" />
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Category" Size="Size.Large" />
+                    }
+                </MudTd>
+                <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+                <MudTd DataLabel="Descripción">
+                    @if (!string.IsNullOrEmpty(context.Descripcion))
+                    {
+                        <MudText Typo="Typo.body2">@context.Descripcion</MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Inherit">Sin descripción</MudText>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Productos">
+                    <MudChip T="Producto" Size="Size.Small" Color="Color.Primary">
+                        @(context.Productos?.Count ?? 0) productos
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Acciones">
+                    <MudButtonGroup>
+                        <MudButton Size="Size.Small" Color="Color.Primary"
+                                   OnClick="@(() => AbrirDialogoEditarCategoria(context))"
+                                   Title="Editar categoría">
+                            <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                        </MudButton>
+                        <MudButton Size="Size.Small" Color="Color.Error"
+                                   OnClick="@(() => ConfirmarEliminarCategoria(context))"
+                                   Title="Eliminar categoría">
+                            <MudIcon Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                        </MudButton>
+                    </MudButtonGroup>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+    else
+    {
+        <MudPaper Class="pa-8 text-center">
+            <MudText Typo="Typo.h6" Color="Color.Inherit">No hay categorías creadas</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Inherit" Class="mt-2">
+                Crea tu primera categoría para organizar los productos
+            </MudText>
+        </MudPaper>
+    }
+</MudContainer>
+
+<!-- Diálogo para crear/editar categoría -->
+<MudDialog @bind-Visible="mostrarDialogoCategoria" 
+           Title="@(categoriaEditando.Id == 0 ? "Nueva Categoría" : "Editar Categoría")">
+    <DialogContent>
+        <MudForm @ref="form" @bind-IsValid="formValido" @bind-Errors="errors">
+            <MudTextField Label="Nombre" @bind-Value="categoriaEditando.Nombre" Required="true" 
+                         For="@(() => categoriaEditando.Nombre)" />
+            <MudTextField Label="Descripción" @bind-Value="categoriaEditando.Descripcion" 
+                         Lines="3" For="@(() => categoriaEditando.Descripcion)" />
+
+            <!-- Upload de imagen -->
+            <div class="mb-4">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Imagen de categoría</MudText>
+                @if (!string.IsNullOrEmpty(categoriaEditando.ImagenUrl))
+                {
+                    <div class="mb-2">
+                        <img src="@categoriaEditando.ImagenUrl" 
+                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;" 
+                             class="mb-2" />
+                        <MudButton Size="Size.Small" Color="Color.Error" Variant="Variant.Text"
+                                   OnClick="@(() => EliminarImagen())">
+                            Eliminar imagen
+                        </MudButton>
+                    </div>
+                }
+                
+                <MudFileUpload T="IBrowserFile" OnFilesChanged="HandleFileSelected"
+                               Accept=".png,.jpg,.jpeg,.gif,.webp" MaxFileSize="5242880" 
+                               > <ActivatorContent>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                    Single File
+                </MudButton>
+            </ActivatorContent>
+            <SelectedTemplate>
+                @if (context != null)
+                {
+                    <MudText>@context.Name</MudText>
+                }
+                else
+                {
+                    <MudText>No File</MudText>
+                }
+            </SelectedTemplate>
+        </MudFileUpload>
+                <MudText Typo="Typo.caption">Máximo 5MB. Formatos: PNG, JPG, JPEG, GIF, WebP</MudText>
+            </div>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CerrarDialogoCategoria" Variant="Variant.Text">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" OnClick="GuardarCategoria" 
+                   Disabled="@(!formValido)" Variant="Variant.Filled">
+            @if (guardando)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                <span>Guardando...</span>
+            }
+            else
+            {
+                <span>Guardar</span>
+            }
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+<!-- Diálogo de confirmación para eliminar -->
+<MudDialog @bind-IsVisible="mostrarDialogoConfirmacion" Title="Confirmar eliminación">
+    <DialogContent>
+        ¿Estás seguro de que deseas eliminar la categoría "@categoriaAEliminar?.Nombre"?
+        @if (categoriaAEliminar?.Productos?.Any() == true)
+        {
+            <MudAlert Severity="Severity.Warning" Class="mt-2">
+                Esta categoría tiene @categoriaAEliminar.Productos.Count productos asociados.
+                Al eliminar la categoría, estos productos quedarán sin categoría asignada.
+            </MudAlert>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CancelarEliminacion" Variant="Variant.Text">Cancelar</MudButton>
+        <MudButton Color="Color.Error" OnClick="EliminarCategoria" Variant="Variant.Filled">
+            Eliminar
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private List<Categoria> categorias = new();
+    private Categoria categoriaEditando = new();
+    private Categoria? categoriaAEliminar = null;
+    private bool mostrarDialogoCategoria = false;
+    private bool mostrarDialogoConfirmacion = false;
+    private bool guardando = false;
+    private MudForm? form;
+    private bool formValido;
+    private string[] errors = Array.Empty<string>();
+    private IBrowserFile? imagenSeleccionada;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarCategorias();
+        isLoading = false;
+    }
+
+    private async Task CargarCategorias()
+    {
+        try
+        {
+            categorias = await CategoriaService.ObtenerTodasCategoriasAsync(true);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error al cargar categorías: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void AbrirDialogoNuevaCategoria()
+    {
+        categoriaEditando = new Categoria();
+        imagenSeleccionada = null;
+        mostrarDialogoCategoria = true;
+        StateHasChanged();
+    }
+
+    private void AbrirDialogoEditarCategoria(Categoria categoria)
+    {
+        categoriaEditando = new Categoria
+        {
+            Id = categoria.Id,
+            Nombre = categoria.Nombre,
+            Descripcion = categoria.Descripcion,
+            ImagenUrl = categoria.ImagenUrl,
+            Activo = categoria.Activo
+        };
+        imagenSeleccionada = null;
+        mostrarDialogoCategoria = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var archivo = e.File;
+            var stream = archivo.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB
+            var url = await imagenService.SubirImagenAsync(stream, archivo.Name);
+            categoriaEditando.ImagenUrl = url;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error durante la carga de imagen: {ex.Message}");
+        }
+    }
+
+    private void EliminarImagen()
+    {
+        categoriaEditando.ImagenUrl = null;
+        imagenSeleccionada = null;
+        StateHasChanged();
+    }
+
+    private async Task GuardarCategoria()
+    {
+        if (!formValido)
+        {
+            Snackbar.Add("Por favor, completa todos los campos requeridos", Severity.Warning);
+            return;
+        }
+
+        guardando = true;
+        StateHasChanged();
+
+        try
+        {
+
+            if (categoriaEditando.Id == 0)
+            {
+                await CategoriaService.CrearCategoriaAsync(categoriaEditando);
+                Snackbar.Add("Categoría creada exitosamente", Severity.Success);
+            }
+            else
+            {
+                await CategoriaService.ActualizarCategoriaAsync(categoriaEditando);
+                Snackbar.Add("Categoría actualizada exitosamente", Severity.Success);
+            }
+
+            await CargarCategorias();
+            CerrarDialogoCategoria();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            guardando = false;
+            StateHasChanged();
+        }
+    }
+
+    private void CerrarDialogoCategoria()
+    {
+        mostrarDialogoCategoria = false;
+        categoriaEditando = new Categoria();
+        imagenSeleccionada = null;
+        if (form != null)
+    {
+        // Limpiar errores
+        errors = Array.Empty<string>();
+        formValido = false;
+    }
+        StateHasChanged();
+    }
+
+    private void ConfirmarEliminarCategoria(Categoria categoria)
+    {
+        categoriaAEliminar = categoria;
+        mostrarDialogoConfirmacion = true;
+        StateHasChanged();
+    }
+
+    private void CancelarEliminacion()
+    {
+        mostrarDialogoConfirmacion = false;
+        categoriaAEliminar = null;
+        StateHasChanged();
+    }
+
+    private async Task EliminarCategoria()
+    {
+        if (categoriaAEliminar == null) return;
+
+        try
+        {
+            var eliminado = await CategoriaService.EliminarCategoriaAsync(categoriaAEliminar.Id);
+
+            if (eliminado)
+            {
+                Snackbar.Add("Categoría eliminada exitosamente", Severity.Success);
+                await CargarCategorias();
+            }
+            else
+            {
+                Snackbar.Add("No se pudo eliminar la categoría", Severity.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error al eliminar: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            CancelarEliminacion();
+        }
+    }
+
+    public void Dispose()
+    {
+        // Limpiar recursos si es necesario
+    }
+}

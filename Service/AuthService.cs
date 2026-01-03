@@ -36,8 +36,10 @@ public class AuthService
             Email = email,
             Password = HashPassword(password),
             Rol = rol,
-            FechaRegistro = DateTime.Now
+            FechaRegistro = DateTime.UtcNow
         };
+
+        Console.WriteLine($"FechaRegistro:{user.FechaRegistro.Value.ToShortDateString()}");
 
         context.Users.Add(user);
         await context.SaveChangesAsync();
@@ -100,7 +102,7 @@ public class AuthService
            issuer: _config["Jwt:Issuer"],
            audience: _config["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(2),
+            expires: DateTime.UtcNow.AddHours(2),
             signingCredentials: creds);
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

@@ -4,42 +4,68 @@
 @if (!_isLoading)
 {
     <MudNavMenu>
-        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-
-        <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Storage">Productos
+        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
+            Home
         </MudNavLink>
-        @if (isAuthenticatedAdmin)
+
+        <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Storage">
+            Productos
+        </MudNavLink>
+
+        @if (_menuState.isAdmin)
         {
-            <MudNavLink Href="/agregar-producto" Icon="@Icons.Material.Filled.AddBox">Agregar Producto</MudNavLink>
-            <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.StackedBarChart">Estadistica</MudNavLink>
-        }
-    @if (isAuthenticatedRepart)
-    {
-            <MudNavLink Href="/entregas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FireTruck">Entregas
+             <MudNavLink Href="/categorias" Icon="@Icons.Material.Filled.AddBox">
+               Gestionar categorias
             </MudNavLink>
-        }
-        @if (isAuthenticatedUser)
-        {
-            <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ShoppingCart">Carrito
+            <MudNavLink Href="/gestionar-producto" Icon="@Icons.Material.Filled.AddBox">
+                Agregar Producto
+            </MudNavLink>
+            <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.StackedBarChart">
+                Estadistica
             </MudNavLink>
         }
 
+        @if (_menuState.isRepartidor)
+        {
+            <MudNavLink Href="/entregas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FireTruck">
+                Entregas
+            </MudNavLink>
+        }
 
+        @if (_menuState.isClient)
+        {
+            <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ShoppingCart">
+                Carrito
+            </MudNavLink>
+        }
     </MudNavMenu>
 }
+
 @code {
-    private bool isAuthenticatedAdmin;
-    private bool isAuthenticatedRepart;
-    private bool isAuthenticatedUser;
+    private UserContextService.UserMenuState _menuState;
     private bool _isLoading = true;
+    private Action _userStateChangedHandler;
+
     protected override async Task OnInitializedAsync()
     {
-        isAuthenticatedAdmin = await UserContext.IsAdminAsync();
-        isAuthenticatedRepart = await UserContext.IsReparAsync();
-        isAuthenticatedUser = await UserContext.IsAuthenticatedAsync();
-
+        // Solo una llamada asíncrona en lugar de tres
+        _menuState = await UserContext.GetMenuStateAsync();
         _isLoading = false;
 
-        StateHasChanged();
+        _userStateChangedHandler = async () =>
+        {
+            _menuState = await UserContext.GetMenuStateAsync();
+            await InvokeAsync(StateHasChanged);
+        };
+
+        UserContext.OnUserStateChanged += _userStateChangedHandler;
+    }
+
+    public void Dispose()
+    {
+        if (_userStateChangedHandler != null)
+        {
+            UserContext.OnUserStateChanged -= _userStateChangedHandler;
+        }
     }
 }

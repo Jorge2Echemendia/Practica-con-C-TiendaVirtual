@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TiendaVirtual.Context;
@@ -11,9 +12,11 @@ using TiendaVirtual.Context;
 namespace TiendaVirtual.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251218194530_Address")]
+    partial class Address
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,37 +24,6 @@ namespace TiendaVirtual.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("TiendaVirtual.Model.Categoria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImagenUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categorias");
-                });
 
             modelBuilder.Entity("TiendaVirtual.Model.Cliente", b =>
                 {
@@ -222,8 +194,8 @@ namespace TiendaVirtual.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("integer");
 
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Categoria")
+                        .HasColumnType("text");
 
                     b.Property<string>("Descripcion")
                         .HasColumnType("text");
@@ -247,8 +219,6 @@ namespace TiendaVirtual.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Productos");
                 });
@@ -432,17 +402,6 @@ namespace TiendaVirtual.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TiendaVirtual.Model.Producto", b =>
-                {
-                    b.HasOne("TiendaVirtual.Model.Categoria", "Categoria")
-                        .WithMany("Productos")
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Categoria");
-                });
-
             modelBuilder.Entity("TiendaVirtual.Model.ReciboCompra", b =>
                 {
                     b.HasOne("TiendaVirtual.Model.Cliente", "Cliente")
@@ -452,11 +411,6 @@ namespace TiendaVirtual.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("TiendaVirtual.Model.Categoria", b =>
-                {
-                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("TiendaVirtual.Model.Cliente", b =>

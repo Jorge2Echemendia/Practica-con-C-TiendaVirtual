@@ -72,7 +72,7 @@
         await JS.InvokeVoidAsync("localStorage.removeItem", "authToken");
         if (AuthProvider is CustomAuthStateProvider customProvider)
         {
-            customProvider.NotifyUserLogout();
+            customProvider.NotifyUserLogoutAsync();
         }
         UserContext.NotifyStateChanged();
         Navigation.NavigateTo("/login", true);

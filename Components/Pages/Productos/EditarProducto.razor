@@ -1,7 +1,9 @@
 @page "/editar-producto/{id:int}"
 
 @using TiendaVirtual.Model
+@using TiendaVirtual.Service
 @inject ProductoService productoService
+@inject CategoriaService categoriaService
 @inject NavigationManager navigationManager
 @inject ISnackbar Snackbar
 
@@ -14,10 +16,10 @@
         <MudTextField @bind-Value="producto.Precio" Label="Precio" Required="true" />
         <MudTextField @bind-Value="producto.CantidadProducto" Label="Cantidad" Required="true" />
 
-        <MudSelect T="string" @bind-Value="producto.Categoria" Label="Categoría" Required="true">
+        <MudSelect T="int" @bind-Value="producto.CategoriaId" Label="Categoría" Required="true">
             @foreach (var cat in categorias)
             {
-                <MudSelectItem T="string" Value="@cat">@cat</MudSelectItem>
+                <MudSelectItem T="int" Value="@cat.Id">@cat.Nombre</MudSelectItem>
             }
         </MudSelect>
 
@@ -43,12 +45,13 @@
     [Parameter] public int id { get; set; }
     private Producto producto = new();
     private MudForm form;
-    private string[] categorias = ["Frutas", "Vegetales", "Carne", "Electrodomesticos",
-"Aseo","Consolas"];
     private string[] estadosPromocion = ["No", "Yes"];
+    private List<Categoria> categorias = new();
 
     protected override async Task OnInitializedAsync()
     {
+        categorias = await categoriaService.ObtenerTodasCategoriasAsync();
+
         producto = await productoService.ObtenerProductoPorIdAsync(id);
         if (producto == null)
         {

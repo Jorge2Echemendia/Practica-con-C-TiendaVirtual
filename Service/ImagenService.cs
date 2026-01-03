@@ -18,19 +18,27 @@ public class ImagenService
 
     public async Task<string> SubirImagenAsync(Stream archivoStream, string nombreArchivo)
     {
-        using var client = new HttpClient();
-        var byteArray = System.Text.Encoding.ASCII.GetBytes($"{_privateKey}:");
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+        try
+        {
+            using var client = new HttpClient();
+            var byteArray = System.Text.Encoding.ASCII.GetBytes($"{_privateKey}:");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-        var content = new MultipartFormDataContent();
-        content.Add(new StreamContent(archivoStream), "file", nombreArchivo);
-        content.Add(new StringContent(nombreArchivo), "fileName");
+            var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(archivoStream), "file", nombreArchivo);
+            content.Add(new StringContent(nombreArchivo), "fileName");
 
-        var response = await client.PostAsync(_uploadUrl, content);
-        response.EnsureSuccessStatusCode();
+            var response = await client.PostAsync(_uploadUrl, content);
+            response.EnsureSuccessStatusCode();
 
-        var json = await response.Content.ReadAsStringAsync();
-        var doc = JsonDocument.Parse(json);
-        return doc.RootElement.GetProperty("url").GetString();
+            var json = await response.Content.ReadAsStringAsync();
+            var doc = JsonDocument.Parse(json);
+            return doc.RootElement.GetProperty("url").GetString();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error en Subir Imagenes: {ex.Message}");
+            return null;
+        }
     }
 }

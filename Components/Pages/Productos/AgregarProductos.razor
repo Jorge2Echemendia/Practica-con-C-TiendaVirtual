@@ -1,101 +1,476 @@
-@page "/agregar-producto"
-@inject ProductoService productoService
-@inject ImagenService imagenService
+@page "/gestionar-producto"
 @using TiendaVirtual.Model
 @using TiendaVirtual.Service
 @using MudBlazor
+@using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Forms
+@inject ProductoService ProductoService
+@inject CategoriaService CategoriaService
+@inject ImagenService ImagenService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@implements IDisposable
 
-<PageTitle>Agregar Producto</PageTitle>
+<PageTitle>Gestionar Productos</PageTitle>
 
-<MudPaper Class="pa-4 mx-auto" Style="max-width: 400px" Elevation="4">
-    <MudText Typo="Typo.h4" Class="mb-4">Nuevo Producto</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h4" Class="mb-4">Gestión de Productos</MudText>
 
-    <MudForm @ref="form">
-        <MudTextField @bind-Value="nuevoProducto.Nombre" Label="Nombre" Required="true" />
-        <MudTextField @bind-Value="nuevoProducto.Descripcion" Label="Descripción" />
+    <!-- Botón para crear nuevo producto -->
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4"
+               OnClick="AbrirDialogoNuevoProducto">
+        <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-2" />
+        Nuevo Producto
+    </MudButton>
 
-        <MudFileUpload T="IBrowserFile" Class="py-4" OnFilesChanged="HandleFileSelected">
-            <ActivatorContent>
-                <MudButton Variant="Variant.Filled" Color="Color.Primary">
-                    Single File
-                </MudButton>
-            </ActivatorContent>
-            <SelectedTemplate>
-                @if (context != null)
+    <!-- Lista de productos -->
+    @if (productos.Any())
+    {
+        <MudTable Items="@productos" Hover="true" Class="mt-4">
+            <HeaderContent>
+                <MudTh>Imagen</MudTh>
+                <MudTh>Nombre</MudTh>
+                <MudTh>Descripción</MudTh>
+                <MudTh>Categoría</MudTh>
+                <MudTh>Precio</MudTh>
+                <MudTh>Stock</MudTh>
+                <MudTh>Promoción</MudTh>
+                <MudTh>Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Imagen">
+                    @if (!string.IsNullOrEmpty(context.ImagenUrl))
+                    {
+                        <img src="@context.ImagenUrl"
+                             style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;" />
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Image" Size="Size.Large" />
+                    }
+                </MudTd>
+                <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+                <MudTd DataLabel="Descripción">
+                    @if (!string.IsNullOrEmpty(context.Descripcion))
+                    {
+                        <MudText Typo="Typo.body2">@context.Descripcion</MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Inherit">Sin descripción</MudText>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Categoría">
+                    @if (context.Categoria != null)
+                    {
+                        <MudChip T="Producto" Size="Size.Small" Color="Color.Secondary">@context.Categoria.Nombre</MudChip>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Inherit">Sin categoría</MudText>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Precio">
+                    @if (context.EnPromocion == "Yes" && context.PrecioPromocional.HasValue)
+                    {
+                        <div>
+                            <MudText Typo="Typo.body2" Class="text-decoration-line-through">@context.Precio.ToString()</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Error">@context.PrecioPromocional.Value.ToString()</MudText>
+                        </div>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body1">@context.Precio.ToString()</MudText>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Stock">
+                    <MudChip T="Producto"Size="Size.Small" 
+                             Color="@(context.CantidadProducto > 0 ? Color.Success : Color.Warning)">
+                        @context.CantidadProducto unidades
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Promoción">
+                    @if (context.EnPromocion == "Yes")
+                    {
+                        <MudChip T="Producto" Size="Size.Small" Color="Color.Error">En promoción</MudChip>
+                        @if (context.TiempoPromocion.HasValue)
+                        {
+                            <MudText Typo="Typo.caption">
+                                Hasta: @context.TiempoPromocion.Value.ToString("dd/MM/yyyy HH:mm")
+                            </MudText>
+                        }
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Inherit">No</MudText>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Acciones">
+                    <MudButtonGroup>
+                        <MudButton Size="Size.Small" Color="Color.Primary"
+                                   OnClick="@(() => AbrirDialogoEditarProducto(context))"
+                                   Title="Editar producto">
+                            <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                        </MudButton>
+                        <MudButton Size="Size.Small" Color="Color.Error"
+                                   OnClick="@(() => ConfirmarEliminarProducto(context))"
+                                   Title="Eliminar producto">
+                            <MudIcon Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                        </MudButton>
+                    </MudButtonGroup>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+    else
+    {
+        <MudPaper Class="pa-8 text-center">
+            <MudText Typo="Typo.h6" Color="Color.Inherit">No hay productos creados</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Inherit" Class="mt-2">
+                Crea tu primer producto para comenzar a vender
+            </MudText>
+        </MudPaper>
+    }
+</MudContainer>
+
+<!-- Diálogo para crear/editar producto -->
+<MudDialog @bind-Visible="mostrarDialogoProducto" 
+           MaxWidth="MaxWidth.Medium"
+           Title="@(productoEditando.Id == 0 ? "Nuevo Producto" : "Editar Producto")">
+    <DialogContent>
+        <MudForm @ref="form" @bind-IsValid="formValido" @bind-Errors="errors">
+            <!-- Upload de imagen -->
+            <div class="mb-4">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Imagen del producto</MudText>
+                @if (!string.IsNullOrEmpty(productoEditando.ImagenUrl))
                 {
-                    <MudText>@context.Name</MudText>
+                    <div class="mb-2">
+                        <img src="@productoEditando.ImagenUrl" 
+                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;" 
+                             class="mb-2" />
+                        <MudButton Size="Size.Small" Color="Color.Error" Variant="Variant.Text"
+                                   OnClick="@(() => EliminarImagenProducto())">
+                            Eliminar imagen
+                        </MudButton>
+                    </div>
                 }
-                else
-                {
-                    <MudText>No File</MudText>
-                }
-            </SelectedTemplate>
-        </MudFileUpload>
-        <MudTextField @bind-Value="nuevoProducto.Precio" Label="Precio" />
-        <MudTextField @bind-Value="nuevoProducto.CantidadProducto" Label="Cantidad" />
+                
+                <MudFileUpload T="IBrowserFile" OnFilesChanged="HandleFileSelectedProducto"
+                               Accept=".png,.jpg,.jpeg,.gif,.webp" MaxFileSize="5242880">
+                    <ActivatorContent>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                            Subir Imagen
+                        </MudButton>
+                    </ActivatorContent>
+                    <SelectedTemplate>
+                        @if (context != null)
+                        {
+                            <MudText>@context.Name</MudText>
+                        }
+                        else
+                        {
+                            <MudText>Sin archivo</MudText>
+                        }
+                    </SelectedTemplate>
+                </MudFileUpload>
+                <MudText Typo="Typo.caption">Máximo 5MB. Formatos: PNG, JPG, JPEG, GIF, WebP</MudText>
+            </div>
 
-        <MudSelect T="string" @bind-Value="nuevoProducto.Categoria" Label="Categoria" Required="true">
-            @foreach (var state in _states)
+            <MudTextField Label="Nombre" @bind-Value="productoEditando.Nombre" Required="true" 
+                         For="@(() => productoEditando.Nombre)" />
+            <MudTextField Label="Descripción" @bind-Value="productoEditando.Descripcion" 
+                         Lines="3" For="@(() => productoEditando.Descripcion)" />
+            
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Precio" @bind-Value="productoEditando.Precio" Required="true" 
+                                 For="@(() => productoEditando.Precio)" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Cantidad en Stock" @bind-Value="productoEditando.CantidadProducto" 
+                                 Required="true" For="@(() => productoEditando.CantidadProducto)" />
+                </MudItem>
+            </MudGrid>
+
+            <MudSelect T="int" Label="Categoría" @bind-Value="productoEditando.CategoriaId" 
+                      Required="true" For="@(() => productoEditando.CategoriaId)">
+                @foreach (var cat in categorias)
+                {
+                    <MudSelectItem Value="@cat.Id">@cat.Nombre</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" Label="¿En promoción?" @bind-Value="productoEditando.EnPromocion" 
+                      For="@(() => productoEditando.EnPromocion)">
+                @foreach (var estado in estadosPromocion)
+                {
+                    <MudSelectItem Value="@estado">@estado</MudSelectItem>
+                }
+            </MudSelect>
+
+            @if (productoEditando.EnPromocion == "Yes")
             {
-                <MudSelectItem T="string" Value="@state">@state</MudSelectItem>
+                <MudGrid Class="mt-3">
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Precio Promocional" 
+                                     @bind-Value="productoEditando.PrecioPromocional" 
+                                     For="@(() => productoEditando.PrecioPromocional)" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Tiempo de la Promoción" 
+                                     @bind-Value="productoEditando.TiempoPromocion" 
+                                     InputType="InputType.DateTimeLocal"
+                                     For="@(() => productoEditando.TiempoPromocion)" />
+                    </MudItem>
+                </MudGrid>
             }
-        </MudSelect>
-        <MudSelect T="string" @bind-Value="nuevoProducto.EnPromocion" Label="Promocion" Placeholder="No">
-            @foreach (var esta in _estas)
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CerrarDialogoProducto" Variant="Variant.Text">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" OnClick="GuardarProducto" 
+                   Disabled="@(!formValido || guardando)" Variant="Variant.Filled">
+            @if (guardando)
             {
-                <MudSelectItem T="string" Value="@esta">@esta</MudSelectItem>
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                <span>Guardando...</span>
             }
-        </MudSelect>
-        @if (nuevoProducto.EnPromocion == "Yes")
-        {
-            <MudTextField @bind-Value="nuevoProducto.PrecioPromocional" Label="Precio Promoción" />
-            <MudTextField @bind-Value="nuevoProducto.TiempoPromocion" T="DateTime ?" Format="s"
-                Label="Tiempo de la Promocion" InputType="InputType.DateTimeLocal" Variant="Variant.Outlined"
-                Margin="Margin.Dense" />
-        }
-        <MudButton OnClick="GuardarProducto" Color="Color.Primary" Variant="Variant.Filled" Class="mt-4">
-            Guardar
+            else
+            {
+                <span>Guardar</span>
+            }
         </MudButton>
-    </MudForm>
-</MudPaper>
+    </DialogActions>
+</MudDialog>
+
+<!-- Diálogo de confirmación para eliminar -->
+<MudDialog @bind-Visible="mostrarDialogoConfirmacion" Title="Confirmar eliminación">
+    <DialogContent>
+        ¿Estás seguro de que deseas eliminar el producto "@productoAEliminar?.Nombre"?
+        @if (productoAEliminar?.CantidadProducto > 0)
+        {
+            <MudAlert Severity="Severity.Warning" Class="mt-2">
+                Este producto tiene @productoAEliminar.CantidadProducto unidades en stock.
+                Solo se pueden eliminar productos con stock cero.
+            </MudAlert>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CancelarEliminacion" Variant="Variant.Text">Cancelar</MudButton>
+        <MudButton Color="Color.Error" OnClick="EliminarProducto" 
+                   Disabled="@(productoAEliminar?.CantidadProducto > 0)"
+                   Variant="Variant.Filled">
+            Eliminar
+        </MudButton>
+    </DialogActions>
+</MudDialog>
 
 @code {
-    private Producto nuevoProducto = new();
-    private MudForm form;
-    private readonly string[] _states =
-    [
-    "Frutas", "Vegetales", "Carne", "Electrodomesticos",
-"Aseo","Consolas"
-    ];
+    private List<Producto> productos = new();
+    private List<Categoria> categorias = new();
+    private Producto productoEditando = new();
+    private Producto? productoAEliminar = null;
+    private bool mostrarDialogoProducto = false;
+    private bool mostrarDialogoConfirmacion = false;
+    private bool guardando = false;
+    private MudForm? form;
+    private bool formValido;
+    private string[] errors = Array.Empty<string>();
+    private string[] estadosPromocion = { "No", "Yes" };
 
-    private readonly string[] _estas =
-    [
-    "Yes","No"
-    ];
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarDatos();
+    }
 
-    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    private async Task CargarDatos()
+    {
+        try
+        {
+            productos = await ProductoService.ObtenerTodosProductosAsync();
+            categorias = await CategoriaService.ObtenerTodasCategoriasAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error al cargar datos: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void AbrirDialogoNuevoProducto()
+    {
+        productoEditando = new Producto
+        {
+            EnPromocion = "No"
+        };
+        mostrarDialogoProducto = true;
+        StateHasChanged();
+    }
+
+    private void AbrirDialogoEditarProducto(Producto producto)
+    {
+         if (producto == null)
+    {
+        // Podemos mostrar un mensaje de error o simplemente no hacer nada
+        Snackbar.Add("El producto seleccionado no existe", Severity.Error);
+        return;
+    }
+        productoEditando = new Producto
+        {
+            Id = producto.Id,
+            Nombre = producto.Nombre,
+            Descripcion = producto.Descripcion,
+            Precio = producto.Precio,
+            CantidadProducto = producto.CantidadProducto,
+            CategoriaId = producto.CategoriaId,
+            ImagenUrl = producto.ImagenUrl,
+            EnPromocion = producto.EnPromocion ?? "No",
+            PrecioPromocional = producto.PrecioPromocional,
+            TiempoPromocion = producto.TiempoPromocion
+        };
+
+        Console.WriteLine($"productoEditando={productoEditando.ImagenUrl.ToString()}");
+        mostrarDialogoProducto = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleFileSelectedProducto(InputFileChangeEventArgs e)
     {
         try
         {
             var archivo = e.File;
             var stream = archivo.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB
-            var url = await imagenService.SubirImagenAsync(stream, archivo.Name);
-            nuevoProducto.ImagenUrl = url;
+            var url = await ImagenService.SubirImagenAsync(stream, archivo.Name);
+            productoEditando.ImagenUrl = url;
+            StateHasChanged();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ Error durante la carga de imagen: {ex.Message}");
+            Snackbar.Add($"Error al subir imagen: {ex.Message}", Severity.Error);
         }
+    }
+
+    private void EliminarImagenProducto()
+    {
+        productoEditando.ImagenUrl = null;
+        StateHasChanged();
     }
 
     private async Task GuardarProducto()
     {
-        await form.Validate();
-        if (form.IsValid)
+        if (!formValido)
         {
-            await productoService.AgregarProductoAsync(nuevoProducto);
-            nuevoProducto = new(); // limpiar el formulario
+            Snackbar.Add("Por favor, completa todos los campos requeridos", Severity.Warning);
+            return;
         }
+
+        // Validaciones específicas para promoción
+        if (productoEditando.EnPromocion == "Yes")
+        {
+            if (!productoEditando.PrecioPromocional.HasValue || !productoEditando.TiempoPromocion.HasValue)
+            {
+                Snackbar.Add("Debes completar el precio promocional y la fecha de promoción", Severity.Warning);
+                return;
+            }
+
+            if (productoEditando.PrecioPromocional.Value >= productoEditando.Precio)
+            {
+                Snackbar.Add("El precio promocional debe ser menor que el precio normal", Severity.Warning);
+                return;
+            }
+        }
+        else
+        {
+            // Limpiar campos de promoción si no está en promoción
+            productoEditando.PrecioPromocional = null;
+            productoEditando.TiempoPromocion = null;
+        }
+
+        guardando = true;
+        StateHasChanged();
+
+        try
+        {
+            if (productoEditando.Id == 0)
+            {
+                await ProductoService.AgregarProductoAsync(productoEditando);
+                Snackbar.Add("Producto creado exitosamente", Severity.Success);
+            }
+            else
+            {
+                await ProductoService.ActualizarProductoAsync(productoEditando);
+                Snackbar.Add("Producto actualizado exitosamente", Severity.Success);
+            }
+
+            await CargarDatos();
+            CerrarDialogoProducto();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            guardando = false;
+            StateHasChanged();
+        }
+    }
+
+    private void CerrarDialogoProducto()
+    {
+        mostrarDialogoProducto = false;
+        productoEditando = new Producto();
+        if (form != null)
+        {
+            errors = Array.Empty<string>();
+            formValido = false;
+        }
+        StateHasChanged();
+    }
+
+    private void ConfirmarEliminarProducto(Producto producto)
+    {
+        productoAEliminar = producto;
+        mostrarDialogoConfirmacion = true;
+        StateHasChanged();
+    }
+
+    private void CancelarEliminacion()
+    {
+        mostrarDialogoConfirmacion = false;
+        productoAEliminar = null;
+        StateHasChanged();
+    }
+
+    private async Task EliminarProducto()
+    {
+        if (productoAEliminar == null) return;
+
+        try
+        {
+            var eliminado = await ProductoService.EliminarProductoAsync(productoAEliminar.Id);
+
+            if (eliminado)
+            {
+                Snackbar.Add("Producto eliminado exitosamente", Severity.Success);
+                await CargarDatos();
+            }
+            else
+            {
+                Snackbar.Add("No se pudo eliminar el producto. Asegúrate de que el stock sea cero.", Severity.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error al eliminar: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            CancelarEliminacion();
+        }
+    }
+
+    public void Dispose()
+    {
+        // Limpiar recursos si es necesario
     }
 }

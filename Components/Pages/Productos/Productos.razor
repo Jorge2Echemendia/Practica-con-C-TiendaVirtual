@@ -10,6 +10,8 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navigationManager
 
+@inject CategoriaService CategoriaService
+
 <PageTitle>Productos</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
@@ -22,11 +24,11 @@
 
     <!-- Barra de navegación de categorías -->
     <MudPaper Class="d-flex justify-center pa-4 mb-4" Elevation="1">
-        @foreach (var categoria in _states)
+        @foreach (var categoria in categorias)
         {
             <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mx-2"
                 OnClick="@(() => MostrarProductosPorCategoria(categoria))">
-                @categoria
+                @categoria.Nombre
             </MudButton>
         }
     </MudPaper>
@@ -34,15 +36,15 @@
     <!-- Carrusel de categorías -->
     <MudPaper Elevation="3" Class="pa-8 mb-8" Style="background-color:#958BDF2A;">
         <MudCarousel TData="object" Style="height:300px;" AutoCycle="true">
-            @foreach (var categoria in _states)
+            @foreach (var categoria in categorias)
             {
                 <MudCarouselItem>
                     <MudCard Class="mx-auto" Style="width:500px;">
-                        <MudCardMedia Image="@ObtenerImagenCategoria(categoria)" Style="height:180px;ma-8" />
+                        <MudCardMedia Image="@categoria.ImagenUrl" Style="height:180px;ma-8" />
                         <MudCardContent Class="d-flex justify-center">
                             <MudButton Variant="Variant.Filled" Color="Color.Primary"
                                 OnClick="@(() => MostrarProductosPorCategoria(categoria))">
-                                @categoria
+                                @categoria.Nombre
                             </MudButton>
                         </MudCardContent>
                     </MudCard>
@@ -122,36 +124,29 @@
                                 </MudCardContent>
 
                                 <MudCardActions Class="d-flex mud-width-full align-center mr-2">
-                                    @if (isAuthenticatedAdmin)
-                                    {
-                                        <MudButton Class="animated-button1 ml-4" Color="Color.Primary"
-                                            OnClick="@(() => navigationManager.NavigateTo($"/editar-producto/{producto.Id}"))">
-                                            Editar
-                                        </MudButton>
-                                    }
-                                    @if (isAuthenticatedRepart){}
+                                    @if (isAuthenticatedRepart) { }
                                     else
                                     {
                                         @if (producto.CantidadProducto > 0)
-                                    {
-                                        <MudButton OnClick="@(() => AgregarProductoAlCarrito(producto))"
-                                            Class="animated-button ml-4" Color="@(cantidad > 0 ? Color.Error : Color.Primary)">
-                                            <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" />
-                                            @(cantidad > 0 ? $"En Carrito({cantidad})" : "Agregar")
-                                        </MudButton>
-                                        <MudButton OnClick="@(() => EliminarProductoAlCarrito(producto))"
-                                            Class="animated-button ml-4" Color="@(cantidad >= 1 ? Color.Error : Color.Primary)">
-                                            <MudIcon Icon="@Icons.Material.Filled.RemoveShoppingCart" />
-                                            Quitar
-                                        </MudButton>
-                                    }
-                                    else
-                                    {
-                                        <MudText Typo="Typo.caption" Color="Color.Warning" Style="text-align: center;">
-                                            Este producto no posee más artículos disponibles ahora mismo.
-                                        </MudText>
+                                        {
+                                            <MudButton OnClick="@(() => AgregarProductoAlCarrito(producto))"
+                                                Class="animated-button ml-4" Color="@(cantidad > 0 ? Color.Error : Color.Primary)">
+                                                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" />
+                                                @(cantidad > 0 ? $"En Carrito({cantidad})" : "Agregar")
+                                            </MudButton>
+                                            <MudButton OnClick="@(() => EliminarProductoAlCarrito(producto))"
+                                                Class="animated-button ml-4" Color="@(cantidad >= 1 ? Color.Error : Color.Primary)">
+                                                <MudIcon Icon="@Icons.Material.Filled.RemoveShoppingCart" />
+                                                Quitar
+                                            </MudButton>
+                                        }
+                                        else
+                                        {
+                                            <MudText Typo="Typo.caption" Color="Color.Warning" Style="text-align: center;">
+                                                Este producto no posee más artículos disponibles ahora mismo.
+                                            </MudText>
 
-                                    }
+                                        }
 
                                         <MudSpacer />
                                     }
@@ -185,6 +180,8 @@
     private string busqueda = "";
 
     private int clienteId;
+
+    private List<Categoria> categorias = new();
     private DialogOptions dialogOptions = new()
     {
         BackdropClick = false,
@@ -195,7 +192,7 @@
 
     private bool _datosCargados = false;
     private bool isAuthenticatedAdmin = false;
-     private bool isAuthenticatedRepart = false;
+    private bool isAuthenticatedRepart = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -204,14 +201,17 @@
         {
             _datosCargados = true;
 
+            categorias = await CategoriaService.ObtenerTodasCategoriasAsync();
+
             // Obtener productos
             productos = await productoService.ObtenerProductosDisponiblesAsync();
 
-            isAuthenticatedAdmin = await UserContext.IsAdminAsync();
-            isAuthenticatedRepart = await UserContext.IsReparAsync();
-            if (await authState.IsAuthenticatedAsync() && !isAuthenticatedAdmin)
-            {if(!isAuthenticatedRepart){
-                Console.WriteLine("Aqui");
+            var userState = await UserContext.GetMenuStateAsync();
+
+            isAuthenticatedAdmin = userState.isAdmin;
+            isAuthenticatedRepart = userState.isRepartidor;
+            if (userState.isAuthenticated && !isAuthenticatedAdmin && !isAuthenticatedRepart)
+            {
                 int? idNullable = await UserContext.GetClienteIdAsync();
                 if (idNullable == null)
                 {
@@ -222,7 +222,7 @@
                 clienteId = idNullable.Value;
                 itemsCarrito = carritoService.GetItemsCarrito(clienteId)
                 .Where(i => i.ClientId == clienteId).ToList();
-                }
+
             }
 
 
@@ -248,10 +248,10 @@
         }
     }
 
-    private void MostrarProductosPorCategoria(string categoria)
+    private void MostrarProductosPorCategoria(Categoria categoria)
     {
-        categoriaSeleccionada = categoria;
-        productosFiltrados = productos.Where(p => p.Categoria == categoria).ToList();
+        categoriaSeleccionada = categoria.Nombre;
+        productosFiltrados = productos.Where(p => p.CategoriaId == categoria.Id).ToList();
         mostrarDialogo = true;
     }
 

@@ -15,6 +15,7 @@ using QuestPDF.Infrastructure;
 using TiendaVirtual;
 using Microsoft.AspNetCore.SignalR;
 using DotNetEnv;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtConfig = builder.Configuration.GetSection("Jwt");
@@ -54,11 +55,36 @@ builder.Services.AddScoped<ButtonViewService>();
 builder.Services.AddScoped<TarjetaService>();
 builder.Services.AddScoped<ReciboCompraDocument>();
 builder.Services.AddScoped<AdminDashboardService>();
+builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+string connectionString;
+
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    // Railway usa un formato de URL, se convierte al formato de Npgsql
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    connectionString = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = uri.Port,
+        Username = userInfo[0],
+        Password = userInfo[1],
+        Database = uri.LocalPath.TrimStart('/'),
+        SslMode = SslMode.Require,
+        TrustServerCertificate = true
+    }.ToString();
+}
+else
+{
+    // Para desarrollo local, usa la cadena de appsettings.json
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnectionPostSQL");
+}
+
 builder.Services.AddDbContextFactory<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostSQL")
-      ));
+    options.UseNpgsql(connectionString));
 
 
 // Add services to the container.
@@ -82,7 +108,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
 app.MapHub<StockHub>("/stockHub");
@@ -90,5 +116,11 @@ app.MapHub<StockHub>("/stockHub");
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate(); // Esto aplica las migraciones automáticamente
+}
 
 app.Run();

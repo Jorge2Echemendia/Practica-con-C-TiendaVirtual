@@ -16,10 +16,20 @@ public class ProductoService
         _hubContext = hubContext;
     }
 
+    public async Task<List<Producto>> ObtenerTodosProductosAsync()
+    {
+        using var context = _context.CreateDbContext();
+        return await context.Productos
+            .Include(p => p.Categoria)
+            .Where(p => p.CantidadProducto>0) // Solo productos activos
+            .ToListAsync();
+    }
+
     public async Task<List<Producto>> ObtenerProductosDisponiblesAsync()
     {
         using var context = _context.CreateDbContext();
         return await context.Productos
+            .Include(p => p.Categoria)
             .ToListAsync();
     }
     public async Task<bool> ReducirStockAsync(int productoId, int cantidadReducir)
@@ -35,6 +45,7 @@ public class ProductoService
         await _hubContext.Clients.All.SendAsync("ActualizarStock", producto.Id, producto.CantidadProducto);
         return true;
     }
+
     public async Task<bool> ValidarStockAsync(int productoId, int cantidadSolicitada)
     {
         using var context = _context.CreateDbContext();
@@ -46,6 +57,13 @@ public class ProductoService
     public async Task AgregarProductoAsync(Producto producto)
     {
         using var context = _context.CreateDbContext();
+        var categoria = await context.Categorias
+      .FirstOrDefaultAsync(c => c.Id == producto.CategoriaId && c.Activo);
+
+        if (categoria == null)
+        {
+            throw new InvalidOperationException($"La categoría con ID {producto.CategoriaId} no existe");
+        }
         context.Productos.Add(producto);
         await context.SaveChangesAsync();
     }
@@ -60,7 +78,9 @@ public class ProductoService
     public async Task<Producto> ObtenerProductoPorIdAsync(int id)
     {
         using var context = _context.CreateDbContext();
-        return await context.Productos.FindAsync(id);
+        return await context.Productos
+        .Include(p => p.Categoria)
+        .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task ActualizarProductoAsync(Producto producto)
@@ -89,14 +109,33 @@ public class ProductoService
         await context.SaveChangesAsync();
     }
 
+    public async Task<bool> EliminarProductoAsync(int id)
+    {
+        using var context = _context.CreateDbContext();
+
+        var productoDb = await context.Productos
+            .FirstOrDefaultAsync(c => c.Id == id && c.CantidadProducto == 0);
+
+        if (productoDb == null)
+        {
+            return false;
+        }
+
+        // Si no hay productos, eliminar físicamente
+        context.Productos.Remove(productoDb);
+        await context.SaveChangesAsync();
+
+        return true;
+    }
+
     public async Task EliminarPromocionesExpiradasAsync()
     {
         using var context = _context.CreateDbContext();
         var ahora = DateTimeOffset.Now;
         var utcAhora = ahora.ToUniversalTime();
-        
+
         utcAhora = utcAhora.AddHours(ahora.Offset.TotalHours);
-        
+
         var productosExpirados = await context.Productos
             .Where(p => p.EnPromocion == "Yes" && p.TiempoPromocion != null && p.TiempoPromocion < utcAhora)
             .ToListAsync();

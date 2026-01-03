@@ -45,15 +45,16 @@ public class AdminDashboardService
         using var db = _context.CreateDbContext();
         return await db.ItemsCarrito
             .Include(i => i.Producto)
-            .GroupBy(i => i.Producto.Categoria)
-            .Select(g => new ValueTuple<string, int>(g.Key ?? "Sin categoría", g.Sum(i => i.Cantidad)))
+            .ThenInclude(p => p.Categoria)
+            .GroupBy(i => i.Producto.Categoria != null ? i.Producto.Categoria.Nombre : "Sin categoría")
+            .Select(g => new ValueTuple<string, int>(g.Key, g.Sum(i => i.Cantidad)))
             .ToListAsync();
     }
 
     public async Task<List<Producto>> ObtenerPromocionesVigentesAsync()
     {
         using var db = _context.CreateDbContext();
-        var hoy = DateTime.Now;
+        var hoy = DateTime.UtcNow;
         return await db.Productos
             .Where(p => p.EnPromocion == "Yes" && p.TiempoPromocion > hoy)
             .ToListAsync();
@@ -68,7 +69,7 @@ public class AdminDashboardService
             .ToListAsync();
     }
 
-  public async Task<List<Compra>> ObtenerComprasRecientesAsync()
+    public async Task<List<Compra>> ObtenerComprasRecientesAsync()
     {
         // Devuelve los últimos 10 usuarios registrados
         using var db = _context.CreateDbContext();

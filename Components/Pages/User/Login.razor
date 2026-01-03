@@ -33,31 +33,61 @@
     private string passwordInput = string.Empty;
     private bool isRepart =false;
 
-private async Task HandleLogin()
-{
-    var token = await authService.LoginAsync(userInput, passwordInput);
-    if (!string.IsNullOrEmpty(token))
+ private async Task HandleLogin()
     {
-        await localStorage.SetItemAsync("authToken", token);
-
-        if (AuthProvider is CustomAuthStateProvider customProvider)
+        Console.WriteLine("Login: Iniciando proceso de login");
+        
+        var token = await authService.LoginAsync(userInput, passwordInput);
+        if (!string.IsNullOrEmpty(token))
         {
-            customProvider.NotifyUserAuthentication();
-        }
+            Console.WriteLine("Login: Token obtenido, guardando en localStorage");
+            
+            // Guardar token
+            await localStorage.SetItemAsync("authToken", token);
+            
+            // Asegurarnos de que se guardó
+            await Task.Delay(50);
+            
+            if (AuthProvider is CustomAuthStateProvider customProvider)
+            {
+                Console.WriteLine("Login: Notificando autenticación al CustomAuthStateProvider");
+                
+                // 1. Notificar al CustomAuthStateProvider
+                await customProvider.NotifyUserAuthenticationAsync();
+                
+                // Pequeña espera para asegurar propagación
+                await Task.Delay(100);
+            }
 
-        UserContext.NotifyStateChanged();
-        isRepart=await UserContext.IsReparAsync();
-        if(isRepart){
-            Navigation.NavigateTo("/entregas"); 
-        }else{
-             Navigation.NavigateTo("/productos");
+            // 2. Invalidar cache de UserContextService
+            Console.WriteLine("Login: Invalidando cache de UserContextService");
+            UserContext.InvalidateCache();
+            
+            // 3. Notificar cambio de estado
+            Console.WriteLine("Login: Notificando cambio de estado");
+            UserContext.NotifyStateChanged();
+            
+            // 4. Esperar un poco más para asegurar que todo se actualice
+            await Task.Delay(200);
+            
+            // 5. Verificar rol y redirigir
+            isRepart = await UserContext.IsReparAsync();
+            Console.WriteLine($"Login: ¿Es repartidor? {isRepart}");
+            
+            if (isRepart)
+            {
+                Navigation.NavigateTo("/entregas", true); // forceLoad: true
+            }
+            else
+            {
+                Navigation.NavigateTo("/productos", true); // forceLoad: true
+            }
+        }
+        else
+        {
+            Snackbar.Add("Credenciales incorrectas", Severity.Error);
         }
     }
-    else
-    {
-        Snackbar.Add("Credenciales incorrectas", Severity.Error);
-    }
-}
 
     private void IrARecuperarPassword()
     {

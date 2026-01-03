@@ -17,6 +17,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Notificacion> Notificacion { get; set; }
 
+    public DbSet<Categoria> Categorias { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,6 +85,12 @@ public class AppDbContext : DbContext
             .WithMany(dp => dp.Entregas)
             .HasForeignKey(c => c.DeliveryPersonId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<Producto>()
+        .HasOne(p => p.Categoria)
+        .WithMany(c => c.Productos)
+        .HasForeignKey(p => p.CategoriaId)
+        .OnDelete(DeleteBehavior.Restrict);
 
 
         modelBuilder.Entity<Producto>()
