@@ -13,9 +13,9 @@
 @inject CategoriaService CategoriaService
 
 <PageTitle>Productos</PageTitle>
-
+ <MudPaper Color="Color.Primary" Style="width:100%; min-height:100vh; padding: 0;"> 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
-    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6">Explora los Productos por Categoría</MudText>
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6 section-title" > <span>Explora los Productos por Categoría </span></MudText>
 
     <!-- Resumen del carrito -->
     <MudAlert Severity="Severity.Info" Variant="Variant.Filled" Class="mb-4">
@@ -124,7 +124,7 @@
                                 </MudCardContent>
 
                                 <MudCardActions Class="d-flex mud-width-full align-center mr-2">
-                                    @if (isAuthenticatedRepart) { }
+                                    @if (isAuthenticatedAdmin || isAuthenticatedAdmin) { }
                                     else
                                     {
                                         @if (producto.CantidadProducto > 0)
@@ -168,6 +168,7 @@
         </DialogContent>
     </MudDialog>
 </MudContainer>
+</MudPaper> 
 
 @code {
     private readonly string[] _states = ["Frutas", "Vegetales", "Carne", "Electrodomesticos", "Aseo", "Consolas"];

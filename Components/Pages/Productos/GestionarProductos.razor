@@ -14,7 +14,7 @@
 <PageTitle>Gestionar Productos</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
-    <MudText Typo="Typo.h4" Class="mb-4">Gestión de Productos</MudText>
+    <MudText Typo="Typo.h4" Class="mb-4 section-title"><span>Gestión de Productos</span></MudText>
 
     <!-- Botón para crear nuevo producto -->
     <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4"
@@ -328,7 +328,7 @@
             TiempoPromocion = producto.TiempoPromocion
         };
 
-        Console.WriteLine($"productoEditando={productoEditando.ImagenUrl.ToString()}");
+       
         mostrarDialogoProducto = true;
         StateHasChanged();
     }
@@ -357,6 +357,7 @@
 
     private async Task GuardarProducto()
     {
+
         if (!formValido)
         {
             Snackbar.Add("Por favor, completa todos los campos requeridos", Severity.Warning);

@@ -62,4 +62,142 @@
     width: 100%;
     height: 100vh; /* altura completa de la ventana */
     overflow-y: auto; /* permite desplazamiento si hay mucho contenido */
+}´
+
+.nav{
+    background-color: var(--mud-palette-secondary)!important;
+
 }
+/* Estilo para el enlace activo en el NavMenu */
+.active-nav-link {
+    background: linear-gradient(90deg, var(--mud-palette-primary) 0%, var(--mud-palette-primary-darken) 100%);
+    color: white !important;
+    border-radius: 8px;
+    margin: 4px 8px;
+}
+
+/* Efecto hover para los enlaces del menú */
+.mud-nav-link:hover {
+    background-color: var(--mud-palette-action-default-hover) !important;
+    border-radius: 8px;
+    margin: 4px 8px;
+}
+
+/* Ajustar el padding de los enlaces */
+.mud-nav-link {
+    padding: 8px 16px !important;
+    margin: 4px 8px;
+    border-radius: 8px;
+}
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%) !important;
+        color: white !important;
+    }
+    
+    /* Promo Section */
+    .promo-section {
+        background: var(--mud-palette-primary) !important;
+    }
+    
+    .promo-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        border: 2px solid var(--mud-palette-error-lighten) !important;
+    }
+    
+    .promo-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 10px 25px rgba(var(--mud-palette-error-rgb), 0.2) !important;
+    }
+    
+    /* Product Cards */
+    .product{
+    background-color: rgba(var(--mud-palette-primary), 0.2) !important;
+    }
+    .product-card {
+        transition: all 0.3s ease !important;
+        border: 2px solid transparent !important;
+       
+    }
+    
+    .product-card:hover {
+        transform: translateY(-8px) !important;
+        box-shadow: 0 15px 30px rgba(var(--mud-palette-primary-rgb), 0.15) !important;
+        border-color: var(--mud-palette-primary) !important;
+    }
+    
+    /* Section Titles */
+    .section-title {
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--mud-palette-primary), var(--mud-palette-secondary));
+        border-radius: 2px;
+    }
+    
+    .section-title span {
+        background: linear-gradient(90deg, var(--mud-palette-primary), var(--mud-palette-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Benefits Section */
+    .benefits-section {
+        background: var(--mud-palette-surface) !important;
+    }
+    
+    .benefit-card {
+        transition: transform 0.3s ease !important;
+    }
+    
+    .benefit-card:hover {
+        transform: translateY(-5px) !important;
+    }
+    
+    /* Testimonials Section */
+    .testimonials-section {
+        background: var(--mud-palette-surface) !important;
+    }
+    
+    .testimonial-card {
+        border-left: 4px solid var(--mud-palette-primary) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .testimonial-card:hover {
+        box-shadow: 0 8px 20px rgba(var(--mud-palette-primary-rgb), 0.1) !important;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--mud-palette-success) 0%, var(--mud-palette-info) 100%) !important;
+        color: white !important;
+    }
+    
+    /* Footer Section */
+    .footer-section {
+        background: var(--mud-palette-surface) !important;
+        color: var(--mud-palette-dark-text) !important;
+    }
+    
+    /* Badge Styles */
+    .mud-badge .mud-badge-standard {
+        box-shadow: 0 0 0 2px var(--mud-palette-surface);
+    }
+    
+    /* Button hover effects */
+    .mud-button-filled:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
+

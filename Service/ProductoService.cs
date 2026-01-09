@@ -103,6 +103,7 @@ public class ProductoService
         productoDb.EnPromocion = producto.EnPromocion;
         productoDb.PrecioPromocional = producto.PrecioPromocional;
         productoDb.TiempoPromocion = producto.TiempoPromocion;
+        productoDb.ImagenUrl = producto.ImagenUrl;
 
         Console.WriteLine($"Guardando: {productoDb.PrecioPromocional} - {productoDb.TiempoPromocion}");
 

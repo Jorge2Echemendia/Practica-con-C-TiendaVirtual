@@ -3,44 +3,314 @@
 @inject TarjetaService tarjetaService
 @inject ISnackbar Snackbar
 @inject UserContextService UserContext
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@inject ButtonViewService ButtonView
 
-<MudPaper Class="pa-4 mx-auto" Style="max-width: 400px;">
-    <MudText Typo="Typo.h5" Class="mb-2">Crear Tarjeta Virtual</MudText>
+<MudLayout>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Small" Class="my-8">
+            <!-- Tarjeta de creación -->
+            <MudPaper Elevation="25" Class="pa-8 rounded-xl">
+                <div class="text-center mb-6">
+                    <MudIcon Icon="@Icons.Material.Filled.CreditCard" Size="Size.Large" Color="Color.Primary" Class="mb-2" />
+                    <MudText Typo="Typo.h4" Class="mb-2" Color="Color.Primary">Crear Tarjeta Virtual</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Dark">
+                        Genera tu tarjeta virtual para realizar compras en nuestra tienda
+                    </MudText>
+                </div>
 
-    <MudTextField T="int" Label="Número de tarjeta" @bind-Value="numeroTarjeta" Required="true" />
-    <MudTextField T="string" Label="Contraseña" @bind-Value="passwordTarjeta" InputType="InputType.Password"
-        Required="true" />
+                <!-- Formulario -->
+                <MudForm @ref="form" ValidationDelay="800">
+                    <!-- Número de tarjeta -->
+                    <MudTextField 
+                        T="string" 
+                        Label="Número de tarjeta" 
+                        @bind-Value="numeroTarjeta" 
+                        Required="true"
+                        Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Numbers"
+                        Variant="Variant.Outlined"
+                        Class="mb-4"
+                        InputMask="#### #### #### ####"
+                        Clearable="true"
+                        HelperText="Ingresa 16 dígitos sin espacios"
+                        Validation="@ValidateCardNumber" />
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CrearTarjeta" Class="mt-4">
-        Crear Tarjeta
-    </MudButton>
-</MudPaper>
+                    <!-- Indicador visual del número de tarjeta -->
+                    @if (!string.IsNullOrEmpty(numeroTarjeta))
+                    {
+                        <MudPaper Class="pa-3 mb-4 text-center" Elevation="1" Style="background: #2c3e50;">
+                            <MudText Typo="Typo.h6" Color="Color.Primary" Class="monospace">
+                                @FormatCardNumber(numeroTarjeta)
+                            </MudText>
+                        </MudPaper>
+                    }
+
+                    <!-- Contraseña -->
+                    <MudTextField 
+                        T="string" 
+                        Label="Contraseña de la tarjeta" 
+                        @bind-Value="passwordTarjeta" 
+                        InputType="@ButtonView.InputType"
+                        Required="true"
+                        Adornment="Adornment.End"
+                        AdornmentIcon="@ButtonView.Icon"
+                         OnAdornmentClick="ButtonView.Toggle"
+                         AdornmentAriaLabel="Mostrar contraseña"
+                        Variant="Variant.Outlined"
+                        Class="mb-4"
+                        HelperText="Mínimo 4 caracteres para mayor seguridad"
+                        Validation="@ValidatePassword">
+                        <AdornmentEnd>
+                            <MudIconButton 
+                                Icon="@passwordIcon" 
+                                OnClick="@TogglePasswordVisibility" 
+                                Color="Color.Secondary" />
+                        </AdornmentEnd>
+                    </MudTextField>
+
+                    <!-- Recordatorio de seguridad -->
+                    <MudAlert Severity="Severity.Warning" Variant="Variant.Filled" Class="mb-4" Icon="@Icons.Material.Filled.Security">
+                        <MudAlertTitle>Importante</MudAlertTitle>
+                        <MudText Typo="Typo.body2">
+                            Guarda tu número de tarjeta y contraseña en un lugar seguro. 
+                            Serán necesarios para futuras compras.
+                        </MudText>
+                    </MudAlert>
+
+                    <!-- Botón de creación -->
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Primary" 
+                        OnClick="@(()=>CrearTarjeta(numeroTarjeta))" 
+                        FullWidth="true"
+                        Size="Size.Large"
+                        EndIcon="@Icons.Material.Filled.AddCard"
+                        Class="mb-4 mt-2 rounded-pill"
+                        Disabled="@(form.IsValid || isLoading)">
+                        @if (isLoading)
+                        {
+                            <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
+                        }
+                        Crear Tarjeta Virtual
+                    </MudButton>
+
+                    <!-- Información de beneficios -->
+                    <MudPaper Class="pa-3 mt-4" Elevation="0" Style="border-left: 4px solid var(--mud-palette-primary);">
+                        <div class="d-flex align-center mb-1">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Info" Size="Size.Small" Class="mr-2" />
+                            <MudText Typo="Typo.subtitle2" Color="Color.Primary">¿Para qué sirve?</MudText>
+                        </div>
+                        <MudList T="string" Dense="true">
+                            <MudListItem>
+                                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Small" Color="Color.Success" Class="mr-2" />
+                                <MudText Typo="Typo.body2">Compras seguras en línea</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Small" Color="Color.Success" Class="mr-2" />
+                                <MudText Typo="Typo.body2">Recarga automática de saldo</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Small" Color="Color.Success" Class="mr-2" />
+                                <MudText Typo="Typo.body2">Sin necesidad de tarjeta física</MudText>
+                            </MudListItem>
+                        </MudList>
+                    </MudPaper>
+                </MudForm>
+            </MudPaper>
+
+            <!-- Tarjeta de ejemplo -->
+            <MudPaper Class="pa-4 mt-6 text-center" Elevation="3">
+                <MudText Typo="Typo.h6" Class="mb-3" Color="Color.Primary">Tarjeta de ejemplo</MudText>
+                <div style="position: relative; width: 300px; height: 180px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 20px; color: white;">
+                    <div class="d-flex justify-space-between align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.CreditCard" Color="Color.Primary" />
+                        <MudText Typo="Typo.caption">VISA</MudText>
+                    </div>
+                    <div class="mt-4">
+                        <MudText Typo="Typo.h6" Class="monospace">**** **** **** 1234</MudText>
+                    </div>
+                    <div class="d-flex justify-space-between mt-4">
+                        <div>
+                            <MudText Typo="Typo.caption">TITULAR</MudText>
+                            <MudText Typo="Typo.body2">NOMBRE CLIENTE</MudText>
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.caption">VENCIMIENTO</MudText>
+                            <MudText Typo="Typo.body2">12/28</MudText>
+                        </div>
+                    </div>
+                </div>
+            </MudPaper>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
 @code {
-    private int numeroTarjeta;
-    private string passwordTarjeta = string.Empty;
+    private string numeroTarjeta = string.Empty;
+    private string passwordTarjeta = InputType.Password.ToString();
+    private bool isLoading = false;
+    private MudForm form;
+    private InputType passwordInputType = InputType.Password;
+    private string passwordIcon = Icons.Material.Filled.VisibilityOff;
 
-    private async Task CrearTarjeta()
+    private void TogglePasswordVisibility()
     {
+        if (passwordInputType == InputType.Password)
+        {
+            passwordInputType = InputType.Text;
+            passwordIcon = Icons.Material.Filled.Visibility;
+        }
+        else
+        {
+            passwordInputType = InputType.Password;
+            passwordIcon = Icons.Material.Filled.VisibilityOff;
+        }
+    }
+
+    private string FormatCardNumber(string cardNumber)
+    {
+        if (string.IsNullOrEmpty(cardNumber)) return "**** **** **** ****";
+        
+        // Eliminar caracteres no numéricos
+        var cleanNumber = new string(cardNumber.Where(char.IsDigit).ToArray());
+        
+        // Formatear como XXXX XXXX XXXX XXXX
+        if (cleanNumber.Length <= 16)
+        {
+            var formatted = string.Empty;
+            for (int i = 0; i < cleanNumber.Length; i++)
+            {
+                if (i > 0 && i % 4 == 0) formatted += " ";
+                formatted += cleanNumber[i];
+            }
+            
+            // Añadir asteriscos para los dígitos faltantes
+            while (formatted.Replace(" ", "").Length < 16)
+            {
+                formatted += "*";
+                if (formatted.Replace(" ", "").Length % 4 == 0 && formatted.Replace(" ", "").Length < 16)
+                    formatted += " ";
+            }
+            
+            return formatted;
+        }
+        
+        return cleanNumber.Substring(0, Math.Min(cleanNumber.Length, 16));
+    }
+
+    private IEnumerable<string> ValidateCardNumber(string cardNumber)
+    {
+        if (string.IsNullOrWhiteSpace(cardNumber))
+        {
+            yield return "El número de tarjeta es requerido";
+            yield break;
+        }
+
+        // Eliminar espacios y caracteres no numéricos
+        var cleanNumber = new string(cardNumber.Where(char.IsDigit).ToArray());
+
+        if (cleanNumber.Length != 16)
+        {
+            yield return "El número de tarjeta debe tener 16 dígitos";
+        }
+
+        if (!long.TryParse(cleanNumber, out _))
+        {
+            yield return "El número de tarjeta debe contener solo dígitos";
+        }
+    }
+
+    private IEnumerable<string> ValidatePassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            yield return "La contraseña es requerida";
+            yield break;
+        }
+
+        if (password.Length < 4)
+        {
+            yield return "La contraseña debe tener al menos 4 caracteres";
+        }
+
+        if (password.Length > 20)
+        {
+            yield return "La contraseña no debe exceder los 20 caracteres";
+        }
+    }
+
+    private async Task CrearTarjeta(string numeroTarjeta )
+    {
+        Console.WriteLine($"numeroTarjeta:{numeroTarjeta}");
+        // Validar manualmente los campos
+        if (string.IsNullOrWhiteSpace(numeroTarjeta))
+        {
+            Snackbar.Add("El número de tarjeta es requerido", Severity.Error);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(passwordTarjeta))
+        {
+            Snackbar.Add("La contraseña es requerida", Severity.Error);
+            return;
+        }
+
+        // Validar formato del número de tarjeta
+        var cleanCardNumber = new string(numeroTarjeta.Where(char.IsDigit).ToArray());
+        if (cleanCardNumber.Length != 16)
+        {
+            Snackbar.Add("El número de tarjeta debe tener 16 dígitos", Severity.Error);
+            return;
+        }
+
+        if (!long.TryParse(cleanCardNumber, out long cardNumberInt))
+        {
+            Snackbar.Add("Número de tarjeta inválido", Severity.Error);
+            return;
+        } 
+
+        // Validar longitud de la contraseña
+        if (passwordTarjeta.Length < 4 || passwordTarjeta.Length > 20)
+        {
+            Snackbar.Add("La contraseña debe tener entre 4 y 20 caracteres", Severity.Error);
+            return;
+        }
+
+        isLoading = true;
+        StateHasChanged();
+
         try
         {
             int? clienteIdNullable = await UserContext.GetClienteIdAsync();
 
             if (clienteIdNullable == null)
             {
-                // Manejo del error: el clienteId no está disponible
                 Snackbar.Add("No se pudo obtener el ID del cliente", Severity.Error);
                 return;
             }
 
-            // Accedemos al valor seguro
             int clienteId = clienteIdNullable.Value;
-            var tarjeta = await tarjetaService.CrearTarjetaVirtualAsync(clienteId, numeroTarjeta, passwordTarjeta);
-            Snackbar.Add($"Tarjeta creada con saldo: {tarjeta.Saldo:C}", Severity.Success);
+            var tarjeta = await tarjetaService.CrearTarjetaVirtualAsync(clienteId, cardNumberInt, passwordTarjeta);
+            
+            Snackbar.Add($"¡Tarjeta creada exitosamente! Saldo inicial: {tarjeta.Saldo:C}", Severity.Success);
+            
+            // Redirigir después de 2 segundos
+            await Task.Delay(2000);
+            Navigation.NavigateTo("/");
+        }
+        catch (ArgumentException ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Error al crear la tarjeta: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            isLoading = false;
         }
     }
 }

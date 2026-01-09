@@ -1,7 +1,7 @@
 @page "/login"
-@using TiendaVirtual.Service;
-@using TiendaVirtual.Provider;
-@using Blazored.LocalStorage;
+@using TiendaVirtual.Service
+@using TiendaVirtual.Provider
+@using Blazored.LocalStorage
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthService authService
 @inject NavigationManager Navigation
@@ -11,86 +11,156 @@
 @inject ButtonViewService ButtonView
 @inject AuthenticationStateProvider AuthProvider
 
-<MudPaper Class="pa-4 ma-4 mx-auto" Style="max-width: 400px;">
-    <MudText Typo="Typo.h5">Iniciar Sesión</MudText>
-    <MudTextField T="string" Label="Usuario o Correo" @bind-Value="userInput" Required="true" />
-    <MudTextField T="string" Label="Contraseña" @bind-Value="passwordInput" InputType="@ButtonView.InputType" Required="true"
-        Adornment="Adornment.End" AdornmentIcon="@ButtonView.Icon" OnAdornmentClick="ButtonView.Toggle"
-        AdornmentAriaLabel="Show Password" />
+<MudLayout>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Small" Class="my-8">
+            <!-- Tarjeta de login -->
+            <MudPaper Elevation="25" Class="pa-8 rounded-xl">
+                <div class="text-center mb-6">
+                    <MudIcon Icon="@Icons.Material.Filled.Lock" Size="Size.Large" Color="Color.Primary" Class="mb-2" />
+                    <MudText Typo="Typo.h4" Class="mb-2" Color="Color.Primary">Iniciar Sesión</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Ingresa tus credenciales para acceder</MudText>
+                </div>
 
-    <MudStack Spacing="8">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleLogin" Class=" mt-4 max-width:50%">
-            Entrar</MudButton>
-        <MudButton Variant="Variant.Text" Color="Color.Secondary" OnClick="IrARecuperarPassword" Class="ml-auto">
-            ¿Olvidaste tu
-            contraseña?
-        </MudButton>
-    </MudStack>
-</MudPaper>
+                <!-- Campos de formulario -->
+                <MudForm @ref="form" ValidationDelay="800">
+                    <MudTextField T="string" Label="Usuario o Correo" @bind-Value="userInput" Required="true"
+                        Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person"
+                        Variant="Variant.Outlined" Class="mb-4" />
+
+                    <MudTextField T="string" Label="Contraseña" @bind-Value="passwordInput"
+                        InputType="@ButtonView.InputType" Required="true" Adornment="Adornment.End"
+                        AdornmentIcon="@ButtonView.Icon" OnAdornmentClick="ButtonView.Toggle"
+                        AdornmentAriaLabel="Mostrar contraseña" Variant="Variant.Outlined" Class="mb-4">
+                    </MudTextField>
+
+                    <!-- Botón de login -->
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleLogin" FullWidth="true"
+                        Size="Size.Large" EndIcon="@Icons.Material.Filled.Login" Class="mb-4 mt-2 rounded-pill"
+                        Disabled="@(form.IsValid || isLoading)">
+                        @if (isLoading)
+                        {
+                            <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
+                        }
+                        Entrar
+                    </MudButton>
+
+                    <!-- Enlaces adicionales -->
+                    <div class="d-flex justify-space-between mt-4">
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            ¿No tienes cuenta?
+                            <MudLink Href="/register" Color="Color.Primary" Underline="Underline.Hover">
+                                Regístrate
+                            </MudLink>
+                        </MudText>
+
+                        <MudLink Href="/recuperar-password" Color="Color.Secondary" Underline="Underline.Hover"
+                            Typo="Typo.body2">
+                            <MudIcon Icon="@Icons.Material.Filled.LockReset" Size="Size.Small" Class="mr-1" />
+                            ¿Olvidaste tu contraseña?
+                        </MudLink>
+                    </div>
+                </MudForm>
+            </MudPaper>
+
+            <!-- Separador decorativo -->
+            <div class="text-center mt-8">
+                <MudDivider Class="mb-4">
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">O continúa con</MudText>
+                </MudDivider>
+
+                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Store"
+                    OnClick="@(() => Navigation.NavigateTo("/productos"))">
+                    Explorar como invitado
+                </MudButton>
+            </div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
 @code {
     private string userInput = string.Empty;
     private string passwordInput = string.Empty;
-    private bool isRepart =false;
+    private bool isRepart = false;
+    private bool isLoading = false;
+    private MudForm form;
 
- private async Task HandleLogin()
+    private async Task HandleLogin()
     {
-        Console.WriteLine("Login: Iniciando proceso de login");
-        
-        var token = await authService.LoginAsync(userInput, passwordInput);
-        if (!string.IsNullOrEmpty(token))
+        if (!form.IsValid)
         {
-            Console.WriteLine("Login: Token obtenido, guardando en localStorage");
-            
-            // Guardar token
-            await localStorage.SetItemAsync("authToken", token);
-            
-            // Asegurarnos de que se guardó
-            await Task.Delay(50);
-            
-            if (AuthProvider is CustomAuthStateProvider customProvider)
-            {
-                Console.WriteLine("Login: Notificando autenticación al CustomAuthStateProvider");
-                
-                // 1. Notificar al CustomAuthStateProvider
-                await customProvider.NotifyUserAuthenticationAsync();
-                
-                // Pequeña espera para asegurar propagación
-                await Task.Delay(100);
-            }
+            Snackbar.Add("Credenciales incorrectas", Severity.Error);
+            return;
+        }
 
-            // 2. Invalidar cache de UserContextService
-            Console.WriteLine("Login: Invalidando cache de UserContextService");
-            UserContext.InvalidateCache();
-            
-            // 3. Notificar cambio de estado
-            Console.WriteLine("Login: Notificando cambio de estado");
-            UserContext.NotifyStateChanged();
-            
-            // 4. Esperar un poco más para asegurar que todo se actualice
-            await Task.Delay(200);
-            
-            // 5. Verificar rol y redirigir
-            isRepart = await UserContext.IsReparAsync();
-            Console.WriteLine($"Login: ¿Es repartidor? {isRepart}");
-            
-            if (isRepart)
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            Console.WriteLine("Login: Iniciando proceso de login");
+
+            var token = await authService.LoginAsync(userInput, passwordInput);
+            if (!string.IsNullOrEmpty(token))
             {
-                Navigation.NavigateTo("/entregas", true); // forceLoad: true
+                Console.WriteLine("Login: Token obtenido, guardando en localStorage");
+
+                // Guardar token
+                await localStorage.SetItemAsync("authToken", token);
+
+                // Asegurarnos de que se guardó
+                await Task.Delay(50);
+
+                if (AuthProvider is CustomAuthStateProvider customProvider)
+                {
+                    Console.WriteLine("Login: Notificando autenticación al CustomAuthStateProvider");
+
+                    // 1. Notificar al CustomAuthStateProvider
+                    await customProvider.NotifyUserAuthenticationAsync();
+
+                    // Pequeña espera para asegurar propagación
+                    await Task.Delay(100);
+                }
+
+                // 2. Invalidar cache de UserContextService
+                Console.WriteLine("Login: Invalidando cache de UserContextService");
+                UserContext.InvalidateCache();
+
+                // 3. Notificar cambio de estado
+                Console.WriteLine("Login: Notificando cambio de estado");
+                UserContext.NotifyStateChanged();
+
+                // 4. Esperar un poco más para asegurar que todo se actualice
+                await Task.Delay(200);
+
+                // 5. Verificar rol y redirigir
+                isRepart = await UserContext.IsReparAsync();
+                Console.WriteLine($"Login: ¿Es repartidor? {isRepart}");
+
+                if (isRepart)
+                {
+                    Navigation.NavigateTo("/entregas", true);
+                }
+                else
+                {
+                    Snackbar.Add("¡Bienvenido!", Severity.Success);
+                    Navigation.NavigateTo("/productos", true);
+                }
             }
             else
             {
-                Navigation.NavigateTo("/productos", true); // forceLoad: true
+                Snackbar.Add("Credenciales incorrectas", Severity.Error);
             }
         }
-        else
+        catch (Exception ex)
         {
-            Snackbar.Add("Credenciales incorrectas", Severity.Error);
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
         }
-    }
+        finally
+        {
+            isLoading = false;
+        }
 
-    private void IrARecuperarPassword()
-    {
-        Navigation.NavigateTo("/recuperar-password");
+        StateHasChanged();
     }
 }

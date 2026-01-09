@@ -13,7 +13,7 @@ public class TarjetaService
     {
         _context = context;
     }
-    public async Task<TarjetaFicticia> CrearTarjetaVirtualAsync(int clienteId, int number, string password)
+    public async Task<TarjetaFicticia> CrearTarjetaVirtualAsync(int clienteId, long number, string password)
     {
         using var context = _context.CreateDbContext();
         var cliente = await context.Clientes.FindAsync(clienteId);

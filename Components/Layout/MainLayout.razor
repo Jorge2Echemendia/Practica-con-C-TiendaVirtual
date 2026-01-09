@@ -17,39 +17,40 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
-    <MudAppBar Elevation="1">
+    <MudAppBar Elevation="3" Color="Color.Primary">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
             OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Menu</MudText>
+        <MudText Typo="Typo.h5" Class="ml-3"Color ="Color.Inherit">Menu</MudText>
         <MudSpacer />
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
         <MudMenu>
             <ActivatorContent>
-             <MudChip T="string"Icon="@Icons.Material.Filled.Person" Color="Color.Inherit">@username</MudChip>
+                <MudChip T="string" Icon="@Icons.Material.Filled.Person" Color="Color.Secondary" Variant="Variant.Filled" Class="ml-2">
+                    @username
+                </MudChip>
             </ActivatorContent>
-             <ChildContent>
-            @if (isAuthenticated)
-            {
-                <MudMenuItem OnClick="@NavigateToProfile" Icon="@Icons.Material.Filled.AccountCircle">Perfil</MudMenuItem>
-                <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp">Cerrar sesión</MudMenuItem>
-            }
-            else
-            {
-                <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
-                <MudNavLink Href="/register" Icon="@Icons.Material.Filled.PersonAdd">Registro</MudNavLink>
-            }
+            <ChildContent>
+                @if (isAuthenticated)
+                {
+                    <MudMenuItem OnClick="@NavigateToProfile" Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Primary">Perfil</MudMenuItem>
+                    <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error">Cerrar sesión</MudMenuItem>
+                }
+                else
+                {
+                    <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login" Color="Color.Primary">Login</MudNavLink>
+                    <MudNavLink Href="/register" Icon="@Icons.Material.Filled.PersonAdd" Color="Color.Primary">Registro</MudNavLink>
+                }
             </ChildContent>
         </MudMenu>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
-    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Color="Color.Surface">
         <NavMenu />
     </MudDrawer>
     <MudMainContent Class="pt-16 pa-4">
         @Body
     </MudMainContent>
 </MudLayout>
-
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -80,7 +81,6 @@
 
     [Inject] IJSRuntime JS { get; set; }
 
-
     protected override async Task OnInitializedAsync()
     {
         _theme = new()
@@ -106,7 +106,6 @@
                 StateHasChanged();
             };
             StateHasChanged();
-
         }
     }
 
@@ -128,6 +127,8 @@
         DrawerBackground = "#ffffff",
         GrayLight = "#e8e8e8",
         GrayLighter = "#f9f9f9",
+        Primary = "#594ae2",
+        Secondary = "#ff4081",
     };
 
     private readonly PaletteDark _darkPalette = new()
@@ -157,6 +158,7 @@
         TableLines = "#33323e",
         Divider = "#292838",
         OverlayLight = "#1e1e2d80",
+        Secondary = "#ff4081",
     };
 
     public string DarkLightModeButtonIcon => _isDarkMode switch

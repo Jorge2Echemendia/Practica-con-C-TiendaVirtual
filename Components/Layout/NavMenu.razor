@@ -3,41 +3,94 @@
 
 @if (!_isLoading)
 {
-    <MudNavMenu>
-        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
-            Home
+    <MudNavMenu Class="nav">
+        <!-- Home con destaque especial -->
+        <MudNavLink Href="" Match="NavLinkMatch.All" 
+                    Icon="@Icons.Material.Filled.Home"
+                    IconColor="Color.Primary"
+                    Color="Color.Primary"
+                    ActiveClass="active-nav-link">
+            Inicio
         </MudNavLink>
 
-        <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Storage">
+        <!-- Productos -->
+        <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" 
+                    Icon="@Icons.Material.Filled.Storage"
+                    IconColor="Color.Secondary"
+                    Color="Color.Secondary">
             Productos
         </MudNavLink>
 
+        <!-- Sección para Administradores -->
         @if (_menuState.isAdmin)
         {
-             <MudNavLink Href="/categorias" Icon="@Icons.Material.Filled.AddBox">
-               Gestionar categorias
+            <MudDivider Class="my-3" />
+            <MudText Typo="Typo.overline" Color="Color.Primary" Class="px-4 mt-2 mb-1" Style="font-weight:bold;">
+                <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Small" Class="mr-2" />
+                Administración
+            </MudText>
+            
+            <MudNavLink Href="/categorias" 
+                        Icon="@Icons.Material.Filled.Category"
+                        IconColor="Color.Info"
+                        Color="Color.Info">
+                Gestionar Categorías
             </MudNavLink>
-            <MudNavLink Href="/gestionar-producto" Icon="@Icons.Material.Filled.AddBox">
+            
+            <MudNavLink Href="/gestionar-producto" 
+                        Icon="@Icons.Material.Filled.AddBusiness"
+                        IconColor="Color.Success"
+                        Color="Color.Success">
                 Agregar Producto
             </MudNavLink>
-            <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.StackedBarChart">
-                Estadistica
+            
+            <MudNavLink Href="/admin/dashboard" 
+                        Icon="@Icons.Material.Filled.BarChart"
+                        IconColor="Color.Warning"
+                        Color="Color.Warning">
+                Estadísticas
             </MudNavLink>
         }
 
+        <!-- Sección para Repartidores -->
         @if (_menuState.isRepartidor)
         {
-            <MudNavLink Href="/entregas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FireTruck">
-                Entregas
+            <MudDivider Class="my-3" />
+            <MudText Typo="Typo.overline" Color="Color.Error" Class="px-4 mt-2 mb-1" Style="font-weight:bold;">
+                <MudIcon Icon="@Icons.Material.Filled.LocalShipping" Size="Size.Small" Class="mr-2" />
+                Repartidor
+            </MudText>
+            
+            <MudNavLink Href="/entregas" Match="NavLinkMatch.Prefix" 
+                        Icon="@Icons.Material.Filled.LocalShipping"
+                        IconColor="Color.Error"
+                        Color="Color.Error">
+                Mis Entregas
             </MudNavLink>
         }
 
+        <!-- Sección para Clientes -->
         @if (_menuState.isClient)
         {
-            <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ShoppingCart">
-                Carrito
+            <MudDivider Class="my-3" />
+            <MudText Typo="Typo.overline" Color="Color.Success" Class="px-4 mt-2 mb-1" Style="font-weight:bold;">
+                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Size="Size.Small" Class="mr-2" />
+                Mi Cuenta
+            </MudText>
+            
+            <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" 
+                        Icon="@Icons.Material.Filled.ShoppingCart"
+                        IconColor="Color.Success"
+                        Color="Color.Success">
+                <MudBadge Color="Color.Error" BadgeContent="@(_cartItemCount > 0 ? _cartItemCount.ToString() : null)"
+                         Vertical="MudBadgeVertical.Top" Horizontal="MudBadgeHorizontal.Left" Class="ml-2">
+                    Carrito de Compras
+                </MudBadge>
             </MudNavLink>
         }
+
+        <!-- Separador final -->
+        <MudDivider Class="my-4" />
     </MudNavMenu>
 }
 
@@ -45,10 +98,10 @@
     private UserContextService.UserMenuState _menuState;
     private bool _isLoading = true;
     private Action _userStateChangedHandler;
+    private int _cartItemCount = 3; // Ejemplo: Obtener de tu servicio de carrito
 
     protected override async Task OnInitializedAsync()
     {
-        // Solo una llamada asíncrona en lugar de tres
         _menuState = await UserContext.GetMenuStateAsync();
         _isLoading = false;
 

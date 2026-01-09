@@ -2,142 +2,331 @@
 @using TiendaVirtual.Model
 @using TiendaVirtual.Service
 @inject NavigationManager NavigationManager
-
 @inject AuthStateService authState
 @inject ProductoService productoService
+
 <PageTitle>Tienda Virtual</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
 
+    <!-- Sección Hero con gradiente -->
+    <MudPaper Elevation="8" Class="pa-6 mb-8 hero-section" Style="border-radius: 20px;">
+        <MudGrid Spacing="3" AlignItems="AlignItems.Center">
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.h3" Class="mb-3" Style="color: white;">
+                    🎉 Bienvenido a <span style="color: #FFD700;">TiendaVirtual</span>
+                </MudText>
+                <MudText Typo="Typo.h6" Class="mb-4" Style="color: rgba(255,255,255,0.9);">
+                    Descubre productos increíbles con las mejores ofertas del mercado
+                </MudText>
+                <MudButton Color="Color.Warning" Variant="Variant.Filled" Size="Size.Large"
+                          Href="/productos" EndIcon="@Icons.Material.Filled.ArrowForward">
+                    Comprar Ahora
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" md="6" Class="text-center">
+                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Size="Size.Large"
+                        Style="color: white; font-size: 120px;" />
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
     <!-- Productos en promoción -->
-    <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4 mt-6">🔥 Promociones Especiales</MudText>
+    <MudPaper Elevation="4" Class="pa-6 mb-8 hero-section" Style="border-radius: 15px; border-left: 5px solid var(--mud-palette-error);">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4" Color="Color.Error">
+            🔥 <span style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">OFERTAS ESPECIALES</span>
+        </MudText>
 
-    @if (productosPromo.Any())
-    {
-        <MudCarousel TData="Producto" ItemsSource="@productosPromo" ShowArrows="true" ShowBullets="true" AutoCycle="true"
-            Style="height:300px;">
+        @if (productosPromo.Any())
+        {
+            <MudCarousel TData="Producto" ItemsSource="@productosPromo" ShowArrows="true"
+                        ShowBullets="true" AutoCycle="true"
+                        Style="height:350px; padding: 10px;">
 
-            <ItemTemplate>
-                <MudCard Style="height:100%; max-width:400px; margin:auto;">
-                    <MudCardMedia Image="@context.ImagenUrl" Style="width:100%; height:200px; object-fit:cover;" />
-                    <MudCardContent>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <MudText Typo="Typo.h6">@context.Nombre</MudText>
-                            <MudButton Color="Color.Primary" Variant="Variant.Filled"
-                                OnClick="@(() => NavigationManager.NavigateTo("/productos"))">
-                                Ver producto
-                            </MudButton>
+                <ItemTemplate>
+                    <MudCard Class="promo-card" Style="height:100%; max-width:450px; margin:auto;">
+                        <!-- Badge de oferta -->
+                        <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                            <MudBadge Color="Color.Error" Variant="Variant.Filled" Size="Size.Large">
+                                <MudIcon Icon="@Icons.Material.Filled.LocalOffer" Size="Size.Medium" />
+                            </MudBadge>
                         </div>
 
-                        <MudText Color="Color.Error" Class="mt-2">
-                            <strong>Precio especial: $@context.PrecioPromocional</strong>
-                        </MudText>
-                    </MudCardContent>
+                        <MudCardMedia Image="@context.ImagenUrl"
+                                     Style="width:100%; height:220px; object-fit:cover; border-radius: 10px 10px 0 0;" />
 
-                </MudCard>
-            </ItemTemplate>
-        </MudCarousel>
-    }
-    else
-    {
-        <MudText Align="Align.Center" Color="Color.Info">No hay promociones activas en este momento.</MudText>
-    }
-
-
-    <!-- Bienvenida -->
-    <MudPaper Elevation="4" Class="p-6">
-        <MudText Typo="Typo.h3" Align="Align.Center" Color="Color.Primary">
-            Bienvenido a TiendaVirtual 🛒
-        </MudText>
-
-        <MudText Typo="Typo.subtitle1" Align="Align.Center" Class="mb-4">
-            ¡Explora nuestros productos y encuentra lo que necesitas!
-        </MudText>
-
-        <MudDivider Class="mb-4" />
-
-        <!-- Carrusel de productos disponibles -->
-        <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4 mt-6">🛍️ Productos Disponibles</MudText>
-
-        @if (productos.Any())
-        {
-            <MudCarousel TData="Producto" ItemsSource="@productos" ShowArrows="true" ShowBullets="true" AutoCycle="true"
-                Style="height:300px;">
-                <ItemTemplate>
-                    <MudCard Style="height:100%; max-width:400px; margin:auto;">
-                        <MudCardMedia Image="@context.ImagenUrl" Style="width:100%; height:200px; object-fit:cover;" />
                         <MudCardContent>
-                            <MudText Typo="Typo.h6" Align="Align.Center">@context.Nombre</MudText>
-                            <MudText Typo="Typo.body2" Align="Align.Center">Precio: $@context.Precio</MudText>
+                            <MudText Typo="Typo.h6" Color="Color.Dark" Style="font-weight: bold;" Class="mb-2">
+                                @context.Nombre
+                            </MudText>
+
+                            <div class="d-flex align-center justify-space-between mt-3">
+                                <div>
+                                    <MudText Typo="Typo.body2" Color="Color.Secondary"
+                                            Style="text-decoration: line-through;">
+                                        $@context.Precio
+                                    </MudText>
+                                    <MudText Typo="Typo.h4" Color="Color.Error" Style="font-weight: bold;">
+                                        $@context.PrecioPromocional
+                                    </MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Success">
+                                        ⏰ Oferta limitada
+                                    </MudText>
+                                </div>
+
+                                <MudButton Color="Color.Error" Variant="Variant.Filled"
+                                          OnClick="@(() => NavigationManager.NavigateTo("/productos"))"
+                                          StartIcon="@Icons.Material.Filled.ShoppingBag">
+                                    Comprar
+                                </MudButton>
+                            </div>
                         </MudCardContent>
                     </MudCard>
                 </ItemTemplate>
             </MudCarousel>
+        }
+        else
+        {
+            <MudPaper Class="pa-6 text-center" Elevation="2" Color="Color.Secondary">
+                <MudIcon Icon="@Icons.Material.Filled.Tag" Color="Color.Primary" Size="Size.Large" />
+                <MudText Align="Align.Center" Color="Color.Inherit" Class="mt-3" Typo="Typo.h6">
+                    No hay promociones activas en este momento
+                </MudText>
+                <MudText Align="Align.Center" Color="Color.Secondary" Class="mt-2">
+                    ¡Vuelve pronto para descubrir nuevas ofertas!
+                </MudText>
+            </MudPaper>
+        }
+    </MudPaper>
 
-            <div style="text-align:center;" class="mt-4">
-                <MudButton Color="Color.Primary" Variant="Variant.Filled" Href="/productos">
-                    Ver productos
+    <!-- Productos disponibles -->
+    <MudPaper Elevation="4" Class="pa-6 mb-8" Color="Color.Surface" Style="border-radius: 15px;">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-6 section-title">
+            🛍️ <span>Nuestros Productos Destacados</span>
+        </MudText>
+
+        @if (productos.Any())
+        {
+            <MudGrid Class="product" Spacing="3" Justify="Justify.Center">
+                @foreach (var producto in productos.Take(4))
+                {
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudCard Class="product-card" Style="height: 100%;">
+                            <MudCardMedia Image="@producto.ImagenUrl" Style="object-fit:cover; height: 180px;" />
+
+                            <MudCardContent>
+                                <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary"
+                                        Style="font-weight: bold;" Class="mb-2">
+                                    @producto.Nombre
+                                </MudText>
+
+                                <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary"
+                                        Class="mb-3" Style="height: 40px; overflow: hidden;">
+                                    @producto.Descripcion
+                                </MudText>
+
+                                <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Secondary"
+                                        Style="font-weight: bold;">
+                                    $@producto.Precio
+                                </MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+
+            <div style="text-align:center;" class="mt-6">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" Href="/productos"
+                          Size="Size.Large" EndIcon="@Icons.Material.Filled.Store">
+                    Explorar Todos los Productos
                 </MudButton>
             </div>
         }
         else
         {
-            <MudText Align="Align.Center" Color="Color.Info">No hay productos disponibles en este momento.</MudText>
+            <MudPaper Class="pa-6 text-center" Elevation="2" Color="Color.Warning">
+                <MudIcon Icon="@Icons.Material.Filled.Inventory2" Color="Color.Inherit" Size="Size.Large" />
+                <MudText Align="Align.Center" Color="Color.Inherit" Class="mt-3" Typo="Typo.h6">
+                    No hay productos disponibles
+                </MudText>
+                <MudText Align="Align.Center" Color="Color.Inherit" Class="mt-2">
+                    Estamos trabajando para traerte los mejores productos
+                </MudText>
+            </MudPaper>
         }
+    </MudPaper>
 
+    <!-- Beneficios -->
+    <MudPaper Elevation="4" Class="pa-6 mb-8 benefits-section" Style="border-radius: 15px;">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-6 section-title">
+            ✨ <span>¿Por qué Elegir TiendaVirtual?</span>
+        </MudText>
 
-        <!-- Beneficios -->
-        <MudDivider Class="mt-6 mb-4" />
-        <MudGrid Justify="Justify.Center" Spacing="3">
-            <MudItem xs="12" sm="4">
-                <MudPaper Class="p-4" Elevation="2">
-                    <MudIcon Icon="@Icons.Material.Filled.LocalShipping" Color="Color.Primary" Size="Size.Large" />
-                    <MudText Typo="Typo.h6">Envío rápido</MudText>
-                    <MudText>Recibe tus productos en tiempo récord.</MudText>
-                </MudPaper>
+        <MudGrid Spacing="3" Justify="Justify.Center">
+            @{
+                var benefits = new[]
+                {
+                    new { Icon = Icons.Material.Filled.LocalShipping, Color = "Color.Primary", Title = "Envío Rápido", Desc = "Entrega en 24-48h", BgColor = "rgba(var(--mud-palette-primary-rgb), 0.1)" },
+                    new { Icon = Icons.Material.Filled.Security, Color = "Color.Success", Title = "Pago Seguro", Desc = "Datos protegidos", BgColor = "rgba(var(--mud-palette-success-rgb), 0.1)" },
+                    new { Icon = Icons.Material.Filled.SupportAgent, Color = "Color.Info", Title = "Soporte 24/7", Desc = "Atención personalizada", BgColor = "rgba(var(--mud-palette-info-rgb), 0.1)" },
+                    new { Icon = Icons.Material.Filled.Redeem, Color = "Color.Warning", Title = "Ofertas Exclusivas", Desc = "Descuentos especiales", BgColor = "rgba(var(--mud-palette-warning-rgb), 0.1)" },
+                    new { Icon = Icons.Material.Filled.Replay, Color = "Color.Secondary", Title = "Devolución Fácil", Desc = "30 días garantía", BgColor = "rgba(var(--mud-palette-secondary-rgb), 0.1)" },
+                    new { Icon = Icons.Material.Filled.Star, Color = "Color.Error", Title = "Calidad Garantizada", Desc = "Productos certificados", BgColor = "rgba(var(--mud-palette-error-rgb), 0.1)" }
+                };
+            }
+
+            @foreach (var benefit in benefits)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudPaper Class="p-4 text-center benefit-card"
+                             Elevation="3"
+                            >
+                        <div style="width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 50%; background: var(--mud-palette-@benefit.Color.ToLower().Replace("color.", "")); display: flex; align-items: center; justify-content: center;">
+                            <MudIcon Icon="@benefit.Icon" Color="Color.Inherit" Size="Size.Large" Style="color: white;" />
+                        </div>
+                        <MudText Typo="Typo.h6" Style="font-weight: bold;">
+                            @benefit.Title
+                        </MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mt-2">
+                            @benefit.Desc
+                        </MudText>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Testimonios -->
+    <MudPaper Elevation="4" Class="pa-6 mb-8 testimonials-section" Style="border-radius: 15px;">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-6 section-title">
+            💬 <span>Lo que dicen nuestros clientes</span>
+        </MudText>
+
+        <MudGrid Spacing="3">
+            @{
+                var testimonials = new[]
+                {
+                    new { Name = "Juan Pérez", Role = "Cliente Premium", Text = "Excelente servicio y productos de calidad. ¡Recomendado 100%!", Rating = 5, Color = "Color.Primary" },
+                    new { Name = "Camila Rodríguez", Role = "Cliente Frecuente", Text = "Me encantó la rapidez del envío y la atención al cliente.", Rating = 5, Color = "Color.Secondary" },
+                    new { Name = "Carlos López", Role = "Primera compra", Text = "Súper fácil comprar, todo llegó en perfecto estado.", Rating = 4, Color = "Color.Success" },
+                    new { Name = "Ana Martínez", Role = "Cliente por 2 años", Text = "La mejor tienda online, siempre encuentro lo que necesito.", Rating = 5, Color = "Color.Info" }
+                };
+            }
+
+            @foreach (var testimonial in testimonials)
+            {
+                <MudItem xs="12" sm="6">
+                    <MudCard Class="testimonial-card" Style="height: 100%;">
+                        <MudCardContent>
+                            <div class="d-flex align-center mb-3">
+                                <MudAvatar  Size="Size.Large">
+                                    @testimonial.Name.Split(' ')[0][0]@testimonial.Name.Split(' ')[1][0]
+                                </MudAvatar>
+                                <div class="ml-3">
+                                    <MudText Typo="Typo.subtitle1" Style="font-weight: bold;">
+                                        @testimonial.Name
+                                    </MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                        @testimonial.Role
+                                    </MudText>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                @for (int i = 0; i < testimonial.Rating; i++)
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Warning" Size="Size.Small" />
+                                }
+                            </div>
+
+                            <MudText Typo="Typo.body1" Style="font-style: italic;">
+                                "@testimonial.Text"
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Llamada a la acción para registro -->
+    @if (!login)
+    {
+        <MudPaper Elevation="6" Class="pa-8 mb-8 cta-section" Style="border-radius: 20px;">
+            <MudGrid Spacing="3" AlignItems="AlignItems.Center">
+                <MudItem xs="12" md="8">
+                    <MudText Typo="Typo.h4" Color="Color.Inherit" Class="mb-2">
+                        💫 ¡Únete a nuestra comunidad!
+                    </MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Inherit" Class="mb-4">
+                        Regístrate ahora @* y obten <span style="font-weight: bold; color: #FFD700;">10% de descuento</span> en tu primera compra *@
+                    </MudText>
+                    <div>
+                        <MudButton Color="Color.Warning" Variant="Variant.Filled" Href="/register"
+                                  Size="Size.Large" StartIcon="@Icons.Material.Filled.PersonAdd" Class="mr-3">
+                            Registrarme Gratis
+                        </MudButton>
+                        <MudButton Color="Color.Inherit" Variant="Variant.Outlined" Href="/login"
+                                  Size="Size.Large" StartIcon="@Icons.Material.Filled.Login">
+                            Iniciar Sesión
+                        </MudButton>
+                    </div>
+                </MudItem>
+                <MudItem xs="12" md="4" Class="text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Celebration"
+                            Style="font-size: 100px; color: rgba(255,255,255,0.8);" />
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    }
+
+    <!-- Pie de página -->
+    <MudPaper Elevation="8" Class="pa-6 footer-section" Style="border-radius: 15px;">
+        <MudGrid Spacing="3">
+            <MudItem xs="12" md="4" Class="text-center text-md-left">
+                <div class="d-flex align-center justify-center justify-md-start mb-3">
+                    <MudIcon Icon="@Icons.Material.Filled.Store" Color="Color.Primary" Size="Size.Large" Class="mr-2" />
+                    <MudText Typo="Typo.h5" Color="Color.Primary">TiendaVirtual</MudText>
+                </div>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Tu tienda en línea de confianza con los mejores productos y precios del mercado.
+                </MudText>
             </MudItem>
-            <MudItem xs="12" sm="4">
-                <MudPaper Class="p-4" Elevation="2">
-                    <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Primary" Size="Size.Large" />
-                    <MudText Typo="Typo.h6">Pago seguro</MudText>
-                    <MudText>Protegemos tus datos y transacciones.</MudText>
-                </MudPaper>
+
+            <MudItem xs="12" md="4" Class="text-center">
+                <MudText Typo="Typo.h6" Color="Color.Primary" Class="mb-3">Síguenos</MudText>
+        <MudText  Typo="Typo.body2" Color="Color.Secondary">© 2025 TiendaVirtual. Todos los derechos reservados.</MudText>
+        <MudLink Href="https://facebook.com" Target="_blank">Facebook</MudLink> |
+        <MudLink Href="https://instagram.com" Target="_blank">Instagram</MudLink>
+            </MudItem>
+
+            <MudItem xs="12" md="4" Class="text-center text-md-right">
+                <MudText Typo="Typo.h6" Color="Color.Primary" Class="mb-3">Contacto</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    📧 contacto@tiendavirtual.com
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    📞 +1 234 567 8900
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    🏢 Calle Comercio 123, Ciudad
+                </MudText>
             </MudItem>
         </MudGrid>
 
-        <!-- Botón de registro -->
-        @if (!login)
-        {
-            <MudDivider Class="mt-6 mb-4" />
-            <MudText Align="Align.Center">
-                <MudButton Color="Color.Tertiary" Variant="Variant.Filled" Href="/register">
-                    ¡Regístrate ahora!
-                </MudButton>
+        <MudDivider Class="my-4" />
+
+        <div class="text-center">
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                © 2025 TiendaVirtual. Todos los derechos reservados. |
+                <MudLink Href="/privacidad" Color="Color.Primary">Política de Privacidad</MudLink> |
+                <MudLink Href="/terminos" Color="Color.Primary">Términos y Condiciones</MudLink>
             </MudText>
-        }
-
-
-        <!-- Testimonios -->
-        <MudDivider Class="mt-6 mb-4" />
-        <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-2">Opiniones de nuestros clientes</MudText>
-        <MudExpansionPanels>
-            <MudExpansionPanel Text="Juan P.">
-                Excelente servicio y productos de calidad. ¡Recomendado!
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="Camila R.">
-                Me encantó la rapidez del envío y la atención al cliente.
-            </MudExpansionPanel>
-        </MudExpansionPanels>
-    </MudPaper>
-
-    <!-- Pie de página -->
-    <MudPaper Class="mt-6 p-4" Elevation="0" Style="text-align:center;">
-        <MudText Typo="Typo.body2">© 2025 TiendaVirtual. Todos los derechos reservados.</MudText>
-        <MudLink Href="https://facebook.com" Target="_blank">Facebook</MudLink> |
-        <MudLink Href="https://instagram.com" Target="_blank">Instagram</MudLink>
+        </div>
     </MudPaper>
 
 </MudContainer>
+
 
 @code {
     private bool login = false;
@@ -158,5 +347,4 @@
             StateHasChanged(); // fuerza actualización visual
         }
     }
-
 }
