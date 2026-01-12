@@ -1,8 +1,8 @@
 # Etapa 1: Construir la aplicación
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copiar el archivo del proyecto y restaurar dependencias
+# Copiar SOLO el archivo del proyecto primero
 COPY ["TiendaVirtual.csproj", "./"]
 RUN dotnet restore "TiendaVirtual.csproj"
 
@@ -13,19 +13,15 @@ WORKDIR "/src"
 # Publicar la aplicación
 RUN dotnet publish "TiendaVirtual.csproj" -c Release -o /app/publish
 
-# Etapa 2: Ejecutar la aplicación
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+# Etapa 2: Ejecutar
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 
-# Copiar los archivos publicados desde la etapa de construcción
+# Copiar desde la etapa de build
 COPY --from=build /app/publish .
 
-# Exponer el puerto 8080 (Railway asigna un puerto, pero la app escuchará en 8080)
 EXPOSE 8080
-
-# Establecer variables de entorno para producción
-ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://+:8080
+ENV PORT=8080
 
-# Comando para ejecutar la aplicación
 ENTRYPOINT ["dotnet", "TiendaVirtual.dll"]
