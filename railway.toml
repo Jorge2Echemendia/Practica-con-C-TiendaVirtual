@@ -1,0 +1,7 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+startCommand = "dotnet TiendaVirtual.dll"
+healthcheckPath = "/"
+healthcheckTimeout = 100

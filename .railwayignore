@@ -1,0 +1,18 @@
+# Ignorar archivos de desarrollo
+obj/
+bin/
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Ignorar archivos de configuración local
+appsettings.Development.json
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de migraciones (si no quieres subir la carpeta Migrations, pero cuidado, las necesitas para EF)
+# Migrations/
