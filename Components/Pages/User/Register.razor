@@ -80,9 +80,9 @@
             </MudPaper>
 
             <!-- Beneficios -->
-            <MudPaper Class="pa-4 mt-6 text-center" Elevation="1">
-                <MudText Typo="Typo.h6" Class="mb-3" Color="Color.Primary">Beneficios de registrarse</MudText>
-                <MudGrid>
+            <MudPaper Class="pa-3 mt-4 text-center" Elevation="1">
+                <MudText Typo="Typo.h6" Class="pa-5 mb-5" Color="Color.Primary">Beneficios de registrarse</MudText>
+                <MudGrid Class="mb-2" Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="3">
                     <MudGridItem Xs="6" Sm="3">
                         <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Color="Color.Success" Class="mb-1" />
                         <MudText Typo="Typo.caption">Historial de compras</MudText>
@@ -122,7 +122,7 @@
         if (!Regex.IsMatch(pw, @"[A-Z]")) errors.Add("Debe tener una letra mayúscula");
         if (!Regex.IsMatch(pw, @"[a-z]")) errors.Add("Debe tener una letra minúscula");
         if (!Regex.IsMatch(pw, @"[0-9]")) errors.Add("Debe tener un número");
-        if (!Regex.IsMatch(pw, @"[!@#$%^&*]")) errors.Add("Debe tener un carácter especial (!@#$%^&*)");
+        //if (!Regex.IsMatch(pw, @"[!@#$%^&*]")) errors.Add("Debe tener un carácter especial (!@#$%^&*)");
 
         foreach (var error in errors) yield return error;
     }
@@ -143,7 +143,7 @@
         if (Regex.IsMatch(password, @"[A-Z]")) score += 20;
         if (Regex.IsMatch(password, @"[a-z]")) score += 20;
         if (Regex.IsMatch(password, @"[0-9]")) score += 20;
-        if (Regex.IsMatch(password, @"[!@#$%^&*]")) score += 20;
+        //if (Regex.IsMatch(password, @"[!@#$%^&*]")) score += 20;
 
         return score;
     }
