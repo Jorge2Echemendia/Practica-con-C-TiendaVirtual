@@ -84,6 +84,8 @@
         }
     </MudGrid>
 
+    @if (FiltrarPorBusqueda().Any())
+    {
     <!-- Diálogo de productos por categoría -->
     <MudDialog @bind-Visible="mostrarDialogo" Options="dialogOptions">
         <DialogContent>
@@ -93,8 +95,7 @@
             <MudTextField @bind-Value="busqueda" Placeholder="Buscar producto..." Adornment="Adornment.Start"
                 AdornmentIcon="@Icons.Material.Filled.Search" Class="mb-14 ;py-8" />
 
-            @if (FiltrarPorBusqueda().Any())
-            {
+            
                 <MudGrid>
                     @foreach (var producto in FiltrarPorBusqueda())
                     {
@@ -155,18 +156,18 @@
                         </MudGridItem>
                     }
                 </MudGrid>
-            }
+            <MudDialogActions Class="d-flex justify-end">
+                <MudButton Color="Color.Secondary" Size="Size.Large" OnClick="@CerrarDialogo">Cerrar </MudButton>
+            </MudDialogActions>
+        </DialogContent>
+    </MudDialog>
+     }
             else
             {
                 <MudText Typo="Typo.body1" Color="Color.Warning">
                     No hay productos disponibles en esta categoría ahora mismo.
                 </MudText>
             }
-            <MudDialogActions Class="d-flex justify-end">
-                <MudButton Color="Color.Secondary" Size="Size.Large" OnClick="@CerrarDialogo">Cerrar </MudButton>
-            </MudDialogActions>
-        </DialogContent>
-    </MudDialog>
 </MudContainer>
 </MudPaper> 
 
