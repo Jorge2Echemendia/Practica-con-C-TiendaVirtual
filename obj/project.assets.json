@@ -4119,11 +4119,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "projectUniqueName": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "projectName": "TiendaVirtual",
-      "projectPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "projectPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\",
+      "outputPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4671,7 +4671,7 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference Microsoft.AspNetCore.SignalR no se eliminará. Considere la posibilidad de quitar este paquete de las dependencias, ya que es probable que no sea necesario.",
+      "message": "PackageReference Microsoft.AspNetCore.SignalR will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
       "libraryId": "Microsoft.AspNetCore.SignalR",
       "targetGraphs": [
         "net10.0"
@@ -4681,7 +4681,7 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference System.Security.Claims no se eliminará. Considere la posibilidad de quitar este paquete de las dependencias, ya que es probable que no sea necesario.",
+      "message": "PackageReference System.Security.Claims will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
       "libraryId": "System.Security.Claims",
       "targetGraphs": [
         "net10.0"
@@ -4691,7 +4691,7 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference System.Text.Json no se eliminará. Considere la posibilidad de quitar este paquete de las dependencias, ya que es probable que no sea necesario.",
+      "message": "PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
       "libraryId": "System.Text.Json",
       "targetGraphs": [
         "net10.0"
@@ -4701,7 +4701,7 @@
       "code": "NU1608",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Se detectó una versión del paquete fuera de la restricción de dependencia: Oracle.EntityFrameworkCore 9.23.90 requiere Microsoft.EntityFrameworkCore.Relational (>= 9.0.0 && < 10.0.0), pero la versión Microsoft.EntityFrameworkCore.Relational 10.0.0 ya se resolvió.",
+      "message": "Detected package version outside of dependency constraint: Oracle.EntityFrameworkCore 9.23.90 requires Microsoft.EntityFrameworkCore.Relational (>= 9.0.0 && < 10.0.0) but version Microsoft.EntityFrameworkCore.Relational 10.0.0 was resolved.",
       "libraryId": "Microsoft.EntityFrameworkCore.Relational",
       "targetGraphs": [
         "net10.0"

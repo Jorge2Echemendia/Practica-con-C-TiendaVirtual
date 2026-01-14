@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj": {}
+    "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj": {
+    "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+        "projectUniqueName": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
         "projectName": "TiendaVirtual",
-        "projectPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+        "projectPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
         "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\",
+        "outputPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"

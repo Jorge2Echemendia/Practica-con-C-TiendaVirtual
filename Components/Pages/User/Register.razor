@@ -47,7 +47,7 @@
 
                     <!-- Confirm Password -->
                     <MudTextField T="string" Label="Confirmar contraseña" @bind-Value="repeatPassword"
-                       InputType="@ButtonView.InputType" Required="true" Adornment="Adornment.End"
+                        InputType="@ButtonView.InputType" Required="true" Adornment="Adornment.End"
                         AdornmentIcon="@ButtonView.Icon" OnAdornmentClick="ButtonView.Toggle"
                         AdornmentAriaLabel="Mostrar contraseña" Variant="Variant.Outlined" Class="mb-4"
                         Validation="PasswordMatch">
@@ -60,10 +60,8 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleRegister" FullWidth="true"
                         Size="Size.Large" EndIcon="@Icons.Material.Filled.HowToReg" Class="mb-4 mt-2 rounded-pill"
                         Disabled="@(form.IsValid || isLoading)">
-                        @if (isLoading)
-                        {
-                            <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
-                        }
+                        <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
+
                         Crear Cuenta
                     </MudButton>
 
@@ -152,13 +150,15 @@
 
     private async Task HandleRegister()
     {
+        isLoading = true;
+        StateHasChanged();
+        await form.Validate();
         if (!form.IsValid)
         {
             Snackbar.Add("Credenciales incorrectas", Severity.Error);
             return;
         }
 
-        isLoading = true;
         StateHasChanged();
 
         try

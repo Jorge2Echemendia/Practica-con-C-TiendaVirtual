@@ -38,10 +38,9 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleLogin" FullWidth="true"
                         Size="Size.Large" EndIcon="@Icons.Material.Filled.Login" Class="mb-4 mt-2 rounded-pill"
                         Disabled="@(form.IsValid || isLoading)">
-                        @if (isLoading)
-                        {
+                        
                             <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
-                        }
+                        
                         Entrar
                     </MudButton>
 
@@ -87,13 +86,16 @@
 
     private async Task HandleLogin()
     {
+        isLoading = true;
+        StateHasChanged();
+
+        await form.Validate();
         if (!form.IsValid)
         {
-            Snackbar.Add("Credenciales incorrectas", Severity.Error);
+            Snackbar.Add("Debe de llenar todos los campos", Severity.Error);
             return;
         }
 
-        isLoading = true;
         StateHasChanged();
 
         try

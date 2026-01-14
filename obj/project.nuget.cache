@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lb9IEESBDPM=",
+  "dgSpecHash": "NbL8vJ2IITU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+  "projectFilePath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jorge\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\blazored.localstorage\\4.5.0\\blazored.localstorage.4.5.0.nupkg.sha512",
@@ -70,10 +70,10 @@
     {
       "code": "NU1510",
       "level": "Warning",
-      "message": "PackageReference Microsoft.AspNetCore.SignalR no se eliminará. Considere la posibilidad de quitar este paquete de las dependencias, ya que es probable que no sea necesario.",
-      "projectPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "message": "PackageReference Microsoft.AspNetCore.SignalR will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "projectPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "filePath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "libraryId": "Microsoft.AspNetCore.SignalR",
       "targetGraphs": [
         "net10.0"
@@ -82,10 +82,10 @@
     {
       "code": "NU1510",
       "level": "Warning",
-      "message": "PackageReference System.Security.Claims no se eliminará. Considere la posibilidad de quitar este paquete de las dependencias, ya que es probable que no sea necesario.",
-      "projectPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "message": "PackageReference System.Security.Claims will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "projectPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "filePath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "libraryId": "System.Security.Claims",
       "targetGraphs": [
         "net10.0"
@@ -94,10 +94,10 @@
     {
       "code": "NU1510",
       "level": "Warning",
-      "message": "PackageReference System.Text.Json no se eliminará. Considere la posibilidad de quitar este paquete de las dependencias, ya que es probable que no sea necesario.",
-      "projectPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "message": "PackageReference System.Text.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "projectPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "filePath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "libraryId": "System.Text.Json",
       "targetGraphs": [
         "net10.0"
@@ -106,10 +106,10 @@
     {
       "code": "NU1608",
       "level": "Warning",
-      "message": "Se detectó una versión del paquete fuera de la restricción de dependencia: Oracle.EntityFrameworkCore 9.23.90 requiere Microsoft.EntityFrameworkCore.Relational (>= 9.0.0 && < 10.0.0), pero la versión Microsoft.EntityFrameworkCore.Relational 10.0.0 ya se resolvió.",
-      "projectPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "message": "Detected package version outside of dependency constraint: Oracle.EntityFrameworkCore 9.23.90 requires Microsoft.EntityFrameworkCore.Relational (>= 9.0.0 && < 10.0.0) but version Microsoft.EntityFrameworkCore.Relational 10.0.0 was resolved.",
+      "projectPath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
+      "filePath": "c:\\Users\\jorge\\OneDrive\\Escritorio\\code\\C#\\TiendaVirtual\\Practica-con-C-TiendaVirtual\\TiendaVirtual.csproj",
       "libraryId": "Microsoft.EntityFrameworkCore.Relational",
       "targetGraphs": [
         "net10.0"
