@@ -59,7 +59,7 @@
                     <!-- Botón de registro -->
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleRegister" FullWidth="true"
                         Size="Size.Large" EndIcon="@Icons.Material.Filled.HowToReg" Class="mb-4 mt-2 rounded-pill"
-                        Disabled="@(form.IsValid || isLoading)">
+                    Disabled="@(isLoading || !form.IsValid )">
                         <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
 
                         Crear Cuenta
@@ -156,7 +156,8 @@
         if (!form.IsValid)
         {
             Snackbar.Add("Credenciales incorrectas", Severity.Error);
-            return;
+            isLoading = false; // <-- Añadir esto
+            StateHasChanged();
         }
 
         StateHasChanged();

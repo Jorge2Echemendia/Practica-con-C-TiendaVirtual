@@ -13,14 +13,6 @@
             Inicio
         </MudNavLink>
 
-        <!-- Productos -->
-        <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" 
-                    Icon="@Icons.Material.Filled.Storage"
-                    IconColor="Color.Secondary"
-                    Color="Color.Secondary">
-            Productos
-        </MudNavLink>
-
         <!-- Sección para Administradores -->
         @if (_menuState.isAdmin)
         {
@@ -72,10 +64,22 @@
         <!-- Sección para Clientes -->
         @if (_menuState.isClient)
         {
+             <MudDivider Class="my-3" />
+            <MudText Typo="Typo.overline" Color="Color.Success" Class="px-4 mt-2 mb-1" Style="font-weight:bold;">
+                <MudIcon Icon="@Icons.Material.Filled.Fastfood" Size="Size.Small" Class="mr-2" />
+                Productos
+            </MudText>
+            <!-- Productos -->
+        <MudNavLink Href="productos" Match="NavLinkMatch.Prefix" 
+                    Icon="@Icons.Material.Filled.Storage"
+                    IconColor="Color.Secondary"
+                    Color="Color.Secondary">
+            Productos
+        </MudNavLink>
             <MudDivider Class="my-3" />
             <MudText Typo="Typo.overline" Color="Color.Success" Class="px-4 mt-2 mb-1" Style="font-weight:bold;">
                 <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Size="Size.Small" Class="mr-2" />
-                Mi Cuenta
+                Mi Carrito
             </MudText>
             
             <MudNavLink Href="carrito" Match="NavLinkMatch.Prefix" 

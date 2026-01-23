@@ -37,10 +37,10 @@
                     <!-- Botón de login -->
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="HandleLogin" FullWidth="true"
                         Size="Size.Large" EndIcon="@Icons.Material.Filled.Login" Class="mb-4 mt-2 rounded-pill"
-                        Disabled="@(form.IsValid || isLoading)">
-                        
-                            <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
-                        
+                        Disabled="@(isLoading || !form.IsValid )">
+
+                        <MudProgressCircular Size="Size.Small" Color="Color.Primary" Class="mr-2" />
+
                         Entrar
                     </MudButton>
 
@@ -69,7 +69,7 @@
                 </MudDivider>
 
                 <MudButton Variant="Variant.Outlined" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Store"
-                    OnClick="@(() => Navigation.NavigateTo("/productos"))">
+                    OnClick="@(isAuthenticatedAdmin==true ?() => Navigation.NavigateTo("/gestionar-producto"):() => Navigation.NavigateTo("/productos"))">
                     Explorar como invitado
                 </MudButton>
             </div>
@@ -84,16 +84,24 @@
     private bool isLoading = false;
     private MudForm form;
 
+    private bool isAuthenticatedAdmin = false;
+
     private async Task HandleLogin()
     {
         isLoading = true;
         StateHasChanged();
 
+        var userState = await UserContext.GetMenuStateAsync();
+
+        isAuthenticatedAdmin = userState.isAdmin;
+
         await form.Validate();
         if (!form.IsValid)
         {
             Snackbar.Add("Debe de llenar todos los campos", Severity.Error);
-            return;
+            isLoading = false; // <-- Añadir esto
+            StateHasChanged();
+        return;
         }
 
         StateHasChanged();
@@ -157,6 +165,7 @@
         catch (Exception ex)
         {
             Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            StateHasChanged();
         }
         finally
         {

@@ -84,7 +84,7 @@
         }
     </MudGrid>
 
-    @if (FiltrarPorBusqueda().Any())
+    @if (FiltrarPorBusqueda().Any() || mostrarDialogo ==false )
     {
     <!-- Diálogo de productos por categoría -->
     <MudDialog @bind-Visible="mostrarDialogo" Options="dialogOptions">
@@ -157,7 +157,7 @@
                     }
                 </MudGrid>
             <MudDialogActions Class="d-flex justify-end">
-                <MudButton Color="Color.Secondary" Size="Size.Large" OnClick="@CerrarDialogo">Cerrar </MudButton>
+                <MudButton Color="Color.Secondary" Size="Size.Large" OnClick="CerrarDialogo">Cerrar </MudButton>
             </MudDialogActions>
         </DialogContent>
     </MudDialog>
@@ -246,8 +246,8 @@
         if (producto != null)
         {
             producto.CantidadProducto = nuevaCantidad;
-            StateHasChanged();
         }
+        StateHasChanged();
     }
 
     private void MostrarProductosPorCategoria(Categoria categoria)
@@ -255,6 +255,7 @@
         categoriaSeleccionada = categoria.Nombre;
         productosFiltrados = productos.Where(p => p.CategoriaId == categoria.Id).ToList();
         mostrarDialogo = true;
+        StateHasChanged();
     }
 
     private async Task AgregarProductoAlCarrito(Producto producto)
@@ -294,25 +295,12 @@
         return carritoService.GetItemsCarrito(clienteId)
         .FirstOrDefault(i => i.Producto?.Id == producto.Id)?.Cantidad ?? 0;
     }
-
-    private string ObtenerImagenCategoria(string categoria)
-    {
-        return categoria switch
-        {
-            "Frutas" => "/img/categorias/fruta.jpg",
-            "Vegetales" => "/img/categorias/vegetal.jpg",
-            "Carne" => "/img/categorias/carne.png",
-            "Electrodomesticos" => "/img/categorias/electrodomesticos.jpg",
-            "Aseo" => "/img/categorias/aseo.jpg",
-            "Consolas" => "/img/categorias/consolas.jpg",
-            _ => "/img/categorias/default.jpg"
-        };
-    }
     private void CerrarDialogo()
     {
-        mostrarDialogo = false;
         busqueda = "";
         productosFiltrados.Clear();
+        mostrarDialogo = false;
+        StateHasChanged();
     }
 
 
